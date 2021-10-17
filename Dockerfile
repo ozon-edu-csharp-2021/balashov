@@ -6,8 +6,8 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["src/OzonEdu.MerchandiseService/OzonEdu.MerchandiseService.csproj", "OzonEdu.MerchandiseService/"]
-RUN dotnet restore "src/OzonEdu.MerchandiseService/OzonEdu.MerchandiseService.csproj"
-COPY . .
+RUN dotnet restore "OzonEdu.MerchandiseService/OzonEdu.MerchandiseService.csproj"
+COPY /src .
 WORKDIR "/src/OzonEdu.MerchandiseService"
 RUN dotnet build "OzonEdu.MerchandiseService.csproj" -c Release -o /app/build
 
