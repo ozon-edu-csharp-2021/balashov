@@ -1,55 +1,40 @@
 version: '3.8'
 
 services:
-  postgres:
-    image: postgres
-    container_name: PostgresQL
-    restart: unless-stopped
-    #environment:
-      #POSTGRES_DB: merchandise
-      #POSTGRES_USER: POSTGRES_LOGIN
-      #POSTGRES_PASSWORD: POSTGRES_PASSWORD
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
+  merchandise-service:
+    image: merchandise-service
+    container_name: merchandise-service
     ports:
-      - 5432:5432
+      - 8080:80
+        
+  stock-api:
+    image: ghcr.io/ozon-edu-csharp-2021/stock-api:main
+    container_name: stock-api
+    
+  emailing-service:
+    image: ghcr.io/ozon-edu-csharp-2021/emailing-service:main
+    container_name: emailing-service
 
-volumes:
-    postgres-data:
-
-  # zookeeper:
-  #   image: confluentinc/cp-zookeeper:6.2.0
-  #   hostname: zookeeper
-  #   container_name: zookeeper
-  #   environment:
-  #     ZOOKEEPER_CLIENT_PORT: 2181
-  #     ZOOKEEPER_TICK_TIME: 2000
-
-  # kafka:
-  #   image: confluentinc/cp-kafka:6.2.0
-  #   container_name: broker
-  #   ports:
-  #     - "9092:9092"
-  #   depends_on:
-  #     - zookeeper
-  #   environment:
-  #     KAFKA_BROKER_ID: 1
-  #     KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
-  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
-  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
-  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  #     KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
-  #     KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
-
-  # kafdrop:
-  #   image: obsidiandynamics/kafdrop
-  #   container_name: kafdrop-ui
-  #   restart: unless-stopped
-  #   ports:
-  #     - "9000:9000"
-  #   environment:
-  #     KAFKA_BROKERCONNECT: "kafka:29092"
-  #     JVM_OPTS: "-Xms16M -Xmx48M -Xss180K -XX:-TieredCompilation -XX:+UseStringDeduplication -noverify"
-  #   depends_on:
-  #     - "kafka"
-
+  supply-service:
+    image:  ghcr.io/ozon-edu-csharp-2021/supply-service:main
+    container_name: supply-service
+    
+  employees-service:
+    image: ghcr.io/ozon-edu-csharp-2021/employees-service:main
+    container_name: employees-service
+    
+#  postgres:
+#    image: postgres
+#    container_name: PostgresQL
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_DB: ozon_merchandise
+#      POSTGRES_USER: admin
+#      POSTGRES_PASSWORD: admin
+#    volumes:
+#      - postgres-data:/var/lib/postgresql/data
+#    ports:
+#      - 5432:5432
+#    
+#volumes:
+#  postgres-data:
