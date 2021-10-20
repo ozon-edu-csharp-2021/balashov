@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   merchandise-service:
+    build: .
     image: merchandise-service
     container_name: merchandise-service
     ports:
