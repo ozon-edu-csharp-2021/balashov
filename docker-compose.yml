@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  merchandise-service:
+    build: .
+    image: merchandise-service
+    container_name: merchandise-service
+    ports:
+      - 8080:80
+        
+  stock-api:
+    image: ghcr.io/ozon-edu-csharp-2021/stock-api:main
+    container_name: stock-api
+    
+  emailing-service:
+    image: ghcr.io/ozon-edu-csharp-2021/emailing-service:main
+    container_name: emailing-service
+
+  supply-service:
+    image:  ghcr.io/ozon-edu-csharp-2021/supply-service:main
+    container_name: supply-service
+    
+  employees-service:
+    image: ghcr.io/ozon-edu-csharp-2021/employees-service:main
+    container_name: employees-service
+    
+#  postgres:
+#    image: postgres
+#    container_name: PostgresQL
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_DB: ozon_merchandise
+#      POSTGRES_USER: admin
+#      POSTGRES_PASSWORD: admin
+#    volumes:
+#      - postgres-data:/var/lib/postgresql/data
+#    ports:
+#      - 5432:5432
+#    
+#volumes:
+#  postgres-data:

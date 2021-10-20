@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{65C0AE14-C5BA-4421-BBB9-E1F00968A289}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{0FAA23EB-6CAF-48D8-BB93-93FB9C059115}"
+ProjectSection(SolutionItems) = preProject
+	README.md = README.md
+	.gitignore = .gitignore
+	Dockerfile = Dockerfile
+	.dockerignore = .dockerignore
+	docker-compose.yml = docker-compose.yml
+EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D6A85A53-B541-412C-B4C5-96FB4C87BFBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OzonEdu.MerchandiseService", "src\OzonEdu.MerchandiseService\OzonEdu.MerchandiseService.csproj", "{E1EE75F1-57D6-41DF-AAD1-C74C8C79FA89}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OzonEdu.MerchandiseService.UnitTests", "tests\OzonEdu.MerchandiseService.UnitTests\OzonEdu.MerchandiseService.UnitTests.csproj", "{C742E516-BA6B-4368-ABF6-95E04825281A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E1EE75F1-57D6-41DF-AAD1-C74C8C79FA89} = {65C0AE14-C5BA-4421-BBB9-E1F00968A289}
+		{C742E516-BA6B-4368-ABF6-95E04825281A} = {D6A85A53-B541-412C-B4C5-96FB4C87BFBA}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E1EE75F1-57D6-41DF-AAD1-C74C8C79FA89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1EE75F1-57D6-41DF-AAD1-C74C8C79FA89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1EE75F1-57D6-41DF-AAD1-C74C8C79FA89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1EE75F1-57D6-41DF-AAD1-C74C8C79FA89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C742E516-BA6B-4368-ABF6-95E04825281A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C742E516-BA6B-4368-ABF6-95E04825281A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C742E516-BA6B-4368-ABF6-95E04825281A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C742E516-BA6B-4368-ABF6-95E04825281A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
