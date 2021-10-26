@@ -4,7 +4,7 @@ using OzonEdu.MerchandiseService.Models;
 
 namespace OzonEdu.MerchandiseService.Services
 {
-    public interface IMerchandiseService
+    public interface IMerchService
     {
         Task<MerchItemModel> RequestMerch(long personId, MerchItemRequestDto merchType, CancellationToken token);
         Task<IssuingMerchModel> GetMerchIssueInfo(long personId, CancellationToken token);
