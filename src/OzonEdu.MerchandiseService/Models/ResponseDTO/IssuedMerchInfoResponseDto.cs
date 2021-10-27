@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OzonEdu.MerchandiseService.Models
 {
-    public class IssuingMerchResponseDto
+    public class IssuedMerchInfoResponseDto
     {
         public long PersonId { get; }
         
@@ -11,14 +11,14 @@ namespace OzonEdu.MerchandiseService.Models
         
         public List<long> MerchItems { get; }
         
-        public IssuingMerchResponseDto(long personId, DateTime issueDate, List<long> merchItems)
+        public IssuedMerchInfoResponseDto(long personId, DateTime issueDate, List<long> merchItems)
         {
             PersonId = personId;
             IssueDate = issueDate;
             MerchItems = merchItems;
         }
         
-        public IssuingMerchResponseDto(IssuingMerchModel issuingMerch)
+        public IssuedMerchInfoResponseDto(IssuedMerchInfoModel issuingMerch)
         {
             PersonId = issuingMerch.PersonId;
             IssueDate = issuingMerch.IssueDate;

@@ -3,21 +3,21 @@ using System.Collections.Generic;
 
 namespace OzonEdu.MerchandiseService.Models
 {
-    public class IssuingMerchRequestDto
+    public class IssuedMerchInfoModel
     {
         public long Id { get; }
 
         public long PersonId { get; }
         public DateTime IssueDate { get; }
         
-        public List<long> MerchItemsIds { get; }
+        public List<long> MerchItems { get; }
         
-        public IssuingMerchRequestDto(long itemId, long personId, DateTime issueDate, List<long> merchItemsIds)
+        public IssuedMerchInfoModel(long itemId, long personId, DateTime issueDate, List<long> merchItems)
         {
             Id = itemId;
             PersonId = personId;
             IssueDate = issueDate;
-            MerchItemsIds = merchItemsIds;
+            MerchItems = merchItems;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace OzonEdu.MerchandiseService.Controllers
 
         [HttpGet]
         [Route("person/{personId:long}")]
-        [ProducesResponseType(typeof(IssuingMerchResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IssuedMerchInfoResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetIssuedMerchInfo(long personId, CancellationToken token)
         {
@@ -29,7 +29,7 @@ namespace OzonEdu.MerchandiseService.Controllers
             if (issuedMerch == null)
                 return NotFound();
 
-            var issuedMerchResponse = new IssuingMerchResponseDto(issuedMerch);
+            var issuedMerchResponse = new IssuedMerchInfoResponseDto(issuedMerch);
             return Ok(issuedMerchResponse);
 
         }
