@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +14,24 @@ namespace OzonEdu.MerchandiseService.Controllers
     {
         private readonly IMerchService _merchService;
 
-        public MerchandiseController(IMerchService stockService)
+        public MerchandiseController(IMerchService merchService)
         {
-            _merchService = stockService;
+            _merchService = merchService;
+        }
+
+        [HttpGet]
+        [Route("person/{personId:long}")]
+        [ProducesResponseType(typeof(IssuingMerchResponseDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetIssuedMerchInfo(long personId, CancellationToken token)
+        {
+            var issuedMerch = await _merchService.GetIssuedMerchInfo(personId, token);
+            if (issuedMerch == null)
+                return NotFound();
+
+            var issuedMerchResponse = new IssuingMerchResponseDto(issuedMerch);
+            return Ok(issuedMerchResponse);
+
         }
 
         [HttpPost]
@@ -31,21 +45,6 @@ namespace OzonEdu.MerchandiseService.Controllers
                 return NotFound();
 
             return Ok();
-        }
-        
-        [HttpGet]
-        [Route("person/{personId:long}")]
-        [ProducesResponseType(typeof(IssuingMerchResponseDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetMerchInfo(long personId, CancellationToken token)
-        {
-            var issuedMerch = await _merchService.GetMerchIssueInfo(personId, token);
-            if(issuedMerch == null)
-                return NotFound();
-
-            var issuedMerchResponse = new IssuingMerchResponseDto(issuedMerch);
-            return Ok(issuedMerchResponse);
-
         }
     }
 }

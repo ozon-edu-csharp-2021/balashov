@@ -12,7 +12,6 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            //TODO: проверить serviceName
             var version = Assembly.GetExecutingAssembly().GetName().Version?.ToString() ?? "no version";
             var serviceName = Assembly.GetExecutingAssembly().GetName().Name;
             var versionString = $"version:{version}, serviceName:{serviceName}";

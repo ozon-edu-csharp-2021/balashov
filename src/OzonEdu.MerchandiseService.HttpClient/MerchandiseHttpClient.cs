@@ -18,7 +18,8 @@ namespace OzonEdu.MerchandiseService.HttpClient
         {
             _httpClient = httpClient;
         }
-
+        
+        //todo: дописать HTTP клиент
         public async Task<MerchItemResponseDto> RequestMerch(CancellationToken token)
         {
             using var response = await _httpClient.GetAsync("api/v1/merchandise", token);

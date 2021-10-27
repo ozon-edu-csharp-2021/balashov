@@ -11,7 +11,7 @@ namespace OzonEdu.MerchandiseService.Services
             throw new System.NotImplementedException();
         }
 
-        public Task<IssuingMerchModel> GetMerchIssueInfo(long personId, CancellationToken token)
+        public Task<IssuingMerchModel> GetIssuedMerchInfo(long personId, CancellationToken token)
         {
             throw new System.NotImplementedException();
         }

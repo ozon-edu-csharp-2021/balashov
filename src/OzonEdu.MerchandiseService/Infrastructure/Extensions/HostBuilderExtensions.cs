@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using OzonEdu.MerchandiseService.Infrastructure.Filters;
+using OzonEdu.MerchandiseService.Infrastructure.Interceptors;
 using OzonEdu.MerchandiseService.Infrastructure.StartupFilters;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Extensions
@@ -13,10 +14,10 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Extensions
         {
             builder.ConfigureServices(services =>
             {
+                services.AddSingleton<IStartupFilter, LoggingStartupFilter>();
+
                 services.AddSingleton<IStartupFilter, HealthCheckStartupFilter>();
                 services.AddSingleton<IStartupFilter, VersionStartupFilter>();
-                
-                services.AddSingleton<IStartupFilter, LoggingStartupFilter>();
 
                 services.AddSingleton<IStartupFilter, SwaggerStartupFilter>();
 
@@ -34,6 +35,16 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Extensions
             builder.ConfigureServices(services =>
             {
                 services.AddControllers(options => options.Filters.Add<GlobalExceptionFilter>());
+            });
+
+            return builder;
+        }
+
+        public static IHostBuilder AddGrpc(this IHostBuilder builder)
+        {
+            builder.ConfigureServices(services =>
+            {
+                services.AddGrpc(options => options.Interceptors.Add<LoggingInterceptor>());
             });
 
             return builder;

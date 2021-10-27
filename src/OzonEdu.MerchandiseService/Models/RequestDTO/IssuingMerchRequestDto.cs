@@ -10,14 +10,14 @@ namespace OzonEdu.MerchandiseService.Models
         public long PersonId { get; }
         public DateTime IssueDate { get; }
         
-        public List<long> MerchItems { get; }
+        public List<long> MerchItemsIds { get; }
         
-        public IssuingMerchRequestDto(long itemId, long personId, DateTime issueDate, List<long> merchItems)
+        public IssuingMerchRequestDto(long itemId, long personId, DateTime issueDate, List<long> merchItemsIds)
         {
             Id = itemId;
             PersonId = personId;
             IssueDate = issueDate;
-            MerchItems = merchItems;
+            MerchItemsIds = merchItemsIds;
         }
     }
 }

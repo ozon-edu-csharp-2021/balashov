@@ -1,25 +1,35 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Logging;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Filters
 {
     public class GlobalExceptionFilter : ExceptionFilterAttribute
     {
-        //todo: написать тут нормально
-        public override void OnException(ExceptionContext context)
+        private readonly ILogger<GlobalExceptionFilter> _logger;
+
+        public GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger)
+        {
+            _logger = logger;
+        }
+
+        public override void OnException(ExceptionContext exptnContext)
         {
             var resultObject = new
             {
-                ExceptionType = context.Exception.GetType().FullName,
-                Message = context.Exception.Message
+                ExceptionType = exptnContext.Exception.GetType().FullName,
+                Message = exptnContext.Exception.Message
             };
 
             var jsonResult = new JsonResult(resultObject)
             {
                 StatusCode = StatusCodes.Status500InternalServerError
             };
-            context.Result = jsonResult;
+
+            _logger.LogError(exptnContext.Exception, "Exception caught in Global Exception Filter");
+
+            exptnContext.Result = jsonResult;
         }
     }
 }
