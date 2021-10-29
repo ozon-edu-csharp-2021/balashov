@@ -1,0 +1,34 @@
+syntax = "proto3";
+option csharp_namespace = "OzonEdu.MerchandiseService.Grpc";
+package MerchServiceGrpc;
+
+service MerchGrpc {
+  rpc RequestMerch (RequestMerchRequest) returns (RequestMerchResponse);
+  
+  rpc GetIssuedMerchInfo (GetIssuedMerchInfoRequest) returns (GetIssuedMerchInfoResponse);
+}
+
+message RequestMerchRequest 
+{
+	int64 person_id = 1;
+	string item_name = 2;
+}
+
+message RequestMerchResponse 
+{
+	int64 id = 1;
+	string item_name = 2;
+}
+
+message GetIssuedMerchInfoRequest 
+{
+	int64 person_id = 1;
+}
+
+message GetIssuedMerchInfoResponse 
+{ 
+	int64 id = 1;
+	int64 person_id = 2;
+	string issue_date = 3;
+	repeated int64 merch_items_ids = 4;
+}
