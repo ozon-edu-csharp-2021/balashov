@@ -8,7 +8,7 @@ using OzonEdu.MerchandiseService.Models;
 
 namespace OzonEdu.MerchandiseService.HttpClient
 {
-    public class MerchandiseHttpClient : IMerchandiseHttpClient
+    public class MerchandiseHttpClient
     {
         private readonly System.Net.Http.HttpClient _httpClient;
         private const string BaseRoute = "api/v1/merchandise/";
