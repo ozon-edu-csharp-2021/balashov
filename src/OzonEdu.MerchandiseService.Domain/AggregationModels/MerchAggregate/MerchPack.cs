@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
+using OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations;
+using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
 using OzonEdu.MerchandiseService.Domain.Models;
 
 namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 {
-    class MerchPack : Entity
+    public class MerchPack : ValueObject
     {
-        public List<Merch> MerchList { get; set; }
+        public MerchLine Line { get; set; }
 
-        public string MerchPackName { get; set; }
+        public MerchPackTitle PackTitle { get; set; }
 
-        public int MerchLine { get; set; }
-
-        public int Size { get; set; }
-
+        protected override IEnumerable<object> GetEqualityComponents()
+        {
+            yield return Line;
+            yield return PackTitle;
+        }
     }
 }
