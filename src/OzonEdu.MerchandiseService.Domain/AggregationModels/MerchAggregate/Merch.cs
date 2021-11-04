@@ -6,15 +6,27 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 {
     class Merch : Entity
     {
-        public SKU Sku { get; set; }
+        public SKU Sku { get; }
 
-        public Title MerchTitle { get; set; }
+        public Title MerchTitle { get; }
 
-        public MerchLine MerchLine { get; set; }
+        public MerchLine MerchLine { get; }
 
-        public MerchType MerchType { get; set; }
+        public MerchType MerchType { get; }
 
-        public Size Size { get; set; }
+        public Size Size { get; }
 
+        public Merch(SKU sku, Title merchTitle, MerchLine merchLine, MerchType merchType, Size size)
+        {
+            Sku = sku;
+
+            MerchTitle = merchTitle;
+
+            MerchLine = merchLine;
+
+            MerchType = merchType;
+
+            Size = size;
+        }
     }
 }

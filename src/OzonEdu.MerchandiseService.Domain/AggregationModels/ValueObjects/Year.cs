@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OzonEdu.MerchandiseService.Domain.Models;
 
 namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
@@ -9,12 +10,23 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
 
         public Year(int year)
         {
-            TheYear = year;
+            if (YearValidation(year))
+                TheYear = year;
+            else
+                throw new Exception("Year is not valid");
         }
         
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return TheYear;
+        }
+
+        private bool YearValidation(int year)
+        {
+            if (year < 2020) return false;
+            if (year > 2100) return false;
+
+            return true;
         }
     }
 }

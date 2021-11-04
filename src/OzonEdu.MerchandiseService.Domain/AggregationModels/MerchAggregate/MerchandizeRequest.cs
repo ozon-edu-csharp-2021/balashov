@@ -21,22 +21,22 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 
         public Size Size { get; private set; }
 
-        public MerchandizeRequest(int hrManagerId, PhoneNumber hrManagerContactPhone, MerchPack requestedMerchPack, Size size, DateTime data)
+        public MerchandizeRequest(int hrManagerId, PhoneNumber hrManagerContactPhone, MerchPack requestedMerchPack, DateTime data)
         {
             HRManagerId = hrManagerId;
             HRManagerContactPhone = hrManagerContactPhone;
 
             RequestedMerchPack = requestedMerchPack;
-            Size = size;
 
             Status =new MerchRequestStatus(MerchRequestStatusType.Draft, data);
         }
 
-        public bool AddEmployeeInfo(int employeeId, PhoneNumber employeeContactPhone,  DateTime data)
+        public bool AddEmployeeInfo(int employeeId, PhoneNumber employeeContactPhone, Size size, DateTime data)
         {
             EmployeeId = employeeId;
             EmployeeContactPhone = employeeContactPhone;
-
+            Size = size;
+            
             Status = new MerchRequestStatus(MerchRequestStatusType.Created, data);
             return true;
         }

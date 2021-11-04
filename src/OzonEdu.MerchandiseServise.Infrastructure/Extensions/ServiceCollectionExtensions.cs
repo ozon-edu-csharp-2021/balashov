@@ -1,4 +1,7 @@
-﻿namespace OzonEdu.MerchandiseServise.Infrastructure.Extensions
+﻿using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace OzonEdu.MerchandiseServise.Infrastructure.Extensions
 {
     /// <summary>
     /// Класс расширений для типа <see cref="IServiceCollection"/> для регистрации инфраструктурных сервисов
@@ -12,7 +15,7 @@
         /// <returns>Объект <see cref="IServiceCollection"/></returns>
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-            services.AddMediatR(typeof(CreateStockItemCommandHandler).Assembly);
+            //services.AddMediatR(typeof(CreateCommandHandler).Assembly);
             
             return services;
         }
@@ -24,8 +27,6 @@
         /// <returns>Объект <see cref="IServiceCollection"/></returns>
         public static IServiceCollection AddInfrastructureRepositories(this IServiceCollection services)
         {
-            
-            
             return services;
         }
     }
