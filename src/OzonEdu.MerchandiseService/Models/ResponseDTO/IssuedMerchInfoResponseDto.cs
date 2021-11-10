@@ -20,7 +20,7 @@ namespace OzonEdu.MerchandiseService.Models
 
         public string Size { get; }
 
-        public IssuedMerchInfoResponseDto(MerchandizeRequest issuingMerch)
+        public IssuedMerchInfoResponseDto(MerchandiseRequest issuingMerch)
         {
             Id = issuingMerch.Id;
 

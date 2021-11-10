@@ -24,6 +24,5 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate
         public Size Size { get; }
         
         public HeightMetric Height { get; }
-
     }
 }

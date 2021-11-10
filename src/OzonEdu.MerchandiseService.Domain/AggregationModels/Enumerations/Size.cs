@@ -1,4 +1,5 @@
-﻿using OzonEdu.MerchandiseService.Domain.Models;
+﻿using System;
+using OzonEdu.MerchandiseService.Domain.Models;
 
 namespace OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations
 {
@@ -13,6 +14,26 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations
 
         public Size(int id, string name) : base(id, name)
         {
+        }
+
+        public static Size GetSizeFromString(string sizeString)
+        {
+            var uperSizeString = sizeString.ToUpper();
+
+            if (XS.Name == uperSizeString)
+                return XS;
+            if (S.Name == uperSizeString)
+                return S;
+            if (M.Name == uperSizeString)
+                return M;
+            if (L.Name == uperSizeString)
+                return L;
+            if (XL.Name == uperSizeString)
+                return XL;
+            if (XXL.Name == uperSizeString)
+                return XXL;
+
+            throw new ArgumentException("Unknown Size name!");
         }
     }
 }

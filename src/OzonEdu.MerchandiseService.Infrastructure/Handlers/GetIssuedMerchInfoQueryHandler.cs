@@ -9,7 +9,7 @@ using OzonEdu.MerchandiseService.Infrastructure.Queries;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
 {
-    public class GetIssuedMerchInfoQueryHandler : IRequestHandler<GetIssuedMerchInfoQuery, List<MerchandizeRequest>>
+    public class GetIssuedMerchInfoQueryHandler : IRequestHandler<GetIssuedMerchInfoQuery, List<MerchandiseRequest>>
     {
         private readonly IMerchRepository _merchRepository;
 
@@ -18,10 +18,10 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
             _merchRepository = merchRepository ?? throw new ArgumentNullException(nameof(merchRepository)); ;
         }
 
-        public async Task<List<MerchandizeRequest>> Handle(GetIssuedMerchInfoQuery request, CancellationToken cancellationToken)
+        public async Task<List<MerchandiseRequest>> Handle(GetIssuedMerchInfoQuery request, CancellationToken cancellationToken)
         {
-            var allMerchRequestForPerson = await _merchRepository.FindByPersonIdAsync(request.PersonId);
-            var issuedMerch = allMerchRequestForPerson.FindAll(mr => mr.Status.Status.Equals(MerchRequestStatusType.Done));
+            var allMerchRequestForEmployee = await _merchRepository.FindByEmployeeIdAsync(request.EmployeeId, cancellationToken);
+            var issuedMerch = allMerchRequestForEmployee.FindAll(mr => mr.Status.Status.Equals(MerchRequestStatusType.Done));
 
             return issuedMerch;
         }

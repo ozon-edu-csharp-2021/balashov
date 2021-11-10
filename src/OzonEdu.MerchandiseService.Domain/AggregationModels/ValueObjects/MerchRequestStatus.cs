@@ -9,39 +9,23 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
     {
         public MerchRequestStatusType Status { get; }
 
-        public Year Year { get; }
+        public Date Date { get; }
 
-        public Month Month { get; }
-
-        public Day Day { get; }
-
-        public MerchRequestStatus(MerchRequestStatusType status, DateTime dateTime)
+        public MerchRequestStatus(MerchRequestStatusType status, Date date)
         {
             Status = status;
-            Year = new Year(dateTime.Year);
-            Month = new Month(dateTime.Month);
-            Day = new Day(dateTime.Day);
-        }
-
-        public MerchRequestStatus(MerchRequestStatusType status, Year year, Month month, Day day)
-        {
-            Status = status;
-            Year = year;
-            Month = month;
-            Day = day;
+            Date = date;
         }
 
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return Status;
-            yield return Year;
-            yield return Month;
-            yield return Day;
+            yield return Date;
         }
 
         public override string ToString()
         {
-            return $"Статус заявки: {Status.Name}, Дата последнего изменения: {Year.TheYear}, {Month.TheMonth}, {Day.TheDay}";
+            return $"Статус заявки: {Status.Name}, дата последнего изменения: {Date}";
         }
     }
 }

@@ -2,11 +2,10 @@
 {
     public class MerchItemRequestDto
     {
-        public string ItemName { get; }
-        
-        public MerchItemRequestDto(string itemName)
-        {
-            ItemName = itemName;
-        }
+        public long HRManagerId { get; set; }
+
+        public int RequestedMerchPackType { get; set; }
+
+        public string Size { get; set; }
     }
 }

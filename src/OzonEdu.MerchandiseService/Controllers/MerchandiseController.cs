@@ -4,9 +4,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations;
+using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
+using OzonEdu.MerchandiseService.Infrastructure.Commands;
 using OzonEdu.MerchandiseService.Infrastructure.Queries;
 using OzonEdu.MerchandiseService.Models;
-using OzonEdu.MerchandiseService.Services;
 
 namespace OzonEdu.MerchandiseService.Controllers
 {
@@ -15,20 +17,18 @@ namespace OzonEdu.MerchandiseService.Controllers
     [Produces("application/json")]
     public class MerchandiseController : ControllerBase
     {
-        private readonly IMerchService _merchService;
         private readonly IMediator _mediator;
 
-        public MerchandiseController(IMerchService merchService, IMediator mediator)
+        public MerchandiseController(IMediator mediator)
         {
-            _merchService = merchService ?? throw new ArgumentNullException(nameof(merchService));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
         [HttpGet]
-        [Route("person/{personId:long}")]
-        public async Task<ActionResult<IssuedMerchInfoResponseDto>> GetIssuedMerchInfo(long personId, CancellationToken token)
+        [Route("employee/{employeeId:long}")]
+        public async Task<ActionResult<IssuedMerchInfoResponseDto>> GetIssuedMerchInfo(long employeeId, CancellationToken token)
         {
-            var mediatrRequest = new GetIssuedMerchInfoQuery { PersonId = personId };
+            var mediatrRequest = new GetIssuedMerchInfoQuery { EmployeeId = employeeId };
 
             var issuedMerch = await _mediator.Send(mediatrRequest, token);
 
@@ -36,7 +36,7 @@ namespace OzonEdu.MerchandiseService.Controllers
                 return NotFound();
 
             if (issuedMerch.Count == 0)
-                return Ok($"Сотруднику {personId} мерч не выдавался.");
+                return Ok($"Сотруднику {employeeId} мерч не выдавался.");
 
             var issuedMerchResponse = issuedMerch.Select(im => new IssuedMerchInfoResponseDto(im)).ToList();
             
@@ -44,14 +44,25 @@ namespace OzonEdu.MerchandiseService.Controllers
         }
 
         [HttpPost]
-        [Route("person/{personId:long}")]
-        public async Task<ActionResult> RequestMerch(long personId, MerchItemRequestDto merchType, CancellationToken token)
+        [Route("employee/{employeeId:long}")]
+        public async Task<ActionResult> RequestMerch(long employeeId, MerchItemRequestDto merchType, CancellationToken token)
         {
-            var requestedMerch = await _merchService.RequestMerch(personId, merchType, token);
-            if(requestedMerch == null)
-                return NotFound();
+            var merchTitle = new MerchPack(merchType.RequestedMerchPackType);
+            var size = Size.GetSizeFromString(merchType.Size);
+            var date = new Date(DateTime.Now);
 
-            return Ok();
+            var mediatrRequest = new RequestMerchCommand
+            {
+                HRManagerId = merchType.HRManagerId,
+                EmployeeId = employeeId,
+                RequestedMerchPack = merchTitle,
+                Size = size,
+                Date = date
+            };
+
+            var merchRequest = await _mediator.Send(mediatrRequest, token);
+
+            return Ok(merchRequest);
         }
     }
 }

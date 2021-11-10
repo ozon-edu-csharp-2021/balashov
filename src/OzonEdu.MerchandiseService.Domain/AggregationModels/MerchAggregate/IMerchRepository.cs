@@ -5,10 +5,10 @@ using OzonEdu.MerchandiseService.Domain.Contracts;
 
 namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 {
-    public interface IMerchRepository : IRepository<MerchandizeRequest>
+    public interface IMerchRepository : IRepository<MerchandiseRequest>
     {
-        Task<MerchandizeRequest> FindByIdAsync(long id, CancellationToken cancellationToken = default);
+        Task<MerchandiseRequest> FindByIdAsync(long id, CancellationToken cancellationToken = default);
 
-        Task<List<MerchandizeRequest>> FindByPersonIdAsync(long personId, CancellationToken cancellationToken = default);
+        Task<List<MerchandiseRequest>> FindByEmployeeIdAsync(long employeeId, CancellationToken cancellationToken = default);
     }
 }
