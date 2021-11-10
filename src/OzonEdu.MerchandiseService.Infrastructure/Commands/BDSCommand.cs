@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace OzonEdu.MerchandiseServise.Infrastructure.Commands
+namespace OzonEdu.MerchandiseService.Infrastructure.Commands
 {
     public class BDSCommand : IRequest
     {

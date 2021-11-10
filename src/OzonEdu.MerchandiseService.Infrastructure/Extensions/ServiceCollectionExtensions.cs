@@ -1,16 +1,17 @@
-﻿using MediatR;
+﻿using System.Reflection;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
-using OzonEdu.MerchandiseServise.Infrastructure.FakeData;
-using OzonEdu.MerchandiseServise.Infrastructure.Handlers;
+using OzonEdu.MerchandiseService.Infrastructure.FakeData;
 
-namespace OzonEdu.MerchandiseServise.Infrastructure.Extensions
+namespace OzonEdu.MerchandiseService.Infrastructure.Extensions
 {
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-            services.AddMediatR(typeof(BDSHandler).Assembly);
+            services.AddMediatR(Assembly.GetExecutingAssembly());
+            //services.AddMediatR(typeof(BDSHandler).Assembly);
 
             return services;
         }

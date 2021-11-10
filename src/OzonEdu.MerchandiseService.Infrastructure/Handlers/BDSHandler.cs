@@ -2,9 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
-using OzonEdu.MerchandiseServise.Infrastructure.Commands;
+using OzonEdu.MerchandiseService.Infrastructure.Commands;
 
-namespace OzonEdu.MerchandiseServise.Infrastructure.Handlers
+namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
 {
     class BDSHandler : IRequestHandler<BDSCommand>
     {

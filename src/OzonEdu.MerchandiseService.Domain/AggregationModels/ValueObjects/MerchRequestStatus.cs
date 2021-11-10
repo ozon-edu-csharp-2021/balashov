@@ -38,5 +38,10 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
             yield return Month;
             yield return Day;
         }
+
+        public override string ToString()
+        {
+            return $"Статус заявки: {Status.Name}, Дата последнего изменения: {Year.TheYear}, {Month.TheMonth}, {Day.TheDay}";
+        }
     }
 }

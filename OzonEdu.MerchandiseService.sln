@@ -23,11 +23,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OzonEdu.MerchandiseService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OzonEdu.MerchandiseService.Grpc", "src\OzonEdu.MerchandiseService.Grpc\OzonEdu.MerchandiseService.Grpc.csproj", "{3927176F-C6DE-4303-B85E-947620304B39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OzonEdu.MerchandiseServise.Infrastructure", "src\OzonEdu.MerchandiseServise.Infrastructure\OzonEdu.MerchandiseServise.Infrastructure.csproj", "{24147D88-5470-4973-B361-1A00141EFC38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OzonEdu.MerchandiseService.Infrastructure", "src\OzonEdu.MerchandiseService.Infrastructure\OzonEdu.MerchandiseService.Infrastructure.csproj", "{24147D88-5470-4973-B361-1A00141EFC38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OzonEdu.MerchandiseService.Domain", "src\OzonEdu.MerchandiseService.Domain\OzonEdu.MerchandiseService.Domain.csproj", "{282FF532-EBBF-4345-9E5D-1D1577B59BE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OzonEdu.MerchandiseService.Domain", "src\OzonEdu.MerchandiseService.Domain\OzonEdu.MerchandiseService.Domain.csproj", "{282FF532-EBBF-4345-9E5D-1D1577B59BE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OzonEdu.MerchandiseService.Domain.Tests", "tests\OzonEdu.MerchandiseService.Domain.Tests\OzonEdu.MerchandiseService.Domain.Tests.csproj", "{066ED6C2-9B9B-46E0-9A46-5C16107C584D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OzonEdu.MerchandiseService.Domain.Tests", "tests\OzonEdu.MerchandiseService.Domain.Tests\OzonEdu.MerchandiseService.Domain.Tests.csproj", "{066ED6C2-9B9B-46E0-9A46-5C16107C584D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

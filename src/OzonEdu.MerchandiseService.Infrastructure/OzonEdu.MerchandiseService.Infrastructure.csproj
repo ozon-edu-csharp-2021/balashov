@@ -12,8 +12,4 @@
     <ProjectReference Include="..\OzonEdu.MerchandiseService.Domain\OzonEdu.MerchandiseService.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Queries\" />
-  </ItemGroup>
-
 </Project>

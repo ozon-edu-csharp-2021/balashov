@@ -1,28 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 
 namespace OzonEdu.MerchandiseService.Models
 {
     public class IssuedMerchInfoResponseDto
     {
-        public long PersonId { get; }
-        
-        public DateTime IssueDate { get; }
-        
-        public List<long> MerchItems { get; }
-        
-        public IssuedMerchInfoResponseDto(long personId, DateTime issueDate, List<long> merchItems)
+        public long Id { get; }
+
+        public string Status { get; }
+
+        public long HRManagerId { get; }
+
+        public string HRManagerContactPhone { get; }
+
+        public long EmployeeId { get; }
+
+        public string EmployeeContactPhone { get; }
+
+        public string RequestedMerchPack { get; }
+
+        public string Size { get; }
+
+        public IssuedMerchInfoResponseDto(MerchandizeRequest issuingMerch)
         {
-            PersonId = personId;
-            IssueDate = issueDate;
-            MerchItems = merchItems;
+            Id = issuingMerch.Id;
+
+            Status = issuingMerch.Status.ToString();
+
+            HRManagerId = issuingMerch.HRManagerId;
+
+            HRManagerContactPhone = issuingMerch.HRManagerContactPhone.Phone;
+
+            EmployeeId = issuingMerch.EmployeeId;
+
+            EmployeeContactPhone = issuingMerch.EmployeeContactPhone.Phone;
+
+            RequestedMerchPack = issuingMerch.RequestedMerchPack.ToString();
+
+            Size = issuingMerch.Size.Name;
+
         }
-        
-        public IssuedMerchInfoResponseDto(IssuedMerchInfoModel issuingMerch)
-        {
-            PersonId = issuingMerch.PersonId;
-            IssueDate = issuingMerch.IssueDate;
-            MerchItems = issuingMerch.MerchItems;
-        }
-    }
+}
 }
