@@ -1,6 +1,6 @@
 ﻿namespace OzonEdu.MerchandiseService.Models
 {
-    public class MerchItemRequestDto
+    public class MerchandiseRequestRequestDto
     {
         public long HRManagerId { get; set; }
 

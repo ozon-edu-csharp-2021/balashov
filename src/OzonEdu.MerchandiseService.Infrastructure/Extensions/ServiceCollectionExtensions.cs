@@ -5,6 +5,7 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 using OzonEdu.MerchandiseService.Infrastructure.FakeData;
+using OzonEdu.MerchandiseService.Infrastructure.Handlers;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Extensions
 {
@@ -12,19 +13,21 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Extensions
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-            services.AddMediatR(Assembly.GetExecutingAssembly());
-            //services.AddMediatR(typeof(BDSHandler).Assembly);
+            //services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddMediatR(typeof(GetIssuedMerchInfoQueryHandler).Assembly);
+            services.AddMediatR(typeof(RequestMerchCommandHandler).Assembly);
+
 
             return services;
         }
         
         public static IServiceCollection AddInfrastructureRepositories(this IServiceCollection services)
         {
-            services.AddScoped<IMerchRepository, MerchRepository>();
+            services.AddScoped<IMerchRepository, FakeMerchRepository>();
 
-            services.AddScoped<IManagerRepository, ManagerRepository>();
+            services.AddScoped<IManagerRepository, FakeManagerRepository>();
 
-            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<IEmployeeRepository, FakeEmployeeRepository>();
 
             return services;
         }

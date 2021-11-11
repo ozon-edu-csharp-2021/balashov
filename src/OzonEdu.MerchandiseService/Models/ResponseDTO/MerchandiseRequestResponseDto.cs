@@ -2,7 +2,7 @@
 
 namespace OzonEdu.MerchandiseService.Models
 {
-    public class IssuedMerchInfoResponseDto
+    public class MerchandiseRequestResponseDto
     {
         public long Id { get; }
 
@@ -16,11 +16,12 @@ namespace OzonEdu.MerchandiseService.Models
 
         public string EmployeeContactPhone { get; }
 
-        public string RequestedMerchPack { get; }
-
         public string Size { get; }
 
-        public IssuedMerchInfoResponseDto(MerchandiseRequest issuingMerch)
+        public string RequestedMerchPack { get; }
+
+
+        public MerchandiseRequestResponseDto(MerchandiseRequest issuingMerch)
         {
             Id = issuingMerch.Id;
 

@@ -8,7 +8,7 @@ using OzonEdu.MerchandiseService.Domain.Contracts;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.FakeData
 {
-    class EmployeeRepository : IEmployeeRepository
+    class FakeEmployeeRepository : IEmployeeRepository
     {
         public IUnitOfWork UnitOfWork { get; }
         public Task<Employee> CreateAsync(Employee itemToCreate, CancellationToken cancellationToken = default)

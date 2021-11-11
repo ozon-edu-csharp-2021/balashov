@@ -9,7 +9,7 @@ using OzonEdu.MerchandiseService.Domain.Contracts;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.FakeData
 {
-    class ManagerRepository : IManagerRepository
+    class FakeManagerRepository : IManagerRepository
     {
         public IUnitOfWork UnitOfWork { get; }
         public Task<Manager> CreateAsync(Manager itemToCreate, CancellationToken cancellationToken = default)

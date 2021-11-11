@@ -16,9 +16,11 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
         private readonly IManagerRepository _managerRepository;
         private readonly IEmployeeRepository _employeeRepository;
 
-        public RequestMerchCommandHandler(IMerchRepository merchRepository)
+        public RequestMerchCommandHandler(IMerchRepository merchRepository, IManagerRepository managerRepository, IEmployeeRepository employeeRepository)
         {
             _merchRepository = merchRepository;
+            _managerRepository = managerRepository;
+            _employeeRepository = employeeRepository;
         }
 
         public async Task<MerchandiseRequest> Handle(RequestMerchCommand request, CancellationToken cancellationToken)
@@ -34,10 +36,10 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
                throw new Exception(whyString);
             }
 
-            //Сформировать заявку у указанного менеджера, если не указа, то у любого свободного
+            //Сформировать заявку у указанного менеджера, если не указан, то у любого свободного
             var merchRequest = await CreateMerchRequest(request, employee, cancellationToken);
 
-            await _merchRepository.CreateAsync(merchRequest);
+            await _merchRepository.CreateAsync(merchRequest, cancellationToken);
 
             //Проверяется наличие данного мерча на складе через запрос к stock - api
             //TODO: Тут должен быть запрос к stock - api после того, как мы изучим эту тему
@@ -45,7 +47,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
             {
                 merchRequest.SetInProgress(request.Date);
                 
-                await _merchRepository.UpdateAsync(merchRequest);
+                await _merchRepository.UpdateAsync(merchRequest, cancellationToken);
 
                 //Если все проверки прошли - резервируется мерч в stock - api
                 //TODO: Тут должен быть ещё один запрос к stock - api после того, как мы изучим эту тему
@@ -53,8 +55,11 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
                     merchRequest.SetDone(request.Date);
             }
 
+            //Выслать е-mail
+            //TODO: Тут должен быть ещё один запрос к е-mail сервису после того, как мы изучим эту тему
+
             //Зафиксировать в БД, что сотруднику выдан мерч
-            await _merchRepository.UpdateAsync(merchRequest);
+            await _merchRepository.UpdateAsync(merchRequest, cancellationToken);
 
             await _merchRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations;
+using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
 using OzonEdu.MerchandiseService.Infrastructure.Commands;
 using OzonEdu.MerchandiseService.Infrastructure.Queries;
@@ -26,7 +27,7 @@ namespace OzonEdu.MerchandiseService.Controllers
 
         [HttpGet]
         [Route("employee/{employeeId:long}")]
-        public async Task<ActionResult<IssuedMerchInfoResponseDto>> GetIssuedMerchInfo(long employeeId, CancellationToken token)
+        public async Task<ActionResult<MerchandiseRequestResponseDto>> GetIssuedMerchInfo(long employeeId, CancellationToken token)
         {
             var mediatrRequest = new GetIssuedMerchInfoQuery { EmployeeId = employeeId };
 
@@ -38,31 +39,32 @@ namespace OzonEdu.MerchandiseService.Controllers
             if (issuedMerch.Count == 0)
                 return Ok($"Сотруднику {employeeId} мерч не выдавался.");
 
-            var issuedMerchResponse = issuedMerch.Select(im => new IssuedMerchInfoResponseDto(im)).ToList();
+            var issuedMerchResponse = issuedMerch.Select(im => new MerchandiseRequestResponseDto(im)).ToList();
             
             return Ok(issuedMerchResponse);
         }
 
         [HttpPost]
         [Route("employee/{employeeId:long}")]
-        public async Task<ActionResult> RequestMerch(long employeeId, MerchItemRequestDto merchType, CancellationToken token)
+        public async Task<ActionResult> RequestMerch(long employeeId, MerchandiseRequestRequestDto request, CancellationToken token)
         {
-            var merchTitle = new MerchPack(merchType.RequestedMerchPackType);
-            var size = Size.GetSizeFromString(merchType.Size);
+            var merchTitle = new MerchPack(request.RequestedMerchPackType);
+            var size = Size.GetSizeFromString(request.Size);
             var date = new Date(DateTime.Now);
 
             var mediatrRequest = new RequestMerchCommand
             {
-                HRManagerId = merchType.HRManagerId,
+                HRManagerId = request.HRManagerId,
                 EmployeeId = employeeId,
                 RequestedMerchPack = merchTitle,
                 Size = size,
                 Date = date
             };
 
-            var merchRequest = await _mediator.Send(mediatrRequest, token);
+            MerchandiseRequest merchRequest = await _mediator.Send(mediatrRequest, token);
 
-            return Ok(merchRequest);
+            var responseDto = new MerchandiseRequestResponseDto(merchRequest);
+            return Ok(responseDto);
         }
     }
 }

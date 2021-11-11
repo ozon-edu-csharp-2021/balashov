@@ -7,7 +7,7 @@ using OzonEdu.MerchandiseService.Domain.Contracts;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.FakeData
 {
-    class MerchRepository : IMerchRepository
+    class FakeMerchRepository : IMerchRepository
     {
         public IUnitOfWork UnitOfWork { get; }
 
