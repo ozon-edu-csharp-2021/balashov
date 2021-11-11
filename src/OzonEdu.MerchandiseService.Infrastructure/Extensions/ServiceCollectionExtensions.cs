@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
+using OzonEdu.MerchandiseService.Domain.Contracts;
 using OzonEdu.MerchandiseService.Infrastructure.FakeData;
 using OzonEdu.MerchandiseService.Infrastructure.Handlers;
 
@@ -28,6 +29,8 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Extensions
             services.AddScoped<IManagerRepository, FakeManagerRepository>();
 
             services.AddScoped<IEmployeeRepository, FakeEmployeeRepository>();
+
+            services.AddScoped<IUnitOfWork, FakeUnitOfWork>();
 
             return services;
         }

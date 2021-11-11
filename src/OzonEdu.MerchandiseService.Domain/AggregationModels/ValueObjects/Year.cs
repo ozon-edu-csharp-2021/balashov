@@ -21,7 +21,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
             yield return TheYear;
         }
 
-        private bool YearValidation(int year)
+        private static bool YearValidation(int year)
         {
             if (year < 2020) return false;
             if (year > 2100) return false;

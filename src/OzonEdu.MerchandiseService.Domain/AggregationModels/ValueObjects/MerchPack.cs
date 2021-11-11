@@ -37,7 +37,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
 
         public override string ToString()
         {
-            return $"Тип набора: {PackTitle.Name}; Серия: {Line.LineName}, {Line.Year} [{Line.MerchLineTag}]";
+            return $"Тип набора: {PackTitle.Name}; Серия: {Line}";
         }
     }
 }

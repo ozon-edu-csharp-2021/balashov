@@ -22,7 +22,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
             yield return Phone;
         }
 
-        private bool PhoneNumberValidation(string phone)
+        private static bool PhoneNumberValidation(string phone)
         {
             return Regex.Match(phone, @"^(\+[0-9]{9})$").Success;
         }

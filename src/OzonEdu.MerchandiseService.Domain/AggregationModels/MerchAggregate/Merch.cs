@@ -28,5 +28,10 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 
             Size = size;
         }
+
+        public void SetId(int id)
+        {
+            Id = id;
+        }
     }
 }

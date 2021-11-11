@@ -11,5 +11,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate
         Task<Employee> FindByIdAsync(long id, CancellationToken cancellationToken = default);
 
         Task<List<Employee>> FindByNameIdAsync(PersonName personName, CancellationToken cancellationToken = default);
+
+        Task<List<Employee>> GetAll(CancellationToken cancellationToken = default);
     }
 }

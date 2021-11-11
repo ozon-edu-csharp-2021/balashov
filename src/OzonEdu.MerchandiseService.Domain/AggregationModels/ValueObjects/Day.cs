@@ -21,7 +21,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
             yield return TheDay;
         }
 
-        private bool DayValidation(int day)
+        private static bool DayValidation(int day)
         {
             if (day < 1) return false;
             if (day > 31) return false;

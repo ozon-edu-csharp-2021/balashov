@@ -5,12 +5,18 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate
 {
     public class Manager : Entity
     {
-        private const int maxTasksCount = 3;
-        public Manager(PersonName name, Email email, PhoneNumber phone,int assignedTasks)
+        public const int MaxTasksCount = 3;
+
+        public Manager(PersonName name, Email email, PhoneNumber phone)
         {
             Name = name;
             Email = email;
             PhoneNumber = phone;
+        }
+
+        public Manager(PersonName name, Email email, PhoneNumber phone, int assignedTasks)
+            :this(name, email, phone)
+        {
             AssignedTasks = assignedTasks;
         }
 
@@ -22,8 +28,13 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate
 
         public int AssignedTasks { get; private set; }
 
-        public bool CanHandleNewTask => AssignedTasks < maxTasksCount;
+        public bool CanHandleNewTask => AssignedTasks < MaxTasksCount;
 
         public void AssignTask() => AssignedTasks++;
+
+        public void SetId(int id)
+        {
+            Id = id;
+        }
     }
 }

@@ -21,7 +21,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
             yield return TheMonth;
         }
 
-        private bool MonthValidation(int month)
+        private static bool MonthValidation(int month)
         {
             if (month < 1) return false;
             if (month > 12) return false;

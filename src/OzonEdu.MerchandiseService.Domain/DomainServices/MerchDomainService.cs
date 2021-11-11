@@ -11,7 +11,7 @@ namespace OzonEdu.MerchandiseService.Domain.DomainServices
 {
     public sealed class MerchDomainService
     {
-        public static MerchandiseRequest CreateMerchandiseRequest(IEnumerable<Manager> managers, Employee employee, MerchPack merchPack)
+        public static MerchandiseRequest CreateMerchandiseRequest(List<Manager> managers, Employee employee, MerchPack merchPack)
         {
             if (!managers.Any(m => m.CanHandleNewTask))
             {
@@ -36,27 +36,27 @@ namespace OzonEdu.MerchandiseService.Domain.DomainServices
             return merchRequest;
         }
 
-        private const int daysBetweenIssuance = 365;
+        public const int DaysBetweenIssuance = 365;
 
         public static bool IsEmployeeReceivedMerchLastTime (
-            List<MerchandiseRequest> issuedMerchs, 
+            List<MerchandiseRequest> oneTypeIssuedMerch, 
             Employee employee, 
             Date todayDate, 
             out string whyString)
         {
             whyString = string.Empty;
 
-            if (issuedMerchs.Count == 0) return true;
+            if (oneTypeIssuedMerch.Count == 0) return true;
 
-            var lastIssuedMerch = issuedMerchs[0];
+            var lastIssuedMerch = oneTypeIssuedMerch[0];
             var minDays = lastIssuedMerch.Status.Date.CountDeltaDays(todayDate);
-            for (int i = 1; i < issuedMerchs.Count; i++)
+            for (int i = 1; i < oneTypeIssuedMerch.Count; i++)
             {
-                var days = issuedMerchs[i].Status.Date.CountDeltaDays(todayDate);
+                var days = oneTypeIssuedMerch[i].Status.Date.CountDeltaDays(todayDate);
                 if (days < minDays)
                 {
                     minDays = days;
-                    lastIssuedMerch = issuedMerchs[i];
+                    lastIssuedMerch = oneTypeIssuedMerch[i];
                 }
             }
 
@@ -69,7 +69,7 @@ namespace OzonEdu.MerchandiseService.Domain.DomainServices
             if (lastIssuedMerch.Status.Status.Equals(MerchRequestStatusType.Done))
             {
                 var deltaDays = lastIssuedMerch.Status.Date.CountDeltaDays(todayDate);
-                if (deltaDays < daysBetweenIssuance)
+                if (deltaDays < DaysBetweenIssuance)
                 {
                     whyString = $"Сотрудник {employee.Name} уже получал такой мерч менее года назад (последний раз {deltaDays} дней назад)";
                     return false;

@@ -40,6 +40,8 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
             var merchRequest = await CreateMerchRequest(request, employee, cancellationToken);
 
             await _merchRepository.CreateAsync(merchRequest, cancellationToken);
+            
+            merchRequest.SetAssigned(request.Date);
 
             //Проверяется наличие данного мерча на складе через запрос к stock - api
             //TODO: Тут должен быть запрос к stock - api после того, как мы изучим эту тему

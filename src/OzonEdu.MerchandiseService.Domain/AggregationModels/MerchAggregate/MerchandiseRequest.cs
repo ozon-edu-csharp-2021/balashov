@@ -27,7 +27,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 
             RequestedMerchPack = requestedMerchPack;
 
-            Status =new MerchRequestStatus(MerchRequestStatusType.Draft, data);
+            Status = new MerchRequestStatus(MerchRequestStatusType.Draft, data);
         }
 
         public bool AddEmployeeInfo(int employeeId, PhoneNumber employeeContactPhone, Size size, Date date)
@@ -65,6 +65,11 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 
             Status = new MerchRequestStatus(MerchRequestStatusType.Done, date);
             return true;
+        }
+
+        public void SetId(int id)
+        {
+            Id = id;
         }
     }
 }

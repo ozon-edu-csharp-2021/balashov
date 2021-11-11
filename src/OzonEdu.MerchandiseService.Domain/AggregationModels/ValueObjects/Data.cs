@@ -6,11 +6,11 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
 {
     public class Date : ValueObject
     {
-        private Year _year { get; }
+        private readonly Year _year;
 
-        private Month _month { get; }
+        private readonly Month _month;
 
-        private Day _day { get; }
+        private readonly Day _day;
 
         public int Year => _year.TheYear;
 

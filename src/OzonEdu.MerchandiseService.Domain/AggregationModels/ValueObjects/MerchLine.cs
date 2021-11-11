@@ -30,5 +30,10 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
             yield return Year;
             yield return MerchLineTag;
         }
+
+        public override string ToString()
+        {
+            return $"{LineName}, {Year} {MerchLineTag}";
+        }
     }
 }

@@ -15,5 +15,12 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
         {
             yield return Value;
         }
+
+        public override string ToString()
+        {
+            if (string.IsNullOrWhiteSpace(Value))
+                return string.Empty;
+            return $"[{Value}]";
+        }
     }
 }
