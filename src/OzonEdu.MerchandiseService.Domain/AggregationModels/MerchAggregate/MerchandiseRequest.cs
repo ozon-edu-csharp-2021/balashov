@@ -42,7 +42,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 
         public bool SetAssigned(Date date)
         {
-            if (Status.Status != MerchRequestStatusType.Created)
+            if (!Status.Status.Equals(MerchRequestStatusType.Created))
                 return false;
 
             Status = new MerchRequestStatus(MerchRequestStatusType.Assigned, date);
@@ -51,7 +51,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 
         public bool SetInProgress(Date date)
         {
-            if (Status.Status != MerchRequestStatusType.Assigned)
+            if (!Status.Status.Equals(MerchRequestStatusType.Assigned))
                 return false;
 
             Status = new MerchRequestStatus(MerchRequestStatusType.InProgress, date);
@@ -60,7 +60,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 
         public bool SetDone(Date date)
         {
-            if (Status.Status != MerchRequestStatusType.InProgress)
+            if (!Status.Status.Equals(MerchRequestStatusType.InProgress))
                 return false;
 
             Status = new MerchRequestStatus(MerchRequestStatusType.Done, date);

@@ -63,27 +63,27 @@ namespace OzonEdu.MerchandiseService.Infrastructure.FakeData
             var managers = new List<Manager>();
             managers.Add(new Manager(
                 PersonName.Create("testFirstManagerName1", "testLastManagerName1"),
-                new Email("email1@test.t"),
+                new Email("email1@test.ru"),
                 new PhoneNumber("+012345678"),
                 5));
             managers.Add(new Manager(
                 PersonName.Create("testFirstManagerName2", "testLastManagerName2"),
-                new Email("email2@test.t"),
+                new Email("email2@test.ru"),
                 new PhoneNumber("+012345678"),
                 4));
             managers.Add(new Manager(
                 PersonName.Create("testFirstManagerName3", "testLastManagerName3"),
-                new Email("email3@test.t"),
+                new Email("email3@test.ru"),
                 new PhoneNumber("+012345678"),
                 3));
             managers.Add(new Manager(
                 PersonName.Create("testFirstManagerName4", "testLastManagerName4"),
-                new Email("email4@test.t"),
+                new Email("email4@test.ru"),
                 new PhoneNumber("+012345678"),
                 2));
             managers.Add(new Manager(
                 PersonName.Create("testFirstManagerName5", "testLastManagerName5"),
-                new Email("email5@test.t"),
+                new Email("email5@test.ru"),
                 new PhoneNumber("+012345678"),
                 1));
 

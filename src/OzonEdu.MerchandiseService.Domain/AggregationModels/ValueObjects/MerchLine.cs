@@ -7,17 +7,17 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
     {
         public string LineName { get; }
 
-        public int Year { get; }
+        public Year Year { get; }
 
         public Tag MerchLineTag { get; }
         
-        public MerchLine(string lineName, int year)
+        public MerchLine(string lineName, Year year)
         {
             LineName = lineName;
             Year = year;
         }
 
-        public MerchLine(string lineName, int year, Tag merchLineTag)
+        public MerchLine(string lineName, Year year, Tag merchLineTag)
         {
             LineName = lineName;
             Year = year;

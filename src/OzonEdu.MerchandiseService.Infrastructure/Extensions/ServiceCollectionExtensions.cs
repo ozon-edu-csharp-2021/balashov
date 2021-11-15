@@ -6,7 +6,6 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 using OzonEdu.MerchandiseService.Domain.Contracts;
 using OzonEdu.MerchandiseService.Infrastructure.FakeData;
-using OzonEdu.MerchandiseService.Infrastructure.Handlers;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Extensions
 {
@@ -14,10 +13,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Extensions
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
-            //services.AddMediatR(Assembly.GetExecutingAssembly());
-            services.AddMediatR(typeof(GetIssuedMerchInfoQueryHandler).Assembly);
-            services.AddMediatR(typeof(RequestMerchCommandHandler).Assembly);
-
+            services.AddMediatR(Assembly.GetExecutingAssembly());
 
             return services;
         }

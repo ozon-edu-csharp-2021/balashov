@@ -65,35 +65,35 @@ namespace OzonEdu.MerchandiseService.Infrastructure.FakeData
 
             employees.Add(new Employee(
                 PersonName.Create("testFirstEmployeeName", "testLastEmployeeName"),
-                new Email("email@test.t"),
+                new Email("email@test.ru"),
                 new PhoneNumber("+012345678"),
                 Size.L,
                 HeightMetric.FromMetrics(180)));
 
             employees.Add(new Employee(
                 PersonName.Create("testFirstEmployeeName2", "testLastEmployeeName2"),
-                new Email("email2@test.t"),
+                new Email("email2@test.ru"),
                 new PhoneNumber("+012345678"),
                 Size.S,
                 HeightMetric.FromMetrics(165)));
 
             employees.Add(new Employee(
                 PersonName.Create("testFirstEmployeeName3", "testLastEmployeeName3"),
-                new Email("email3@test.t"),
+                new Email("email3@test.ru"),
                 new PhoneNumber("+012345678"),
                 Size.XS,
                 HeightMetric.FromMetrics(150)));
 
             employees.Add(new Employee(
                 PersonName.Create("testFirstEmployeeName4", "testLastEmployeeName4"),
-                new Email("email4@test.t"),
+                new Email("email4@test.ru"),
                 new PhoneNumber("+012345678"),
                 Size.M,
                 HeightMetric.FromMetrics(183)));
 
             employees.Add(new Employee(
                 PersonName.Create("testFirstEmployeeName5", "testLastEmployeeName5"),
-                new Email("email5@test.t"),
+                new Email("email5@test.ru"),
                 new PhoneNumber("+012345678"),
                 Size.XXL,
                 HeightMetric.FromMetrics(210)));

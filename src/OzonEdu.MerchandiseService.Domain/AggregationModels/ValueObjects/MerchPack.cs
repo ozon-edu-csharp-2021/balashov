@@ -12,13 +12,13 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
 
         public MerchPack(MerchPackTitle packTitle)
         {
-            Line = new MerchLine("Ozon-Standart", 2021);
+            Line = new MerchLine("Ozon-Standart", new Year(2021));
             PackTitle = packTitle;
         }
 
         public MerchPack(int packId)
         {
-            Line = new MerchLine("Ozon-Standart", 2021);
+            Line = new MerchLine("Ozon-Standart", new Year(2021));
 
             PackTitle = MerchPackTitle.GetMerchTitleById(packId);
         }

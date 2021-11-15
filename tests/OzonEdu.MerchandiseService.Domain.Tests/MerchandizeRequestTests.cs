@@ -15,7 +15,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
         {
             var hrManagerId = 1;
             var hrManagerContactPhone = new PhoneNumber("+123456789");
-            var requestedMerchPack = new MerchPack(new MerchLine("testML", 2021), MerchPackTitle.WelcomePack);
+            var requestedMerchPack = new MerchPack(new MerchLine("testML", new Year(2021)), MerchPackTitle.WelcomePack);
             var result = new MerchandiseRequest(hrManagerId, hrManagerContactPhone, requestedMerchPack, date);
             return result;
         }
