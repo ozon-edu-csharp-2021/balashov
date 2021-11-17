@@ -18,9 +18,9 @@ namespace OzonEdu.MerchandiseService.HttpClient
             _httpClient = httpClient;
         }
 
-        public async Task<IssuedMerchInfoResponseDto> GetIssuedMerchInfo(long personId, MerchItemRequestDto merchType, CancellationToken token)
+        public async Task<MerchandiseRequestResponseDto> GetIssuedMerchInfo(long employeeId, MerchandiseRequestRequestDto merchType, CancellationToken token)
         {
-            var requestUri = $"{BaseRoute}person/{personId}";
+            var requestUri = $"{BaseRoute}employee/{employeeId}";
 
             var json = JsonSerializer.Serialize(merchType);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -30,15 +30,15 @@ namespace OzonEdu.MerchandiseService.HttpClient
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var body = await response.Content.ReadAsStringAsync(token);
-                return JsonSerializer.Deserialize<IssuedMerchInfoResponseDto>(body);
+                return JsonSerializer.Deserialize<MerchandiseRequestResponseDto>(body);
             }
 
             return null;
         }
 
-        public async Task<bool> RequestMerch(long personId, CancellationToken token)
+        public async Task<bool> RequestMerch(long employeeId, CancellationToken token)
         {
-            var requestUri = $"{BaseRoute}person/{personId}";
+            var requestUri = $"{BaseRoute}employee/{employeeId}";
 
             using var response = await _httpClient.GetAsync(requestUri, token);
             if (response.StatusCode == HttpStatusCode.OK)
