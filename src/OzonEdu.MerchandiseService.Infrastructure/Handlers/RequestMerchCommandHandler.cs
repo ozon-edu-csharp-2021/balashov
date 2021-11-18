@@ -77,12 +77,12 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
             if (request.HRManagerId > 0)
             {
                 var manager = await _managerRepository.FindByIdAsync(request.HRManagerId, cancellationToken);
-                return MerchDomainService.CreateMerchandiseRequest(manager, employee, request.RequestedMerchPack);
+                return MerchandiseRequestFactory.CreateMerchandiseRequest(manager, employee, request.RequestedMerchPack);
             }
             else
             {
                 var managers = await _managerRepository.GetAll(cancellationToken);
-                return MerchDomainService.CreateMerchandiseRequest(managers, employee, request.RequestedMerchPack);
+                return MerchandiseRequestFactory.CreateMerchandiseRequest(managers, employee, request.RequestedMerchPack);
             }
         }
     }

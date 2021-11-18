@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 
-namespace OzonEdu.StockApi.Migrator
+namespace OzonEdu.MerchandiseService.Migrator
 {
     class Program
     {

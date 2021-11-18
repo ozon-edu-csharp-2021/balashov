@@ -2,44 +2,82 @@ version: '3.8'
 
 services:
   merchandise-service:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: merchandise-service
     container_name: merchandise-service
     ports:
       - 8080:80
     environment:
-      DatabaseConnectionOptions__ConnectionString: "Host=localhost;Port=6543;Database=Merchandise;Username=postgres;Password=MerchPassword"
+      DatabaseConnectionOptions__ConnectionString: "Host=host.docker.internal;Port=5428;Database=Merchandise;Username=postgres;Password=MerchPassword"
     depends_on:
       - merchandise-postgres
-        
-  stock-api:
-    image: ghcr.io/ozon-edu-csharp-2021/stock-api:main
-    container_name: stock-api
-    
-  emailing-service:
-    image: ghcr.io/ozon-edu-csharp-2021/emailing-service:main
-    container_name: emailing-service
+
+  merchandise-postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: MerchPassword
+      POSTGRES_DB: Merchandise
+    ports:
+      - 5428:5432
+    command: "-c log_statement=all"
 
   supply-service:
-    image:  ghcr.io/ozon-edu-csharp-2021/supply-service:main
-    container_name: supply-service
+    image: ghcr.io/ozon-edu-csharp-2021/supply-service:main
+    environment:
+      DbConfiguration__ConnectionString: "Host=host.docker.internal;Port=5426;Database=supply-service;Username=postgres;Password=supplyServicePassword"
+    hostname: supply-service
+    depends_on:
+      - supply-service-db
+  
+  emailing-service:
+    image: ghcr.io/ozon-edu-csharp-2021/emailing-service:main
+    hostname: emailing-service
     
   employees-service:
     image: ghcr.io/ozon-edu-csharp-2021/employees-service:main
-    container_name: employees-service
+    hostname: employees-service
+    depends_on:
+      - employees-service-db
+    volumes:
+      - ./src:/src
     
-  merchandise-postgres:
-    image: postgres
-    container_name: PostgreSQL
-    restart: unless-stopped
+  stock-api:
+    image: ghcr.io/ozon-edu-csharp-2021/stock-api:main
+    hostname: stock-api
     environment:
-      POSTGRES_DB: ozon-merchandise
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-    #volumes:
-    #  - postgres-data:/var/lib/postgresql/data
+      DatabaseConnectionOptions__ConnectionString: "Host=host.docker.internal;Port=5427;Database=stock-api;Username=postgres;Password=stockApiPassword"
+    depends_on:
+      - stock-api-db
+
+  supply-service-db:
+    image: postgres:latest
     ports:
-      - 6543:5432
-    
-#volumes:
-#  postgres-data:
+      - "5426:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: supplyServicePassword
+      POSTGRES_DB: supply-service
+      
+  employees-service-db:
+    image: postgres:latest
+    ports:
+      - "5425:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: employees-service
+    volumes:
+      - ./db/employees-service-postgres-db/dbdata:/var/lib/postgresql/data"
+  
+  stock-api-db:
+    image: postgres:latest
+    ports:
+      - "5427:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: stockApiPassword
+      POSTGRES_DB: stock-api
