@@ -1,61 +1,48 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Npgsql;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
-using OzonEdu.MerchandiseService.Domain.Contracts;
+using OzonEdu.MerchandiseService.Infrastructure.Repositories.Infrastructure.Interfaces;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
 {
     class ManagerRepository : IManagerRepository
     {
-        private List<Manager> fakeManagers;
-        private int id = 1;
-        public ManagerRepository(IUnitOfWork unitOfWork)
+        private readonly IDbConnectionFactory<NpgsqlConnection> _dbConnectionFactory;
+        private readonly IChangeTracker _changeTracker;
+        private const int Timeout = 5;
+
+        public ManagerRepository(IDbConnectionFactory<NpgsqlConnection> dbConnectionFactory, IChangeTracker changeTracker)
         {
-            fakeManagers = new List<Manager>();
-
-            UnitOfWork = unitOfWork;
-
-            foreach (var fakeManager in fakeManagers)
-                fakeManager.SetId(id++);
+            _dbConnectionFactory = dbConnectionFactory;
+            _changeTracker = changeTracker;
         }
-
-        public IUnitOfWork UnitOfWork { get; }
 
         public async Task<Manager> CreateAsync(Manager itemToCreate, CancellationToken cancellationToken = default)
         {
-            fakeManagers.Add(itemToCreate);
-            itemToCreate.SetId(id++);
-
-            return itemToCreate;
+            throw new System.NotImplementedException();
         }
 
         public async Task<Manager> UpdateAsync(Manager itemToUpdate, CancellationToken cancellationToken = default)
         {
-            var managerIndex = fakeManagers.IndexOf(itemToUpdate);
-            if (managerIndex == -1)
-                throw new Exception("There is no such object in the repository");
-
-            fakeManagers[managerIndex] = itemToUpdate;
-            return itemToUpdate;
+            throw new System.NotImplementedException();
         }
 
         public async Task<Manager> FindByIdAsync(long id, CancellationToken cancellationToken = default)
         {
-            return fakeManagers.FirstOrDefault(m => m.Id == id);
+            throw new System.NotImplementedException();
         }
 
         public async Task<List<Manager>> FindByNameIdAsync(PersonName personName, CancellationToken cancellationToken = default)
         {
-            return fakeManagers.FindAll(m => m.Name.Equals(personName));
+            throw new System.NotImplementedException();
         }
 
         public async Task<List<Manager>> GetAll(CancellationToken cancellationToken = default)
         {
-            return fakeManagers;
+            throw new System.NotImplementedException();
         }
     }
 }

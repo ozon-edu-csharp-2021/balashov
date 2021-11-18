@@ -3,59 +3,48 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Npgsql;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
-using OzonEdu.MerchandiseService.Domain.Contracts;
+using OzonEdu.MerchandiseService.Infrastructure.Repositories.Infrastructure.Interfaces;
 
-namespace OzonEdu.MerchandiseService.Infrastructure.FakeData
+namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
 {
     class EmployeeRepository : IEmployeeRepository
     {
-        private List<Employee> fakeEmployees;
-        private int id = 1;
-        public EmployeeRepository(IUnitOfWork unitOfWork)
+        private readonly IDbConnectionFactory<NpgsqlConnection> _dbConnectionFactory;
+        private readonly IChangeTracker _changeTracker;
+        private const int Timeout = 5;
+
+        public EmployeeRepository(IDbConnectionFactory<NpgsqlConnection> dbConnectionFactory, IChangeTracker changeTracker)
         {
-            fakeEmployees = new List<Employee>();
-            
-            UnitOfWork = unitOfWork;
-
-            foreach (var fakeEmp in fakeEmployees)
-                fakeEmp.SetId(id++);
+            _dbConnectionFactory = dbConnectionFactory;
+            _changeTracker = changeTracker;
         }
-
-        public IUnitOfWork UnitOfWork { get; }
 
         public async Task<Employee> CreateAsync(Employee itemToCreate, CancellationToken cancellationToken = default)
         {
-            fakeEmployees.Add(itemToCreate);
-            itemToCreate.SetId(id++);
-
-            return itemToCreate;
+            throw new System.NotImplementedException();
         }
 
         public async Task<Employee> UpdateAsync(Employee itemToUpdate, CancellationToken cancellationToken = default)
         {
-            var index = fakeEmployees.IndexOf(itemToUpdate);
-            if (index == -1)
-                throw new Exception("There is no such object in the repository");
-
-            fakeEmployees[index] = itemToUpdate;
-            return itemToUpdate;
+            throw new System.NotImplementedException();
         }
 
         public async Task<Employee> FindByIdAsync(long id, CancellationToken cancellationToken = default)
         {
-            return fakeEmployees.FirstOrDefault(m => m.Id == id);
+            throw new System.NotImplementedException();
         }
 
         public async Task<List<Employee>> FindByNameIdAsync(PersonName personName, CancellationToken cancellationToken = default)
         {
-            return fakeEmployees.FindAll(m => m.Name.Equals(personName));
+            throw new System.NotImplementedException();
         }
 
         public async Task<List<Employee>> GetAll(CancellationToken cancellationToken = default)
         {
-            return fakeEmployees;
+            throw new System.NotImplementedException();
         }
 
     }

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
+using OzonEdu.MerchandiseService.Domain.Contracts;
 using OzonEdu.MerchandiseService.Domain.DomainServices;
 using OzonEdu.MerchandiseService.Infrastructure.Commands;
 
@@ -15,6 +16,8 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
         private readonly IMerchRepository _merchRepository;
         private readonly IManagerRepository _managerRepository;
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IUnitOfWork _unitOfWork;
+
 
         public RequestMerchCommandHandler(IMerchRepository merchRepository, IManagerRepository managerRepository, IEmployeeRepository employeeRepository)
         {
@@ -25,6 +28,8 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
 
         public async Task<MerchandiseRequest> Handle(RequestMerchCommand request, CancellationToken cancellationToken)
         {
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
             //Взять работника
             var employee = await _employeeRepository.FindByIdAsync(request.HRManagerId, cancellationToken);
 
@@ -63,7 +68,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
             //Зафиксировать в БД, что сотруднику выдан мерч
             await _merchRepository.UpdateAsync(merchRequest, cancellationToken);
 
-            await _merchRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             //Вернуть заявку результат 
             return merchRequest;
