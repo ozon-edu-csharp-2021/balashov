@@ -64,9 +64,14 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
             return (endDate.Date - startDate.Date).Days;
         }
 
+        public DateTime ToDateTime()
+        {
+            return new DateTime(Year, Month, Day);
+        }
+
         public override string ToString()
         {
-            return $"{Year} {Month} {Day}";
+            return $"{Year}-{Month}-{Day}";
         }
     }
 }

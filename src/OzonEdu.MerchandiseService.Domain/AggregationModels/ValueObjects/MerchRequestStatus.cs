@@ -25,7 +25,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
 
         public override string ToString()
         {
-            return $"Статус заявки: {Status.Name}, дата последнего изменения: {Date}";
+            return $"Статус заявки: {Status.Name}, дата последнего изменения: {Date.ToString()}";
         }
     }
 }

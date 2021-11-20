@@ -30,6 +30,27 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             Status = new MerchRequestStatus(MerchRequestStatusType.Draft, data);
         }
 
+        public MerchandiseRequest(int hrManagerId, PhoneNumber hrManagerContactPhone, MerchPack requestedMerchPack, MerchRequestStatusType statusType, Date data)
+        {
+            HRManagerId = hrManagerId;
+            HRManagerContactPhone = hrManagerContactPhone;
+
+            RequestedMerchPack = requestedMerchPack;
+
+            Status = new MerchRequestStatus(statusType, data);
+        }
+
+        public MerchandiseRequest AddEmployeeInfoFromDB(int? employeeId, PhoneNumber employeeContactPhone, Size size)
+        {
+            if (employeeId is null)
+                return this;
+
+            EmployeeId = (int)employeeId;
+            EmployeeContactPhone = employeeContactPhone;
+            Size = size;
+            return this;
+        }
+
         public bool AddEmployeeInfo(int employeeId, PhoneNumber employeeContactPhone, Size size, Date date)
         {
             EmployeeId = employeeId;
@@ -67,9 +88,10 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             return true;
         }
 
-        public void SetId(int id)
+        public MerchandiseRequest SetId(int id)
         {
             Id = id;
+            return this;
         }
     }
 }

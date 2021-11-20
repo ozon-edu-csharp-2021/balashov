@@ -37,7 +37,7 @@ namespace OzonEdu.MerchandiseService.Models
 
             RequestedMerchPack = issuingMerch.RequestedMerchPack.ToString();
 
-            Size = issuingMerch.Size.Name;
+            Size = issuingMerch.Size is null ? "not set" : issuingMerch.Size.Name;
 
         }
 }

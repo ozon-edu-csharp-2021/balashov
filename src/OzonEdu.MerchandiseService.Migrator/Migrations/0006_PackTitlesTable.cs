@@ -1,21 +1,21 @@
 using FluentMigrator;
 
-namespace OzonEdu.StockApi.Migrator.Temp
+namespace OzonEdu.MerchandiseService.Migrator.Migrations
 {
-    [Migration(7)]
-    public class MerchRequestStatus: Migration
+    [Migration(6)]
+    public class PackTitles : Migration
     {
         public override void Up()
         {
             Create
-                .Table("merch_request_status")
+                .Table("pack_titles")
                 .WithColumn("id").AsInt32().PrimaryKey()
                 .WithColumn("name").AsString().NotNullable();
         }
 
         public override void Down()
         {
-            Delete.Table("merch_request_status");
+            Delete.Table("pack_titles");
         }
     }
 }

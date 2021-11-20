@@ -1,17 +1,27 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OzonEdu.MerchandiseService.GrpcServices;
-using OzonEdu.MerchandiseService.Infrastructure.Extensions;
+using OzonEdu.MerchandiseService.Infrastructure;
 
 
 namespace OzonEdu.MerchandiseService
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddInfrastructureServices();
+            services.AddMediator();
+
+            services.AddDatabaseComponents(Configuration);
             services.AddInfrastructureRepositories();
         }
 

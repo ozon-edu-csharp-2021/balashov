@@ -50,11 +50,11 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Infrastructure
                 _changeTracker.TrackedEntities
                     .SelectMany(x =>
                     {
-                        var events = x.DomainEvents.ToList();
+                        var events = x.DomainEvents != null ? x.DomainEvents.ToList() : new List<INotification>();
                         x.ClearDomainEvents();
                         return events;
                     }));
-            // Можно отправлять все и сразу через Task.WhenAll.
+            
             while (domainEvents.TryDequeue(out var notification))
             {
                 await _publisher.Publish(notification, cancellationToken);

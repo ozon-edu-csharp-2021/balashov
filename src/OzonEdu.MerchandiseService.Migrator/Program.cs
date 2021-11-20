@@ -14,6 +14,7 @@ namespace OzonEdu.MerchandiseService.Migrator
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.migrator.json")
                 .AddEnvironmentVariables()
                 .Build();
             

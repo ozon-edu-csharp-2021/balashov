@@ -1,6 +1,6 @@
 using FluentMigrator;
 
-namespace OzonEdu.StockApi.Migrator.Migrations
+namespace OzonEdu.MerchandiseService.Migrator.Migrations
 {
     [Migration(4)]
     public class HrAssignTasksTable : Migration

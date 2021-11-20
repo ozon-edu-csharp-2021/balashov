@@ -1,6 +1,6 @@
 using FluentMigrator;
 
-namespace OzonEdu.StockApi.Migrator.Temp
+namespace OzonEdu.MerchandiseService.Migrator.Migrations
 {
     [Migration(9)]
     public class FillDictionaries : ForwardOnlyMigration
@@ -21,7 +21,7 @@ namespace OzonEdu.StockApi.Migrator.Temp
             ");
 
             Execute.Sql(@"
-                INSERT INTO pack_title (id, name)
+                INSERT INTO pack_titles (id, name)
                 VALUES 
                     (10, 'WelcomePack'),
                     (20, 'StarterPack'),
@@ -32,7 +32,7 @@ namespace OzonEdu.StockApi.Migrator.Temp
             ");
 
             Execute.Sql(@"
-                INSERT INTO merch_request_status (id, name)
+                INSERT INTO merch_request_status_types (id, name)
                 VALUES 
                     (1, 'Draft'),
                     (2, 'Created'),

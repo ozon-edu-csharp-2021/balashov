@@ -28,5 +28,9 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
 
             return true;
         }
+        public override string ToString()
+        {
+            return TheDay.ToString("D2");
+        }
     }
 }

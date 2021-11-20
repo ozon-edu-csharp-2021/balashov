@@ -1,8 +1,8 @@
 namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Models
 {
-    class ClothingSize
+    class PackTitle
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         
         public string Name { get; set; }
     }

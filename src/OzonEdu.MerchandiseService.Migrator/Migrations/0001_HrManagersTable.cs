@@ -1,28 +1,26 @@
 using FluentMigrator;
 
-namespace OzonEdu.StockApi.Migrator.Migrations
+namespace OzonEdu.MerchandiseService.Migrator.Migrations
 {
-    [Migration(2)]
-    public class EmployeeTable : Migration
+    [Migration(1)]
+    public class HrManagersTable : Migration
     {
         public override void Up()
         {
             Execute.Sql(@"
-                CREATE TABLE if not exists employee(
+                CREATE TABLE if not exists hr_managers(
                     id BIGSERIAL PRIMARY KEY,
                     first_name TEXT NOT NULL,
                     last_name TEXT NOT NULL,
                     middle_name TEXT,
                     phone TEXT NOT NULL,
-                    email TEXT NOT NULL,
-                    clothing_size_id INT NOT NULL,
-                    height_id INT);"
+                    email TEXT NOT NULL);"
             );
         }
 
         public override void Down()
         {
-            Execute.Sql("DROP TABLE if exists employee;");
+            Execute.Sql("DROP TABLE if exists hr_managers;");
         }
     }
 }

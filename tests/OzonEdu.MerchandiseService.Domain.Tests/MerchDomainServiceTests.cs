@@ -52,9 +52,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             return new Employee(
                 PersonName.Create("testFirstEmployeeName", "testLastEmployeeName"),
                 new Email("email4@test.ru"),
-                new PhoneNumber("+012345678"),
-                Size.L,
-                HeightMetric.FromMetrics(180));
+                new PhoneNumber("+012345678"));
         }
 
         private List<MerchandiseRequest> GetFakeMerchandiseRequests()
@@ -94,7 +92,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var managers = GetFakeManagers();
             var employee = GetFakeEmployee();
 
-            var result = MerchandiseRequestFactory.CreateMerchandiseRequest(managers, employee, new MerchPack(10));
+            var result = MerchandiseRequestFactory.CreateMerchandiseRequest(managers, employee, Size.L, new MerchPack(10));
 
             result.Status.Status.Should().Be(MerchRequestStatusType.Created);
         }
@@ -105,7 +103,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var managers = GetFakeManagers().FindAll(m => m.AssignedTasks >= Manager.MaxTasksCount);
             var employee = GetFakeEmployee();
 
-            Assert.Throws<Exception>(() => { MerchandiseRequestFactory.CreateMerchandiseRequest(managers, employee, new MerchPack(10)); });
+            Assert.Throws<Exception>(() => { MerchandiseRequestFactory.CreateMerchandiseRequest(managers, employee, Size.L, new MerchPack(10)); });
         }
 
         [Fact]
@@ -114,7 +112,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var managers = GetFakeManagers().FindAll(m => m.AssignedTasks > Manager.MaxTasksCount);
             var employee = GetFakeEmployee();
 
-            Assert.Throws<Exception>(() => { MerchandiseRequestFactory.CreateMerchandiseRequest(managers, employee, new MerchPack(10)); });
+            Assert.Throws<Exception>(() => { MerchandiseRequestFactory.CreateMerchandiseRequest(managers, employee, Size.L, new MerchPack(10)); });
         }
 
         [Fact]
@@ -123,7 +121,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var manager = GetFakeManagers().Find(m => m.AssignedTasks < Manager.MaxTasksCount);
             var employee = GetFakeEmployee();
 
-            var result = MerchandiseRequestFactory.CreateMerchandiseRequest(manager, employee, new MerchPack(10));
+            var result = MerchandiseRequestFactory.CreateMerchandiseRequest(manager, employee, Size.L, new MerchPack(10));
 
             result.Status.Status.Should().Be(MerchRequestStatusType.Created);
         }
@@ -134,7 +132,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var manager = GetFakeManagers().Find(m => m.AssignedTasks > Manager.MaxTasksCount);
             var employee = GetFakeEmployee();
 
-            var result = MerchandiseRequestFactory.CreateMerchandiseRequest(manager, employee, new MerchPack(10));
+            var result = MerchandiseRequestFactory.CreateMerchandiseRequest(manager, employee, Size.L, new MerchPack(10));
 
             result.Status.Status.Should().Be(MerchRequestStatusType.Created);
         }
