@@ -32,7 +32,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
         {
             await _unitOfWork.StartTransaction(cancellationToken);
 
-            //Взять работника
+            //Взять работника TODO вынести в отдельный обработчик. Если работника нет, то сформировать его и вернуть
             var employee = await _employeeRepository.FindByIdAsync(request.EmployeeId, cancellationToken);
 
             //Проверить что такой мерч еще не выдавался сотруднику
