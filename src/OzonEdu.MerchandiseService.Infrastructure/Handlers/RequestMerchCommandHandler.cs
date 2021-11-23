@@ -49,23 +49,25 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
             await _merchRepository.CreateAsync(merchRequest, cancellationToken);
             
             merchRequest.SetAssigned(request.Date);
+            //Todo доменное событие, что сформирована новая заявка. Поставить счётчик задач на менеджера в +1
 
             //Проверяется наличие данного мерча на складе через запрос к stock - api
-            //TODO: Тут должен быть запрос к stock - api после того, как мы изучим эту тему
+            //TODO: Тут должен быть запрос к stock - api
             if (true)
             {
+                //Если все проверки прошли - резервируется мерч в stock - api
+                //TODO: Тут должен быть ещё один запрос к stock - api
                 merchRequest.SetInProgress(request.Date);
                 
                 await _merchRepository.UpdateAsync(merchRequest, cancellationToken);
 
-                //Если все проверки прошли - резервируется мерч в stock - api
-                //TODO: Тут должен быть ещё один запрос к stock - api после того, как мы изучим эту тему
-                if (true)
-                    merchRequest.SetDone(request.Date);
+                //TODO отметка что выдача произведена должна делается из отдельного метода API, тогда же снимать задачу с менеджера
+                //if (true)
+                //    merchRequest.SetDone(request.Date);
             }
 
             //Выслать е-mail
-            //TODO: Тут должен быть ещё один запрос к е-mail сервису после того, как мы изучим эту тему
+            //TODO: Тут должен быть ещё один запрос к е-mail сервису
 
             //Зафиксировать в БД, что сотруднику выдан мерч
             await _merchRepository.UpdateAsync(merchRequest, cancellationToken);

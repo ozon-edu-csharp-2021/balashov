@@ -46,10 +46,10 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
                 cancellationToken: cancellationToken);
 
             var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
-            var obj = await connection.ExecuteScalarAsync(commandDefinition);
+            var obj = await connection.QueryFirstOrDefaultAsync<long>(commandDefinition);
 
-            if (obj != null && int.TryParse(obj.ToString(), out int resId))
-                itemToCreate.SetId(resId);
+            if (obj != default)
+                itemToCreate.SetId(obj);
             else
             {
                 throw new Exception("Запись в базу заявки на мерч провалилась, Id не бы возваращён");
@@ -114,7 +114,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
         public async Task<List<MerchandiseRequest>> FindByEmployeeIdAsync(long employeeId, CancellationToken cancellationToken = default)
         {
             const string sql = @"SELECT merchandise_requests.id, merchandise_requests.hr_manager_id, merchandise_requests.employee_id,
-            merchandise_requests.clothing_size_id, merchandise_requests.pack_title_id, merchandise_requests.merch_request_status_id,
+            merchandise_requests.clothing_size_id, merchandise_requests.pack_title_id, merchandise_requests.merch_request_status_id, merchandise_requests.last_change_date,
             employees.id, employees.phone,
             hr_managers.id, hr_managers.phone
             FROM merchandise_requests
@@ -150,7 +150,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
                             ? new MerchPack((int)dbMerchandiseRequest.PackTitleId)
                             : null,
                         MerchRequestStatusType.GetById(dbMerchandiseRequest.MerchRequestStatusId),
-                        new Date(dbMerchandiseRequest.Date))
+                        new Date(dbMerchandiseRequest.LastChangeDate))
                     .AddEmployeeInfoFromDB(
                         dbMerchandiseRequest.EmployeeId,
                         new PhoneNumber(dbEmployee.Phone),

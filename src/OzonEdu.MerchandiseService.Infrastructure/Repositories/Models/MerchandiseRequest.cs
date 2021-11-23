@@ -12,6 +12,6 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Models
         public int? EmployeeId { get; set; }
         public int? PackTitleId { get; set; }
         public int? ClothingSizeId { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime LastChangeDate { get; set; }
     }
 }

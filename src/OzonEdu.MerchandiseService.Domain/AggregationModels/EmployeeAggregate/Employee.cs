@@ -19,11 +19,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate
 
         public Email Email { get; private set; }
 
-        //public Size Size { get; }
-        
-        //public HeightMetric Height { get; }
-
-        public Employee SetId(int id)
+        public Employee SetId(long id)
         {
             Id = id;
             return this;

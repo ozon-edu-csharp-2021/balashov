@@ -45,10 +45,10 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
                 cancellationToken: cancellationToken);
 
             var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
-            var obj = await connection.ExecuteScalarAsync(commandDefinition);
+            var obj = await connection.QueryFirstOrDefaultAsync<long>(commandDefinition);
 
-            if (obj != null && int.TryParse(obj.ToString(), out int resId))
-                itemToCreate.SetId(resId);
+            if (obj != default)
+                itemToCreate.SetId(obj);
             else
             {
                 throw new Exception("Запись менеджера в базу провалилась, Id не бы возваращён");

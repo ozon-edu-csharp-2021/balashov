@@ -20,7 +20,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 
         public Size Size { get; private set; }
 
-        public MerchandiseRequest(int hrManagerId, PhoneNumber hrManagerContactPhone, MerchPack requestedMerchPack, Date data)
+        public MerchandiseRequest(long hrManagerId, PhoneNumber hrManagerContactPhone, MerchPack requestedMerchPack, Date data)
         {
             HRManagerId = hrManagerId;
             HRManagerContactPhone = hrManagerContactPhone;
@@ -51,7 +51,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             return this;
         }
 
-        public bool AddEmployeeInfo(int employeeId, PhoneNumber employeeContactPhone, Size size, Date date)
+        public bool AddEmployeeInfo(long employeeId, PhoneNumber employeeContactPhone, Size size, Date date)
         {
             EmployeeId = employeeId;
             EmployeeContactPhone = employeeContactPhone;
@@ -88,7 +88,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             return true;
         }
 
-        public MerchandiseRequest SetId(int id)
+        public MerchandiseRequest SetId(long id)
         {
             Id = id;
             return this;
