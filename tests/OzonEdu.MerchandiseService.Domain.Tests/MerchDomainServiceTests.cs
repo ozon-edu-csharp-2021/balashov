@@ -87,41 +87,12 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
         }
 
         [Fact]
-        public void CreateMerchandiseRequest_CorrectInput_Created()
-        {
-            var managers = GetFakeManagers();
-            var employee = GetFakeEmployee();
-
-            var result = MerchandiseRequestFactory.CreateMerchandiseRequest(managers, employee, Size.L, new MerchPack(10));
-
-            result.Status.Status.Should().Be(MerchRequestStatusType.Created);
-        }
-
-        [Fact]
-        public void CreateMerchandiseRequest_MaxAssignedTasks_Exceptions()
-        {
-            var managers = GetFakeManagers().FindAll(m => m.AssignedTasks >= Manager.MaxTasksCount);
-            var employee = GetFakeEmployee();
-
-            Assert.Throws<Exception>(() => { MerchandiseRequestFactory.CreateMerchandiseRequest(managers, employee, Size.L, new MerchPack(10)); });
-        }
-
-        [Fact]
-        public void CreateMerchandiseRequest_NoFreeManagers_Exceptions()
-        {
-            var managers = GetFakeManagers().FindAll(m => m.AssignedTasks > Manager.MaxTasksCount);
-            var employee = GetFakeEmployee();
-
-            Assert.Throws<Exception>(() => { MerchandiseRequestFactory.CreateMerchandiseRequest(managers, employee, Size.L, new MerchPack(10)); });
-        }
-
-        [Fact]
         public void CreateMerchandiseRequestOneManager_FreeManager_Created()
         {
             var manager = GetFakeManagers().Find(m => m.AssignedTasks < Manager.MaxTasksCount);
             var employee = GetFakeEmployee();
 
-            var result = MerchandiseRequestFactory.CreateMerchandiseRequest(manager, employee, Size.L, new MerchPack(10));
+            var result = MerchandiseRequestFactory.Create(manager, employee, Size.L, new MerchPack(10), new Date(DateTime.Now));
 
             result.Status.Status.Should().Be(MerchRequestStatusType.Created);
         }
@@ -132,7 +103,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var manager = GetFakeManagers().Find(m => m.AssignedTasks > Manager.MaxTasksCount);
             var employee = GetFakeEmployee();
 
-            var result = MerchandiseRequestFactory.CreateMerchandiseRequest(manager, employee, Size.L, new MerchPack(10));
+            var result = MerchandiseRequestFactory.Create(manager, employee, Size.L, new MerchPack(10), new Date(DateTime.Now));
 
             result.Status.Status.Should().Be(MerchRequestStatusType.Created);
         }
@@ -142,10 +113,11 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
         {
             var employee = GetFakeEmployee();
             employee.SetId(1);
-            var issuedMerch = GetFakeMerchandiseRequests().FindAll(m => m.RequestedMerchPack.PackTitle.Id == 40);
+            var issuedMerch = GetFakeMerchandiseRequests();
 
-            var result = MerchDomainService.IsEmployeeReceivedMerchLastTime(
+            var result = MerchDomainService.CanEmployeeReceiveNewMerch(
                 issuedMerch,
+                new MerchPack(40),
                 employee,
                 new Date(2021, 11, 11),
                 out string whyString);
@@ -159,10 +131,11 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
         {
             var employee = GetFakeEmployee();
             employee.SetId(1);
-            var issuedMerch = GetFakeMerchandiseRequests().FindAll(m => m.RequestedMerchPack.PackTitle.Id == 10);
+            var issuedMerch = GetFakeMerchandiseRequests();
 
-            var result = MerchDomainService.IsEmployeeReceivedMerchLastTime(
+            var result = MerchDomainService.CanEmployeeReceiveNewMerch(
                 issuedMerch,
+                new MerchPack(10),
                 employee,
                 new Date(2022, 12, 12),
                 out string whyString);
@@ -177,11 +150,11 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var employee = GetFakeEmployee();
             employee.SetId(1);
             var issuedMerch = GetFakeMerchandiseRequests()
-                .FindAll(m => m.RequestedMerchPack.PackTitle.Id == 20 
-                              && m.Status.Status.Equals( MerchRequestStatusType.InProgress));
+                .FindAll(m => m.Status.Status.Equals( MerchRequestStatusType.InProgress));
 
-            var result = MerchDomainService.IsEmployeeReceivedMerchLastTime(
+            var result = MerchDomainService.CanEmployeeReceiveNewMerch(
                 issuedMerch,
+                new MerchPack(20),
                 employee,
                 new Date(2021, 11, 12),
                 out string whyString);
@@ -195,10 +168,11 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
         {
             var employee = GetFakeEmployee();
             employee.SetId(1);
-            var issuedMerch = GetFakeMerchandiseRequests().FindAll(m => m.RequestedMerchPack.PackTitle.Id == 10);
+            var issuedMerch = GetFakeMerchandiseRequests();
 
-            var result = MerchDomainService.IsEmployeeReceivedMerchLastTime(
+            var result = MerchDomainService.CanEmployeeReceiveNewMerch(
                 issuedMerch,
+                new MerchPack(10),
                 employee,
                 new Date(2021, 11, 12),
                 out string whyString);

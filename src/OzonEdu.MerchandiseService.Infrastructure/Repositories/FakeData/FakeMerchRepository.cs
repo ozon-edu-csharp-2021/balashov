@@ -57,44 +57,44 @@ namespace OzonEdu.MerchandiseService.Infrastructure.FakeData
         private List<MerchandiseRequest> GetFakeMerchandiseRequests()
         {
             var mrList = new List<MerchandiseRequest>();
-            var mr111 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(10), new Date(2021, 11, 11));
-            mr111.AddEmployeeInfo(1, new PhoneNumber("+012345678"), Size.L, new Date(2020, 10, 10));
-            mr111.SetAssigned(new Date(2021, 11, 11));
-            mr111.SetInProgress(new Date(2021, 11, 11));
-            mr111.SetDone(new Date(2021, 11, 11));
-            mrList.Add(mr111);
+            //var mr111 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(10), new Date(2021, 11, 11));
+            //mr111.AddEmployeeInfo(1, new PhoneNumber("+012345678"), Size.L, new Date(2020, 10, 10));
+            //mr111.SetAssigned(new Date(2021, 11, 11));
+            //mr111.SetInProgress(new Date(2021, 11, 11));
+            //mr111.SetDone(new Date(2021, 11, 11));
+            //mrList.Add(mr111);
 
-            var mr112 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(10), new Date(2021, 11, 11));
-            mr112.AddEmployeeInfo(1, new PhoneNumber("+012345678"), Size.L, new Date(2021, 11, 11));
-            mr112.SetAssigned(new Date(2021, 11, 11));
-            mr112.SetInProgress(new Date(2021, 11, 11));
-            mr112.SetDone(new Date(2021, 11, 11));
-            mrList.Add(mr112);
+            //var mr112 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(10), new Date(2021, 11, 11));
+            //mr112.AddEmployeeInfo(1, new PhoneNumber("+012345678"), Size.L, new Date(2021, 11, 11));
+            //mr112.SetAssigned(new Date(2021, 11, 11));
+            //mr112.SetInProgress(new Date(2021, 11, 11));
+            //mr112.SetDone(new Date(2021, 11, 11));
+            //mrList.Add(mr112);
 
-            var mr12 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(20), new Date(2021, 11, 11));
-            mr12.AddEmployeeInfo(1, new PhoneNumber("+012345678"), Size.L, new Date(2021, 11, 11));
-            mr12.SetAssigned(new Date(2021, 11, 11));
-            mr12.SetInProgress(new Date(2021, 11, 11));
-            mrList.Add(mr12);
+            //var mr12 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(20), new Date(2021, 11, 11));
+            //mr12.AddEmployeeInfo(1, new PhoneNumber("+012345678"), Size.L, new Date(2021, 11, 11));
+            //mr12.SetAssigned(new Date(2021, 11, 11));
+            //mr12.SetInProgress(new Date(2021, 11, 11));
+            //mrList.Add(mr12);
 
-            var mr13 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(30), new Date(2021, 11, 11));
-            mr13.AddEmployeeInfo(1, new PhoneNumber("+012345678"), Size.L, new Date(2021, 11, 11));
-            mr13.SetAssigned(new Date(2021, 11, 11));
-            mrList.Add(mr13);
+            //var mr13 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(30), new Date(2021, 11, 11));
+            //mr13.AddEmployeeInfo(1, new PhoneNumber("+012345678"), Size.L, new Date(2021, 11, 11));
+            //mr13.SetAssigned(new Date(2021, 11, 11));
+            //mrList.Add(mr13);
 
-            var mr221 = new MerchandiseRequest(2, new PhoneNumber("+012345678"), new MerchPack(20), new Date(2021, 09, 09));
-            mr221.AddEmployeeInfo(2, new PhoneNumber("+012345678"), Size.L, new Date(2021, 09, 10));
-            mr221.SetAssigned(new Date(2021, 09, 11));
-            mr221.SetInProgress(new Date(2021, 09, 12));
-            mr221.SetDone(new Date(2021, 09, 13));
-            mrList.Add(mr221);
+            //var mr221 = new MerchandiseRequest(2, new PhoneNumber("+012345678"), new MerchPack(20), new Date(2021, 09, 09));
+            //mr221.AddEmployeeInfo(2, new PhoneNumber("+012345678"), Size.L, new Date(2021, 09, 10));
+            //mr221.SetAssigned(new Date(2021, 09, 11));
+            //mr221.SetInProgress(new Date(2021, 09, 12));
+            //mr221.SetDone(new Date(2021, 09, 13));
+            //mrList.Add(mr221);
 
-            var mr231 = new MerchandiseRequest(2, new PhoneNumber("+012345678"), new MerchPack(30), new Date(2021, 09, 09));
-            mr231.AddEmployeeInfo(2, new PhoneNumber("+012345678"), Size.L, new Date(2021, 09, 10));
-            mr231.SetAssigned(new Date(2021, 09, 11));
-            mr231.SetInProgress(new Date(2021, 09, 12));
-            mr231.SetDone(new Date(2021, 09, 13));
-            mrList.Add(mr231);
+            //var mr231 = new MerchandiseRequest(2, new PhoneNumber("+012345678"), new MerchPack(30), new Date(2021, 09, 09));
+            //mr231.AddEmployeeInfo(2, new PhoneNumber("+012345678"), Size.L, new Date(2021, 09, 10));
+            //mr231.SetAssigned(new Date(2021, 09, 11));
+            //mr231.SetInProgress(new Date(2021, 09, 12));
+            //mr231.SetDone(new Date(2021, 09, 13));
+            //mrList.Add(mr231);
 
             return mrList;
         }

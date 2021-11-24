@@ -6,9 +6,12 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
+using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
 using OzonEdu.MerchandiseService.Domain.Contracts;
 using OzonEdu.MerchandiseService.Domain.DomainServices;
 using OzonEdu.MerchandiseService.Infrastructure.Commands;
+using OzonEdu.MerchandiseService.Infrastructure.Interfaces;
+using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternal;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
 {
@@ -18,14 +21,17 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
         private readonly IManagerRepository _managerRepository;
         private readonly IEmployeeRepository _employeeRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmailServer _emailServer;
+        private readonly IStockApiServer _stockApiServer;
 
-
-        public RequestMerchCommandHandler(IMerchRepository merchRepository, IManagerRepository managerRepository, IEmployeeRepository employeeRepository, IUnitOfWork unitOfWork)
+        public RequestMerchCommandHandler(IMerchRepository merchRepository, IManagerRepository managerRepository, IEmployeeRepository employeeRepository, IUnitOfWork unitOfWork, IEmailServer emailServer, IStockApiServer stockApiServer)
         {
             _merchRepository = merchRepository;
             _managerRepository = managerRepository;
             _employeeRepository = employeeRepository;
             _unitOfWork = unitOfWork;
+            _emailServer = emailServer;
+            _stockApiServer = stockApiServer;
         }
 
         public async Task<MerchandiseRequest> Handle(RequestMerchCommand request, CancellationToken cancellationToken)
@@ -34,66 +40,51 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
 
             //Взять работника TODO вынести в отдельный обработчик. Если работника нет, то сформировать его и вернуть
             var employee = await _employeeRepository.FindByIdAsync(request.EmployeeId, cancellationToken);
+            if(employee == null)
+                throw new Exception("Запрашиваемый сотрудник не обнаружен");
 
             //Проверить что такой мерч еще не выдавался сотруднику
-            var allMerchRequestForEmployee = await _merchRepository.FindByEmployeeIdAsync(request.EmployeeId, cancellationToken);
-            var issuedMerchs = allMerchRequestForEmployee.FindAll(mr => mr.RequestedMerchPack.Equals(request.RequestedMerchPack));
-            if (!MerchDomainService.IsEmployeeReceivedMerchLastTime(issuedMerchs, employee, request.Date, out string whyString))
+            var allMerchRequestForEmployee = await _merchRepository.FindByEmployeeIdAsync(employee.Id, cancellationToken);
+            if (!MerchDomainService.CanEmployeeReceiveNewMerch(
+                allMerchRequestForEmployee, request.RequestedMerchPack, employee, request.Date, out string whyNotString))
             {
-               throw new Exception(whyString);
+               throw new Exception(whyNotString);
             }
 
-            //Сформировать заявку у указанного менеджера, если не указан, то у любого свободного
-            var merchRequest = await CreateMerchRequest(request, employee, request.Size, cancellationToken);
+            //Взять указанного менеджера, если не указан, то у любого свободного
+            var manager = await ManagerProcessing.GetManager(_managerRepository, request.HRManagerId, cancellationToken);
+
+            //Сформировать заявку
+            var merchRequest = MerchandiseRequestFactory.Create(
+                manager, 
+                employee, 
+                request.Size, 
+                request.RequestedMerchPack, 
+                new Date(DateTime.Now));
+
+            //Todo доменное событие, что сформирована новая заявка. Поставить счётчик задач на менеджера в +1
+            merchRequest.SetAssigned(request.Date);
 
             await _merchRepository.CreateAsync(merchRequest, cancellationToken);
-            
-            merchRequest.SetAssigned(request.Date);
-            //Todo доменное событие, что сформирована новая заявка. Поставить счётчик задач на менеджера в +1
 
             //Проверяется наличие данного мерча на складе через запрос к stock - api
-            //TODO: Тут должен быть запрос к stock - api
-            if (true)
-            {
-                //Если все проверки прошли - резервируется мерч в stock - api
-                //TODO: Тут должен быть ещё один запрос к stock - api
+            //Если все проверки прошли - резервируется мерч в stock - api
+            if (_stockApiServer.ReserveMerch(merchRequest))
                 merchRequest.SetInProgress(request.Date);
-                
-                await _merchRepository.UpdateAsync(merchRequest, cancellationToken);
 
-                //TODO отметка что выдача произведена должна делается из отдельного метода API, тогда же снимать задачу с менеджера
-                //if (true)
-                //    merchRequest.SetDone(request.Date);
-            }
+            //TODO отметка что выдача произведена должна делается из отдельного метода API, тогда же снимать задачу с менеджера
+            //if (true)
+            //    merchRequest.SetDone(request.Date);
 
-            //Выслать е-mail
-            //TODO: Тут должен быть ещё один запрос к е-mail сервису
-
-            //Зафиксировать в БД, что сотруднику выдан мерч
             await _merchRepository.UpdateAsync(merchRequest, cancellationToken);
-
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            //Вернуть заявку результат 
-            return merchRequest;
-        }
+            //Выслать е-mail если резер произведён и ожидается получение мерча работником
+            //TODO Стоит подумать про доменное событие, по которому отправляется письмо
+            if(merchRequest.Status.Status.Equals(MerchRequestStatusType.InProgress))
+                _emailServer.SendEmailAboutMerch(employee, merchRequest);
 
-        private async Task<MerchandiseRequest> CreateMerchRequest(
-            RequestMerchCommand request,
-            Employee employee,
-            Size size,
-            CancellationToken cancellationToken)
-        {
-            if (request.HRManagerId > 0)
-            {
-                var manager = await _managerRepository.FindByIdAsync(request.HRManagerId, cancellationToken);
-                return MerchandiseRequestFactory.CreateMerchandiseRequest(manager, employee, size, request.RequestedMerchPack);
-            }
-            else
-            {
-                var managers = await _managerRepository.GetAllAsync(cancellationToken);
-                return MerchandiseRequestFactory.CreateMerchandiseRequest(managers, employee, size, request.RequestedMerchPack);
-            }
+            return merchRequest;
         }
     }
 }

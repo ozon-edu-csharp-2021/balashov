@@ -10,13 +10,16 @@ namespace OzonEdu.MerchandiseService.Domain.DomainServices
     {
         public const int DaysBetweenIssuance = 365;
 
-        public static bool IsEmployeeReceivedMerchLastTime (
-            List<MerchandiseRequest> oneTypeIssuedMerch, 
+        public static bool CanEmployeeReceiveNewMerch(
+            List<MerchandiseRequest> allMerchRequestForEmployee,
+            MerchPack requestedMerchPack,
             Employee employee, 
             Date todayDate, 
-            out string whyString)
+            out string whyNotString)
         {
-            whyString = string.Empty;
+            whyNotString = string.Empty;
+
+            var oneTypeIssuedMerch = allMerchRequestForEmployee.FindAll(mr => mr.RequestedMerchPack.Equals(requestedMerchPack));
 
             if (oneTypeIssuedMerch.Count == 0) return true;
 
@@ -34,7 +37,7 @@ namespace OzonEdu.MerchandiseService.Domain.DomainServices
 
             if (!lastIssuedMerch.Status.Status.Equals(MerchRequestStatusType.Done))
             {
-                whyString = $"Сотрудник {employee.Name} уже ожидает получение такого мерча";
+                whyNotString = $"Сотрудник {employee.Name} уже ожидает получение такого мерча";
                 return false;
             }
 
@@ -43,7 +46,7 @@ namespace OzonEdu.MerchandiseService.Domain.DomainServices
                 var deltaDays = lastIssuedMerch.Status.Date.CountDeltaDays(todayDate);
                 if (deltaDays < DaysBetweenIssuance)
                 {
-                    whyString = $"Сотрудник {employee.Name} уже получал такой мерч менее года назад (последний раз {deltaDays} дней назад)";
+                    whyNotString = $"Сотрудник {employee.Name} уже получал такой мерч менее года назад (последний раз {deltaDays} дней назад)";
                     return false;
                 }
             }
