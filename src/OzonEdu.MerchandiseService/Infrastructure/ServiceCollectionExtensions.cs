@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
@@ -8,6 +7,8 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 using OzonEdu.MerchandiseService.Domain.Contracts;
 using OzonEdu.MerchandiseService.Infrastructure.Configuration;
+using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternal;
+using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternal.FakeExternals;
 using OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation;
 using OzonEdu.MerchandiseService.Infrastructure.Repositories.Infrastructure;
 using OzonEdu.MerchandiseService.Infrastructure.Repositories.Infrastructure.Interfaces;
@@ -32,7 +33,15 @@ namespace OzonEdu.MerchandiseService.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddInfrastructureRepositories(this IServiceCollection services)
+        public static IServiceCollection AddExternals(this IServiceCollection services)
+        {
+            services.AddScoped<IEmailServer, FakeEmailServer>();
+            services.AddScoped<IStockApiServer, FakeStockApiServer>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
             //services.AddScoped<IMerchRepository, FakeMerchRepository>();
             //services.AddScoped<IManagerRepository, FakeManagerRepository>();

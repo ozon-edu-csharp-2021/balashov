@@ -22,7 +22,10 @@ namespace OzonEdu.MerchandiseService
             services.AddMediator();
 
             services.AddDatabaseComponents(Configuration);
-            services.AddInfrastructureRepositories();
+            
+            services.AddRepositories();
+
+            services.AddExternals();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

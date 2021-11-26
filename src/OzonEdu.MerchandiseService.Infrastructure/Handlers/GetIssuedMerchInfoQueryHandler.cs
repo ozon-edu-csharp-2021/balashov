@@ -15,7 +15,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
 
         public GetIssuedMerchInfoQueryHandler(IMerchRepository merchRepository)
         {
-            _merchRepository = merchRepository ?? throw new ArgumentNullException(nameof(merchRepository)); ;
+            _merchRepository = merchRepository ?? throw new ArgumentNullException(nameof(merchRepository));
         }
 
         public async Task<List<MerchandiseRequest>> Handle(GetIssuedMerchInfoQuery request, CancellationToken cancellationToken)

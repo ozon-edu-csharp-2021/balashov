@@ -43,6 +43,11 @@ namespace OzonEdu.MerchandiseService.Infrastructure.FakeData
             return itemToUpdate;
         }
 
+        public Task<Manager> UpdateAssignedTasksAsync(Manager itemToUpdate, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Manager> FindByIdAsync(long id, CancellationToken cancellationToken = default)
         {
             return fakeManagers.FirstOrDefault(m => m.Id == id);

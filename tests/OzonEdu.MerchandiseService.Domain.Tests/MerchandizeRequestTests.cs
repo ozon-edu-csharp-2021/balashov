@@ -92,10 +92,10 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var inProgressDate = new Date(2021, 12, 08);
             request.SetAssigned(assignedDate);
 
-            var result = request.SetInProgress(inProgressDate);
+            var result = request.SetReserved(inProgressDate);
 
             result.Should().BeTrue();
-            request.Status.Status.Should().Be(MerchRequestStatusType.InProgress);
+            request.Status.Status.Should().Be(MerchRequestStatusType.Reserved);
             request.Status.Date.Should().BeEquivalentTo(inProgressDate);
         }
 
@@ -105,7 +105,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var request = AddEmployee();
             var inProgressDate = new Date(2021, 12, 07);
 
-            var result = request.SetInProgress(inProgressDate);
+            var result = request.SetReserved(inProgressDate);
 
             result.Should().BeFalse();
         }
@@ -118,7 +118,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var inProgressDate = new Date(2021, 12, 08);
             var doneDate = new Date(2021, 12, 10);
             request.SetAssigned(assignedDate);
-            request.SetInProgress(inProgressDate);
+            request.SetReserved(inProgressDate);
 
             var result = request.SetDone(doneDate);
 

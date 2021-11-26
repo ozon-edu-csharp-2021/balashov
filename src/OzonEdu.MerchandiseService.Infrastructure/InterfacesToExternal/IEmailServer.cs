@@ -1,10 +1,11 @@
-﻿using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
+﻿using System.Threading.Tasks;
+using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 
-namespace OzonEdu.MerchandiseService.Infrastructure.Interfaces
+namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternal
 {
     public interface IEmailServer
     {
-        public bool SendEmailAboutMerch(Employee employee, MerchandiseRequest merchRequest);
+        public Task<bool> SendEmailAboutMerchAsync(long employeeId, string text);
     }
 }

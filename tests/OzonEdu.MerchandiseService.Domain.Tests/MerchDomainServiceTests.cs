@@ -61,21 +61,21 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var mr11 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(10), new Date(2021, 11, 11));
             mr11.AddEmployeeInfo(1, new PhoneNumber("+012345678"), Size.L, new Date(2020, 10, 10));
             mr11.SetAssigned(new Date(2021, 11, 11));
-            mr11.SetInProgress(new Date(2021, 11, 11));
+            mr11.SetReserved(new Date(2021, 11, 11));
             mr11.SetDone(new Date(2021, 11, 11));
             mrList.Add(mr11);
 
             var mr12 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(10),new Date(2021, 11, 11 ));
             mr12.AddEmployeeInfo(1, new PhoneNumber("+012345678"), Size.L, new Date(2021, 11, 11));
             mr12.SetAssigned(new Date(2021, 11, 11));
-            mr12.SetInProgress(new Date(2021, 11, 11));
+            mr12.SetReserved(new Date(2021, 11, 11));
             mr12.SetDone(new Date(2021, 11, 11));
             mrList.Add(mr12);
 
             var mr2 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(20), new Date(2021, 11, 11));
             mr2.AddEmployeeInfo(1, new PhoneNumber("+012345678"), Size.L, new Date(2021, 11, 11));
             mr2.SetAssigned(new Date(2021, 11, 11));
-            mr2.SetInProgress(new Date(2021, 11, 11));
+            mr2.SetReserved(new Date(2021, 11, 11));
             mrList.Add(mr2);
 
             var mr3 = new MerchandiseRequest(1, new PhoneNumber("+012345678"), new MerchPack(30), new Date(2021, 11, 11));
@@ -150,7 +150,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var employee = GetFakeEmployee();
             employee.SetId(1);
             var issuedMerch = GetFakeMerchandiseRequests()
-                .FindAll(m => m.Status.Status.Equals( MerchRequestStatusType.InProgress));
+                .FindAll(m => m.Status.Status.Equals( MerchRequestStatusType.Reserved));
 
             var result = MerchDomainService.CanEmployeeReceiveNewMerch(
                 issuedMerch,
