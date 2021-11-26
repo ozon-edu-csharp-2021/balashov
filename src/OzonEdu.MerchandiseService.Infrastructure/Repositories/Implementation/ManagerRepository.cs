@@ -94,7 +94,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
             SET hr_managers.first_name = @fname, hr_managers.last_name = @lname, hr_managers.middle_name = @mname,
             hr_managers.phone = @phone, hr_managers.email = @email 
             WHERE hr_managers.id = @mrlid;" + SqlUpdateHrAssignedTasks;
-
+            
             var parameters = new
             {
                 mrlid = itemToUpdate.Id,
