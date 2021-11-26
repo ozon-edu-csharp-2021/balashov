@@ -16,7 +16,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var hrManagerId = 1;
             var hrManagerContactPhone = new PhoneNumber("+123456789");
             var requestedMerchPack = new MerchPack(new MerchLine("testML", new Year(2021)), MerchPackTitle.WelcomePack);
-            var result = new MerchandiseRequest(hrManagerId, hrManagerContactPhone, requestedMerchPack, date);
+            var result = new MerchandiseRequest(hrManagerId, requestedMerchPack, date);
             return result;
         }
 
@@ -28,7 +28,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var size = Size.XL;
             var createdDate = new Date(2021, 11, 06);
 
-            request.AddEmployeeInfo(employeeId, employeeContactPhone, size, createdDate);
+            request.AddEmployeeInfo(employeeId, employeeContactPhone, size).SetCreated(createdDate);
             return request;
         }
 
@@ -51,7 +51,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var size = Size.XL;
             var createdDate = new Date(2021, 11, 06);
 
-            var result = request.AddEmployeeInfo(employeeId, employeeContactPhone, size, createdDate);
+            var result = request.AddEmployeeInfo(employeeId, employeeContactPhone, size).SetCreated(createdDate);
 
             result.Should().BeTrue();
             request.Status.Status.Should().Be(MerchRequestStatusType.Created);
