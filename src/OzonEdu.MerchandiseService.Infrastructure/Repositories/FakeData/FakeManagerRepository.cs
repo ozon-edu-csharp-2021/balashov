@@ -53,7 +53,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.FakeData
             return fakeManagers.FindAll(m => m.Name.Equals(personName));
         }
 
-        public async Task<List<Manager>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<List<Manager>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             return fakeManagers;
         }

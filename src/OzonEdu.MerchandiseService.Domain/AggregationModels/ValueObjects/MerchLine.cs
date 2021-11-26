@@ -33,7 +33,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
 
         public override string ToString()
         {
-            return $"{LineName}, {Year} {MerchLineTag}";
+            return $"{LineName}, {Year.TheYear} {MerchLineTag}";
         }
     }
 }

@@ -32,9 +32,10 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate
 
         public void AssignTask() => AssignedTasks++;
 
-        public void SetId(int id)
+        public Manager SetId(long id)
         {
             Id = id;
+            return this;
         }
     }
 }

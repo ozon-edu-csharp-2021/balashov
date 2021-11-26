@@ -28,5 +28,10 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
 
             return true;
         }
+
+        public override string ToString()
+        {
+            return TheMonth.ToString("D2");
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using OzonEdu.MerchandiseService.Domain.Models;
+﻿using System;
+using OzonEdu.MerchandiseService.Domain.Models;
 
 namespace OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations
 {
@@ -12,6 +13,21 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations
 
         public MerchRequestStatusType(int id, string name) : base(id, name)
         {
+        }
+        public static MerchRequestStatusType GetById(int id)
+        {
+            if (Draft.Id == id)
+                return Draft;
+            if (Created.Id == id)
+                return Created;
+            if (Assigned.Id == id)
+                return Assigned;
+            if (InProgress.Id == id)
+                return InProgress;
+            if (Done.Id == id)
+                return Done;
+
+            throw new ArgumentException("Unknown Size name!");
         }
     }
 }

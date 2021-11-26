@@ -35,5 +35,23 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations
 
             throw new ArgumentException("Unknown Size name!");
         }
+
+        public static Size GetById(int id)
+        {
+            if (XS.Id == id)
+                return XS;
+            if (S.Id == id)
+                return S;
+            if (M.Id == id)
+                return M;
+            if (L.Id == id)
+                return L;
+            if (XL.Id == id)
+                return XL;
+            if (XXL.Id == id)
+                return XXL;
+
+            throw new ArgumentException("Unknown Size name!");
+        }
     }
 }

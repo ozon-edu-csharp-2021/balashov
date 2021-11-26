@@ -6,12 +6,10 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate
 {
     public class Employee : Entity
     {
-        public Employee(PersonName name, Email email, PhoneNumber phoneNumber, Size size, HeightMetric height)
+        public Employee(PersonName name, Email email, PhoneNumber phoneNumber)
         {
             Name = name;
             Email = email;
-            Size = size;
-            Height = height;
             PhoneNumber = phoneNumber;
         }
 
@@ -21,13 +19,10 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate
 
         public Email Email { get; private set; }
 
-        public Size Size { get; }
-        
-        public HeightMetric Height { get; }
-
-        public void SetId(int id)
+        public Employee SetId(long id)
         {
             Id = id;
+            return this;
         }
     }
 }

@@ -10,11 +10,6 @@ namespace OzonEdu.MerchandiseService.Domain.Contracts
     public interface IRepository<TAggregationRoot>
     {
         /// <summary>
-        /// Объект <see cref="IUnitOfWork"/>
-        /// </summary>
-        IUnitOfWork UnitOfWork { get; }
-        
-        /// <summary>
         /// Создать новую сущность
         /// </summary>
         /// <param name="itemToCreate">Объект для создания</param>
