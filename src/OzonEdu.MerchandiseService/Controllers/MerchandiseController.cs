@@ -45,8 +45,8 @@ namespace OzonEdu.MerchandiseService.Controllers
         }
 
         [HttpPost]
-        [Route("employee/{employeeId:long}")]
-        public async Task<ActionResult> RequestMerch(long employeeId, MerchandiseRequestRequestDto request, CancellationToken token)
+        //[Route("employee/{employeeId:long}")]
+        public async Task<ActionResult> RequestMerch(MerchandiseRequestRequestDto request, CancellationToken token)
         {
             var merchTitle = new MerchPack(request.RequestedMerchPackType);
             var size = Size.GetSizeFromString(request.Size);
@@ -55,7 +55,7 @@ namespace OzonEdu.MerchandiseService.Controllers
             var mediatrRequest = new RequestMerchCommand
             {
                 HRManagerId = request.HRManagerId,
-                EmployeeId = employeeId,
+                EmployeeId = request.EmployeeId,
                 RequestedMerchPack = merchTitle,
                 Size = size,
                 Date = date

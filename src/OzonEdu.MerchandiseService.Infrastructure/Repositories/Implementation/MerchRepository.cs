@@ -153,7 +153,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
                         new Date(dbMerchandiseRequest.LastChangeDate))
                     .AddEmployeeInfoFromDB(
                         dbMerchandiseRequest.EmployeeId,
-                        new PhoneNumber(dbEmployee.Phone),
+                        new Email(dbEmployee.Email),
                         dbMerchandiseRequest.ClothingSizeId is not null
                             ? Size.GetById((int)dbMerchandiseRequest.ClothingSizeId)
                             : null)

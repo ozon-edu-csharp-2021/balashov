@@ -6,7 +6,7 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
 using OzonEdu.MerchandiseService.Domain.Contracts;
 using OzonEdu.MerchandiseService.Domain.Events;
-using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternal;
+using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.DomainEvents
 {

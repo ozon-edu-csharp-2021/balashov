@@ -16,7 +16,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 
         public long EmployeeId { get; private set; }
 
-        public PhoneNumber EmployeeContactPhone { get; private set; }
+        public Email EmployeeEmail { get; private set; }
 
         public MerchPack RequestedMerchPack { get; private set; }
 
@@ -41,24 +41,24 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             Status = new MerchRequestStatus(statusType, data);
         }
 
-        public MerchandiseRequest AddEmployeeInfoFromDB(int? employeeId, PhoneNumber employeeContactPhone, Size size)
+        public MerchandiseRequest AddEmployeeInfoFromDB(int? employeeId, Email employeeEmail, Size size)
         {
             if (employeeId is null)
                 return this;
 
             EmployeeId = (int)employeeId;
-            EmployeeContactPhone = employeeContactPhone;
+            EmployeeEmail = employeeEmail;
             Size = size;
             return this;
         }
 
-        public MerchandiseRequest AddEmployeeInfo(long employeeId, PhoneNumber employeeContactPhone, Size size)
+        public MerchandiseRequest AddEmployeeInfo(long employeeId, Email employeeEmail, Size size)
         {
             if (employeeId <= 0)
                 throw new Exception("Некорректный id сотрудника! Невозможно добавить данные в заявку.");
             
             EmployeeId = employeeId;
-            EmployeeContactPhone = employeeContactPhone;
+            EmployeeEmail = employeeEmail;
             Size = size;
             return this;
         }

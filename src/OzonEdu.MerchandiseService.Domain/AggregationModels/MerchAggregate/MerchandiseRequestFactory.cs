@@ -10,7 +10,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
         {
             var merchRequest = new MerchandiseRequest(managerId, merchPack, date);
 
-            merchRequest.AddEmployeeInfo(employee.Id, employee.PhoneNumber, size);
+            merchRequest.AddEmployeeInfo(employee.Id, employee.Email, size);
                 
             return merchRequest;
         }

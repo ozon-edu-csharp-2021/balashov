@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternal.FakeExternals
+namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals.FakeExternals
 {
     public class FakeEmailServer :IEmailServer
     {

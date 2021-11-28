@@ -19,6 +19,8 @@ namespace OzonEdu.MerchandiseService
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
             services.AddMediator();
 
             services.AddDatabaseComponents(Configuration);

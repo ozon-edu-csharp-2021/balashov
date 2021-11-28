@@ -1,6 +1,6 @@
 ﻿using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 
-namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternal
+namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals
 {
     public interface IStockApiServer
     {

@@ -24,11 +24,11 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
         {
             var request = MakeFakeRequest();
             var employeeId = 10;
-            var employeeContactPhone = new PhoneNumber("+987654321");
+            var employeeEmail = new Email("test@employee.mail");
             var size = Size.XL;
             var createdDate = new Date(2021, 11, 06);
 
-            request.AddEmployeeInfo(employeeId, employeeContactPhone, size).SetCreated(createdDate);
+            request.AddEmployeeInfo(employeeId, employeeEmail, size).SetCreated(createdDate);
             return request;
         }
 
@@ -47,11 +47,11 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
         {
             var request = MakeFakeRequest();
             var employeeId = 10;
-            var employeeContactPhone = new PhoneNumber("+987654321");
+            var employeeEmail = new Email("test@employee.mail");
             var size = Size.XL;
             var createdDate = new Date(2021, 11, 06);
 
-            var result = request.AddEmployeeInfo(employeeId, employeeContactPhone, size).SetCreated(createdDate);
+            var result = request.AddEmployeeInfo(employeeId, employeeEmail, size).SetCreated(createdDate);
 
             result.Should().BeTrue();
             request.Status.Status.Should().Be(MerchRequestStatusType.Created);

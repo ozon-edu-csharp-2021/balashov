@@ -14,7 +14,7 @@ namespace OzonEdu.MerchandiseService.Models
 
         public long EmployeeId { get; }
 
-        public string EmployeeContactPhone { get; }
+        public string EmployeeEmail { get; }
 
         public string Size { get; }
 
@@ -33,7 +33,7 @@ namespace OzonEdu.MerchandiseService.Models
 
             EmployeeId = issuingMerch.EmployeeId;
 
-            EmployeeContactPhone = issuingMerch.EmployeeContactPhone.Phone;
+            EmployeeEmail = issuingMerch.EmployeeEmail.EmailString;
 
             RequestedMerchPack = issuingMerch.RequestedMerchPack.ToString();
 

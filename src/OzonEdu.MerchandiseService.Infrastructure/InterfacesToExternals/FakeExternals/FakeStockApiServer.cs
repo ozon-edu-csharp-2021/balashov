@@ -1,7 +1,7 @@
 ﻿using System;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 
-namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternal.FakeExternals
+namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals.FakeExternals
 {
     public class FakeStockApiServer : IStockApiServer
     {

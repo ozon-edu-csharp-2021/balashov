@@ -8,23 +8,24 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
 using OzonEdu.MerchandiseService.Domain.Contracts;
 using OzonEdu.MerchandiseService.Domain.DomainServices;
 using OzonEdu.MerchandiseService.Infrastructure.Commands;
+using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
 {
     class RequestMerchCommandHandler : IRequestHandler<RequestMerchCommand, MerchandiseRequest>
     {
         private readonly IMerchRepository _merchRepository;
-        private readonly IEmployeeRepository _employeeRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IEmployeeServer _employeeServer;
 
         public RequestMerchCommandHandler(
             IMerchRepository merchRepository, 
-            IEmployeeRepository employeeRepository, 
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, 
+            IEmployeeServer employeeServer)
         {
             _merchRepository = merchRepository;
-            _employeeRepository = employeeRepository;
             _unitOfWork = unitOfWork;
+            _employeeServer = employeeServer;
         }
 
         public async Task<MerchandiseRequest> Handle(RequestMerchCommand request, CancellationToken cancellationToken)
@@ -32,7 +33,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
             await _unitOfWork.StartTransaction(cancellationToken);
 
             //Взять работника
-            var employee = await EmployeeProcessing.GetByIdAsync(_employeeRepository, request.EmployeeId, cancellationToken);
+            var employee = await _employeeServer.GetByIdAsync(request.EmployeeId, cancellationToken);
             if(employee == null)
                 throw new Exception($"Запрашиваемый сотрудник не обнаружен id:{request.EmployeeId}");
 

@@ -7,8 +7,8 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 using OzonEdu.MerchandiseService.Domain.Contracts;
 using OzonEdu.MerchandiseService.Infrastructure.Configuration;
-using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternal;
-using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternal.FakeExternals;
+using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals;
+using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals.FakeExternals;
 using OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation;
 using OzonEdu.MerchandiseService.Infrastructure.Repositories.Infrastructure;
 using OzonEdu.MerchandiseService.Infrastructure.Repositories.Infrastructure.Interfaces;
@@ -37,6 +37,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure
         {
             services.AddScoped<IEmailServer, FakeEmailServer>();
             services.AddScoped<IStockApiServer, FakeStockApiServer>();
+            services.AddScoped<IEmployeeServer, FakeEmployeeServer>();
 
             return services;
         }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using MediatR;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations;
 using OzonEdu.MerchandiseService.Domain.Events;
-using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternal;
+using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.DomainEvents
 {
