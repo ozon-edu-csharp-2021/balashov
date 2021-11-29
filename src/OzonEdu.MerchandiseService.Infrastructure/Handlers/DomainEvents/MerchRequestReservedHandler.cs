@@ -7,11 +7,11 @@ using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.DomainEvents
 {
-    public class MerchReservedOnStockHandler : INotificationHandler<MerchReservedOnStockDomainEvent>
+    public class MerchRequestReservedHandler : INotificationHandler<MerchReservedOnStockDomainEvent>
     {
         private readonly IEmailServer _emailServer;
 
-        public MerchReservedOnStockHandler(IEmailServer emailServer)
+        public MerchRequestReservedHandler(IEmailServer emailServer)
         {
             _emailServer = emailServer;
         }

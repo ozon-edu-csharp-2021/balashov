@@ -92,7 +92,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             if (!Status.Status.Equals(MerchRequestStatusType.Created))
                 return false;
 
-            if (HRManagerId <= 0)
+            if (!UniversalCheck())
                 return false;
 
             Status = new MerchRequestStatus(MerchRequestStatusType.Assigned, date);
@@ -106,6 +106,9 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             if (!Status.Status.Equals(MerchRequestStatusType.Assigned))
                 return false;
 
+            if (!UniversalCheck())
+                return false;
+
             Status = new MerchRequestStatus(MerchRequestStatusType.Reserved, date);
 
             AddDomainEvent(new MerchReservedOnStockDomainEvent(this));
@@ -117,11 +120,26 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             if (!Status.Status.Equals(MerchRequestStatusType.Reserved))
                 return false;
 
+            if (!UniversalCheck())
+                return false;
+
             Status = new MerchRequestStatus(MerchRequestStatusType.Done, date);
 
             AddDomainEvent(new MerchRequestDoneDomainEvent(this));
             return true;
         }
+
+        private bool UniversalCheck()
+        {
+            if (HRManagerId <= 0)
+                return false;
+
+            if (EmployeeId <= 0)
+                return false;
+
+            return true;
+        }
+
         #endregion
 
         public MerchandiseRequest SetId(long id)
