@@ -16,6 +16,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals
     {
         private readonly IHttpClientFactory _clientFactory;
         private readonly string ServerUrl;
+        private readonly string ServerApiUri;
 
         public EmployeeServer(IHttpClientFactory clientFactory, IOptions<ExternalConnectionOptions> externalsOptions)
         {
@@ -24,15 +25,16 @@ namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals
 
             if(ServerUrl.Last() == '/')
                 ServerUrl = ServerUrl.Remove(ServerUrl.Length - 1);
+            ServerApiUri = $"{ServerUrl}/api/employees";
         }
 
         public async Task<List<Employee>> GetAll(CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
-            //TODO проверить и поправить EmployeeServer.GetAll, хотя в бизнес логике он не нужен теперь
+            //todo проверить и поправить EmployeeServer.GetAll, хотя в бизнес логике он не нужен теперь
 
             var request = new HttpRequestMessage(HttpMethod.Get,
-                $"{ServerUrl}/api/employees/getall");
+                $"{ServerApiUri}/getall");
 
             var client = _clientFactory.CreateClient();
 
@@ -53,7 +55,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals
         {
             var client = _clientFactory.CreateClient();
             
-            var response = await client.GetStringAsync($"{ServerUrl}/api/employees/{employeeId.ToString()}",
+            var response = await client.GetStringAsync($"{ServerApiUri}/{employeeId}",
                 cancellationToken);
 
             if (string.IsNullOrWhiteSpace(response))

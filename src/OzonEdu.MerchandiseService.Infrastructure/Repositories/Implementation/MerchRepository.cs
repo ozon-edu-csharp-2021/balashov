@@ -95,7 +95,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
         public async Task<MerchandiseRequest> FindByIdAsync(long id, CancellationToken cancellationToken = default)
         {
             const string sql = @"SELECT merchandise_requests.id, merchandise_requests.hr_manager_id, merchandise_requests.employee_id,
-            merchandise_requests.clothing_size_id, merchandise_requests.pack_title_id, merchandise_requests.merch_request_status_id,
+            merchandise_requests.clothing_size_id, merchandise_requests.pack_title_id, merchandise_requests.merch_request_status_id, merchandise_requests.last_change_date,
             merchandise_requests.employee_id
             FROM merchandise_requests
             WHERE merchandise_requests.id = @mrId;";

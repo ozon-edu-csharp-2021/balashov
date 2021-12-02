@@ -26,7 +26,7 @@ namespace OzonEdu.MerchandiseService.Controllers
         }
 
         [HttpGet]
-        [Route("employee/{employeeId:long}")]
+        [Route("GetIssuedMerchInfo")]
         public async Task<ActionResult<MerchandiseRequestResponseDto>> GetIssuedMerchInfo(long employeeId, CancellationToken token)
         {
             var mediatrRequest = new GetIssuedMerchInfoQuery { EmployeeId = employeeId };
@@ -41,6 +41,25 @@ namespace OzonEdu.MerchandiseService.Controllers
 
             var issuedMerchResponse = issuedMerch.Select(im => new MerchandiseRequestResponseDto(im)).ToList();
             
+            return Ok(issuedMerchResponse);
+        }
+
+        [HttpGet]
+        [Route("GetIssuingMerchInfo")]
+        public async Task<ActionResult<MerchandiseRequestResponseDto>> GetIssuingMerchInfo(long employeeId, CancellationToken token)
+        {
+            var mediatrRequest = new GetIssuingMerchInfoQuery { EmployeeId = employeeId };
+
+            var issuingMerch = await _mediator.Send(mediatrRequest, token);
+
+            if (issuingMerch == null)
+                return NotFound();
+
+            if (issuingMerch.Count == 0)
+                return Ok($"Сотруднику {employeeId} мерч не выдавался.");
+
+            var issuedMerchResponse = issuingMerch.Select(im => new MerchandiseRequestResponseDto(im)).ToList();
+
             return Ok(issuedMerchResponse);
         }
 
@@ -67,7 +86,7 @@ namespace OzonEdu.MerchandiseService.Controllers
         }
 
         [HttpPost]
-        [Route("DoneMerchRequest/{merchandiseRequestId:long}")]
+        [Route("DoneMerchRequest")]
         public async Task<ActionResult> MerchandiseRequestDone(long merchandiseRequestId, CancellationToken token)
         {
             var mediatrCommand = new MerchRequestDoneCommand

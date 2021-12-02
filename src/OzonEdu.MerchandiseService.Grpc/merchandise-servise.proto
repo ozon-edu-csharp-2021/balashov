@@ -7,7 +7,9 @@ service MerchGrpc {
   
   rpc MerchRequestDone (MerchRequestDoneRequest) returns (RequestMerchResponse);
 
-  rpc GetIssuedMerchInfo (GetIssuedMerchInfoRequest) returns (GetIssuedMerchInfoResponse);
+  rpc GetIssuedMerchInfo (GetMerchInfoRequest) returns (GetMerchInfoResponse);
+
+  rpc GetIssuingMerchInfo (GetMerchInfoRequest) returns (GetMerchInfoResponse);
 }
 
 message RequestMerchRequest 
@@ -34,12 +36,12 @@ message MerchRequestDoneRequest
 	int64 merch_request_id = 1;
 }
 
-message GetIssuedMerchInfoRequest 
+message GetMerchInfoRequest 
 {
 	int64 employee_id = 1;
 }
 
-message GetIssuedMerchInfoResponse 
+message GetMerchInfoResponse 
 { 
-	repeated  RequestMerchResponse issued_merch = 1;
+	repeated  RequestMerchResponse merch_request = 1;
 }

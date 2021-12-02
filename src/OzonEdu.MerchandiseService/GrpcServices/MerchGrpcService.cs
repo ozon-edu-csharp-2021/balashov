@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Grpc.Core;
 using MediatR;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations;
+using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
 using OzonEdu.MerchandiseService.Grpc;
 using OzonEdu.MerchandiseService.Infrastructure.Commands;
@@ -20,24 +22,44 @@ namespace OzonEdu.MerchandiseService.GrpcServices
             _mediator = mediator;
         }
 
-        public override async Task<GetIssuedMerchInfoResponse> GetIssuedMerchInfo(GetIssuedMerchInfoRequest request,
+        public override async Task<GetMerchInfoResponse> GetIssuedMerchInfo(GetMerchInfoRequest request,
             ServerCallContext context)
+        {
+            return await GetMerchInfo(request, context, true);
+        }
+
+        public override async Task<GetMerchInfoResponse> GetIssuingMerchInfo(GetMerchInfoRequest request,
+            ServerCallContext context)
+        {
+            return await GetMerchInfo(request, context, false);
+        }
+
+        private async Task<GetMerchInfoResponse> GetMerchInfo(GetMerchInfoRequest request, ServerCallContext context, bool isDoneMerch)
         {
             var token = context.CancellationToken;
             var employeeId = request.EmployeeId;
 
-            var mediatrRequest = new GetIssuedMerchInfoQuery { EmployeeId = employeeId };
-            var issuedMerch = await _mediator.Send(mediatrRequest, token);
+            var merch = new List<MerchandiseRequest>();
+            if (isDoneMerch)
+            {
+                var mediatrRequest = new GetIssuedMerchInfoQuery { EmployeeId = employeeId };
+                merch = await _mediator.Send(mediatrRequest, token);
+            }
+            else
+            {
+                var mediatrRequest = new GetIssuingMerchInfoQuery { EmployeeId = employeeId };
+                merch = await _mediator.Send(mediatrRequest, token);
+            }
 
-            if (issuedMerch == null)
+            if (merch == null || merch.Count == 0)
                 throw new RpcException(
                     new Status(StatusCode.NotFound, $"Merch info for employee (id:{employeeId}) was not found"));
 
-            var issuedMerchResponse = new GetIssuedMerchInfoResponse()
+            var issuingMerchResponse = new GetMerchInfoResponse()
             {
-                IssuedMerch =
+                MerchRequest =
                 {
-                    issuedMerch.Select(im => new RequestMerchResponse()
+                    merch.Select(im => new RequestMerchResponse()
                     {
                         Id = im.Id,
                         Status = im.Status.ToString(),
@@ -45,12 +67,11 @@ namespace OzonEdu.MerchandiseService.GrpcServices
                         EmployeeId = im.EmployeeId,
                         Size = im.Size.Name,
                         RequestedMerchPackId = im.RequestedMerchPack.PackTitle.Id
-
                     })
                 }
             };
 
-            return issuedMerchResponse;
+            return issuingMerchResponse;
         }
 
         public override async Task<RequestMerchResponse> RequestMerch(RequestMerchRequest request, ServerCallContext context)
