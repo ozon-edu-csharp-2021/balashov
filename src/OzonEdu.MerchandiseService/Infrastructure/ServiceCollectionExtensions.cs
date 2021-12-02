@@ -33,27 +33,34 @@ namespace OzonEdu.MerchandiseService.Infrastructure
             return services;
         }
 
-        public static IServiceCollection AddExternals(this IServiceCollection services)
+        public static IServiceCollection AddExternals(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddScoped<IEmailServer, FakeEmailServer>();
             services.AddScoped<IStockApiServer, FakeStockApiServer>();
-            services.AddScoped<IEmployeeServer, FakeEmployeeServer>();
+            //services.AddScoped<IEmployeeServer, FakeEmployeeServer>();
+            
+            services.AddScoped<IEmployeeServer, EmployeeServer>();
+            //services.AddScoped<IEmailServer, EmailServer>();
+            //services.AddScoped<IStockApiServer, StockApiServer>();
+
+            var externalsConnectionsOptions = configuration.GetSection("ExternalServers");
+            services.Configure<ExternalConnectionOptions>(externalsConnectionsOptions);
 
             return services;
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
-            //services.AddScoped<IMerchRepository, FakeMerchRepository>();
-            //services.AddScoped<IManagerRepository, FakeManagerRepository>();
-            //services.AddScoped<IEmployeeRepository, FakeEmployeeRepository>();
-            //services.AddScoped<IUnitOfWork, FakeUnitOfWork>();
-
             Dapper.DefaultTypeMap.MatchNamesWithUnderscores = true;
             services.AddScoped<IMerchRepository, MerchRepository>();
             services.AddScoped<IManagerRepository, ManagerRepository>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            //services.AddScoped<IMerchRepository, FakeMerchRepository>();
+            //services.AddScoped<IManagerRepository, FakeManagerRepository>();
+            //services.AddScoped<IEmployeeRepository, FakeEmployeeRepository>();
+            //services.AddScoped<IUnitOfWork, FakeUnitOfWork>();
 
             return services;
         }

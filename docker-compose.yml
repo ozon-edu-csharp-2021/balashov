@@ -11,24 +11,29 @@ services:
       - 8080:80
     environment:
       DatabaseConnectionOptions__ConnectionString: "Host=host.docker.internal;Port=5428;Database=Merchandise;Username=postgres;Password=MerchPassword"
+      ExternalServers__EmployeeServerUrl: "http://employees-service:8443/"
     depends_on:
       - merchandise-postgres-db
 
   stock-api:
     image: ghcr.io/ozon-edu-csharp-2021/stock-api:main
     ports:
-       - "5070:5000"
-       - "5072:5002"
+      - "5070:80"
+      - "5072:82"
     networks:
        - ozon-network  
     environment:
-      DatabaseConnectionOptions__ConnectionString: "Host=stock-api-db;Port=5426;Database=stock-api;Username=postgres;Password=stockApiPassword"
+      DatabaseConnectionOptions__ConnectionString: "Host=host.docker.internal;Port=5426;Database=stock-api;Username=postgres;Password=stockApiPassword"
+      BootstrapServers: "broker:29092"
+      topic: "stock_replenished_event"
+      groupId : "stock-api-service"
+      SupplyApiGrpcServiceConfiguration__ServerAddress: "http://supply-service-api:5082"
     depends_on:
-       - stock-api-db
-       - redis
-       - supply-service-api
-       - zookeeper
-       - broker
+      - stock-api-db
+      - redis
+      - supply-service-api
+      - zookeeper
+      - broker
 
   supply-service-api:
     image: ghcr.io/ozon-edu-csharp-2021/supply-service:main
@@ -36,7 +41,7 @@ services:
       - "5080:5080"
       - "5082:5082"
     environment:
-      DbConfiguration__ConnectionString: "Host=supply-service-db;Port=5432;Database=supply-service;Username=postgres;Password=supplyServicePassword"
+      DbConfiguration__ConnectionString: "Host=host.docker.internal;Port=5427;Database=supply-service;Username=postgres;Password=supplyServicePassword"
       KafkaConfiguration__BootstrapServers: "broker:29092"
     networks:
       - ozon-network
@@ -50,21 +55,25 @@ services:
     ports:
       - "8443:80"
     environment:
-      ConnectionString: "Host=employees-service-postgres-db;Port=5432;Database=employees-service;Username=postgres;Password=postgres;"
+      ConnectionString: "Host=host.docker.internal;Port=5425;Database=employees-service;Username=postgres;Password=employeeServicePassword;"
       BootstrapServers: "broker:29092"
+      Topic: "employee_notification_event"
+    networks:
+      - ozon-network  
     depends_on:
       - employees-service-postgres-db
       - zookeeper
       - broker
     volumes:
       - employees-service:/src"
-    networks:
-      - ozon-network  
+
 
   emailing-service:
     image: ghcr.io/ozon-edu-csharp-2021/emailing-service:main
     ports:
       - "8555:80"
+    environment:
+      KafkaTopics__EmployeeNotificationEventTopic: "employee_notification_event"
     depends_on:
       - zookeeper
       - broker
@@ -86,7 +95,7 @@ services:
     networks:
       - ozon-network
     volumes:
-      - merchandise-postgres-db:/var/lib/postgresql/data"
+      - merchandise-postgres-db:/var/lib/postgresql/data
 
   employees-service-postgres-db:
     image: postgres:latest
@@ -94,13 +103,13 @@ services:
       - "5425:5432"
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: employeeServicePassword
       POSTGRES_DB: employees-service
     command: "-c log_statement=all"     
     networks:
       - ozon-network
     volumes:
-      - employees-service-postgres-db:/var/lib/postgresql/data"
+      - employees-service-postgres-db:/var/lib/postgresql/data
       
   stock-api-db:
     image: postgres:latest

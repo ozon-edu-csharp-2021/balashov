@@ -34,7 +34,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
 
         public override string ToString()
         {
-            return $"{LastName} {MiddleName} {FirstName}";
+            return $"{LastName} {FirstName} {MiddleName}";
         }
     }
 }

@@ -42,7 +42,8 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.DomainEvents
             manager.AssignTask();
             await _managerRepository.UpdateAssignedTasksAsync(manager);
 
-            merchRequest.AddManagerInfo(manager.Id, manager.PhoneNumber);
+            if(merchRequest.HRManagerId != manager.Id)
+                merchRequest.SetManagerId(manager.Id);
             
             if(!merchRequest.SetAssigned(date))
                 throw new Exception($"Заявка id:{merchRequest.Id} не назначена HR-менеджеру! Метод вернул отказ");

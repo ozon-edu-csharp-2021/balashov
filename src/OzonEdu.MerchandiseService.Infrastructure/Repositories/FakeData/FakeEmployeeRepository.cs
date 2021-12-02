@@ -65,28 +65,23 @@ namespace OzonEdu.MerchandiseService.Infrastructure.FakeData
 
             employees.Add(new Employee(
                 PersonName.Create("testFirstEmployeeName", "testLastEmployeeName"),
-                new Email("email@test.ru"),
-                new PhoneNumber("+012345678")));
+                new Email("email@test.ru")));
 
             employees.Add(new Employee(
                 PersonName.Create("testFirstEmployeeName2", "testLastEmployeeName2"),
-                new Email("email2@test.ru"),
-                new PhoneNumber("+012345678")));
+                new Email("email2@test.ru")));
 
             employees.Add(new Employee(
                 PersonName.Create("testFirstEmployeeName3", "testLastEmployeeName3"),
-                new Email("email3@test.ru"),
-                new PhoneNumber("+012345678")));
+                new Email("email3@test.ru")));
 
             employees.Add(new Employee(
                 PersonName.Create("testFirstEmployeeName4", "testLastEmployeeName4"),
-                new Email("email4@test.ru"),
-                new PhoneNumber("+012345678")));
+                new Email("email4@test.ru")));
 
             employees.Add(new Employee(
                 PersonName.Create("testFirstEmployeeName5", "testLastEmployeeName5"),
-                new Email("email5@test.ru"),
-                new PhoneNumber("+012345678")));
+                new Email("email5@test.ru")));
 
             return employees;
         }

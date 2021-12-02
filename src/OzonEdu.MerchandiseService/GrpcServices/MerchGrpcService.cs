@@ -42,9 +42,7 @@ namespace OzonEdu.MerchandiseService.GrpcServices
                         Id = im.Id,
                         Status = im.Status.ToString(),
                         HrManagerId = im.HRManagerId,
-                        HrManagerContactPhone = im.HRManagerContactPhone.Phone,
                         EmployeeId = im.EmployeeId,
-                        EmployeeEmail = im.EmployeeEmail.EmailString,
                         Size = im.Size.Name,
                         RequestedMerchPackId = im.RequestedMerchPack.PackTitle.Id
 
@@ -79,9 +77,7 @@ namespace OzonEdu.MerchandiseService.GrpcServices
                 Id = merchRequest.Id,
                 Status = merchRequest.Status.ToString(),
                 HrManagerId = merchRequest.HRManagerId,
-                HrManagerContactPhone = merchRequest.HRManagerContactPhone.Phone,
                 EmployeeId = merchRequest.EmployeeId,
-                EmployeeEmail = merchRequest.EmployeeEmail.EmailString,
                 Size = merchRequest.Size.Name,
                 RequestedMerchPackId = merchRequest.RequestedMerchPack.PackTitle.Id
 

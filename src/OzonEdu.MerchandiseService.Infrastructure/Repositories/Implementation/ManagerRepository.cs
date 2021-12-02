@@ -84,8 +84,8 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
 
         const string SqlUpdateHrAssignedTasks = @"
             UPDATE hr_assign_tasks
-            SET hr_assign_tasks.assigned_tasks = @asstasks
-            WHERE hr_assign_tasks.hr_manager_id = @mrlid;";
+            SET assigned_tasks = @asstasks
+            WHERE hr_manager_id = @mrlid;";
 
         public async Task<Manager> UpdateAsync(Manager itemToUpdate, CancellationToken cancellationToken = default)
         {

@@ -27,7 +27,7 @@ namespace OzonEdu.MerchandiseService
             
             services.AddRepositories();
 
-            services.AddExternals();
+            services.AddExternals(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

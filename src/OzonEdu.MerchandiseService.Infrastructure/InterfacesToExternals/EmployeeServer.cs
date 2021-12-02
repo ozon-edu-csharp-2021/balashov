@@ -1,30 +1,38 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
+using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals
 {
     public class EmployeeServer : IEmployeeServer
     {
         private readonly IHttpClientFactory _clientFactory;
-        
-        public async Task<Employee> GetByIdAsync(long employeeId, CancellationToken cancellationToken)
-        {
-            var employees = await GetAll(cancellationToken);
-            if (employees == null) return null;
+        private readonly string ServerUrl;
 
-            return employees.FirstOrDefault(e => e.Id == employeeId);
+        public EmployeeServer(IHttpClientFactory clientFactory, IOptions<ExternalConnectionOptions> externalsOptions)
+        {
+            _clientFactory = clientFactory;
+            ServerUrl = externalsOptions.Value.EmployeeServerUrl;
+
+            if(ServerUrl.Last() == '/')
+                ServerUrl = ServerUrl.Remove(ServerUrl.Length - 1);
         }
 
         public async Task<List<Employee>> GetAll(CancellationToken cancellationToken)
         {
-            //TODO заменить URL на проверенный, передать конфигурацию, чтобы URL можно было настраивать
+            throw new NotImplementedException();
+            //TODO проверить и поправить EmployeeServer.GetAll, хотя в бизнес логике он не нужен теперь
+
             var request = new HttpRequestMessage(HttpMethod.Get,
-                "https://employees-service:8443/api/employees/getall");
+                $"{ServerUrl}/api/employees/getall");
 
             var client = _clientFactory.CreateClient();
 
@@ -38,6 +46,29 @@ namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals
                     return employees.ToList();
             }
 
+            return null;
+        }
+
+        public async Task<Employee> GetByIdAsync(long employeeId, CancellationToken cancellationToken)
+        {
+            var client = _clientFactory.CreateClient();
+            
+            var response = await client.GetStringAsync($"{ServerUrl}/api/employees/{employeeId.ToString()}",
+                cancellationToken);
+
+            if (string.IsNullOrWhiteSpace(response))
+                return null;
+
+            //todo что-то не работет System.Text.Json.JsonSerializer, нужно разобраться..
+            //var employeeDto = JsonSerializer.Deserialize<Repositories.Models.Employee>(response);
+
+            var employeeDto = JsonConvert.DeserializeObject<Repositories.Models.Employee>(response);
+
+            if (employeeDto != null)
+                return new Employee(
+                    PersonName.Create(employeeDto.FirstName, employeeDto.LastName, employeeDto.MiddleName),
+                    new Email(employeeDto.Email)).SetId(employeeDto.Id);
+                    
             return null;
         }
     }

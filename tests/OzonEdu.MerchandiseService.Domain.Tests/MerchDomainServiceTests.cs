@@ -51,8 +51,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
         {
             return new Employee(
                 PersonName.Create("testFirstEmployeeName", "testLastEmployeeName"),
-                new Email("email4@test.ru"),
-                new PhoneNumber("+012345678"));
+                new Email("email4@test.ru"));
         }
 
         private List<MerchandiseRequest> GetFakeMerchandiseRequests()

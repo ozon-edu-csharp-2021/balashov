@@ -33,7 +33,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.DomainEvents
             //Если все проверки прошли - резервируется мерч в stock - api
             if (_stockApiServer.ReserveMerch(merchRequest))
             {
-                if (merchRequest.SetReserved(date))
+                if (!merchRequest.SetReserved(date))
                     throw new Exception($"Заявка id:{merchRequest.Id} не назначена в резерв! Метод вернул отказ");
                     
                 await _merchRepository.UpdateAsync(merchRequest, cancellationToken);

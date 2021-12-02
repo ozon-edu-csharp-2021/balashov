@@ -27,15 +27,14 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
         public async Task<Employee> CreateAsync(Employee itemToCreate, CancellationToken cancellationToken = default)
         {
             const string sql = @"
-                INSERT INTO employees (first_name, last_name, middle_name, phone, email)
-                VALUES (@fname, @lname, @mname, @phone, @email) RETURNING id;";
+                INSERT INTO employees (first_name, last_name, middle_name, email)
+                VALUES (@fname, @lname, @mname, @email) RETURNING id;";
 
             var parameters = new
             {
                 fname = itemToCreate.Name.FirstName,
                 lname = itemToCreate.Name.LastName,
                 mname = itemToCreate.Name.MiddleName,
-                phone = itemToCreate.PhoneNumber.Phone,
                 email = itemToCreate.Email.EmailString
             };
 
@@ -64,7 +63,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
             const string sql = @"
             UPDATE employees
             SET first_name = @fname, last_name = @lname, middle_name = @mname,
-            phone = @phone, email = @email 
+            email = @email 
             WHERE id = @eid;";
 
             var parameters = new
@@ -73,7 +72,6 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
                 fname = itemToUpdate.Name.FirstName,
                 lname = itemToUpdate.Name.LastName,
                 mname = itemToUpdate.Name.MiddleName,
-                phone = itemToUpdate.PhoneNumber.Phone,
                 email = itemToUpdate.Email.EmailString,
             };
             var commandDefinition = new CommandDefinition(
@@ -142,13 +140,12 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
 
             var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
 
-            var dbEmployees = await connection.QueryAsync<Models.Employee>(commandDefinition);
+            var dbElements = await connection.QueryAsync<Models.Employee>(commandDefinition);
 
-            var employees = dbEmployees.Select(
+            var employees = dbElements.Select(
                 dbEmployee => new Employee(
                     PersonName.Create(dbEmployee.FirstName, dbEmployee.LastName, dbEmployee.MiddleName),
-                    new Email(dbEmployee.Email),
-                    new PhoneNumber(dbEmployee.Phone))
+                    new Email(dbEmployee.Email))
                     .SetId(dbEmployee.Id));
 
             return employees.ToList();

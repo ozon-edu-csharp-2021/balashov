@@ -96,11 +96,8 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
         {
             const string sql = @"SELECT merchandise_requests.id, merchandise_requests.hr_manager_id, merchandise_requests.employee_id,
             merchandise_requests.clothing_size_id, merchandise_requests.pack_title_id, merchandise_requests.merch_request_status_id,
-            employees.id, employees.phone,
-            hr_managers.id, hr_managers.phone
+            merchandise_requests.employee_id
             FROM merchandise_requests
-			INNER JOIN employees on merchandise_requests.employee_id = employees.id
-            INNER JOIN hr_managers on merchandise_requests.hr_manager_id = hr_managers.id
             WHERE merchandise_requests.id = @mrId;";
 
             var parameters = new { mrId = id };
@@ -115,11 +112,8 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
         {
             const string sql = @"SELECT merchandise_requests.id, merchandise_requests.hr_manager_id, merchandise_requests.employee_id,
             merchandise_requests.clothing_size_id, merchandise_requests.pack_title_id, merchandise_requests.merch_request_status_id, merchandise_requests.last_change_date,
-            employees.id, employees.phone,
-            hr_managers.id, hr_managers.phone
+            merchandise_requests.employee_id
             FROM merchandise_requests
-			INNER JOIN employees on merchandise_requests.employee_id = employees.id
-            INNER JOIN hr_managers on merchandise_requests.hr_manager_id = hr_managers.id
             WHERE merchandise_requests.employee_id = @emplId;";
 
             var parameters = new { emplId = employeeId };
@@ -130,8 +124,8 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
         }
 
         private async Task<IEnumerable<MerchandiseRequest>> DoRequest_GetMerchandiseRequest(
-            string sql, 
-            CancellationToken cancellationToken, 
+            string sql,
+            CancellationToken cancellationToken,
             object parameters = null)
         {
             var commandDefinition = new CommandDefinition(
@@ -142,22 +136,21 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
 
             var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
 
-            var merchRequests = await connection.QueryAsync<Models.MerchandiseRequest, Models.Employee, Models.HrManager, MerchandiseRequest>(commandDefinition,
-                (dbMerchandiseRequest, dbEmployee, dbHrManager) => new MerchandiseRequest(
-                        dbMerchandiseRequest.HrManagerId,
-                        new PhoneNumber(dbHrManager.Phone),
-                        dbMerchandiseRequest.PackTitleId is not null
-                            ? new MerchPack((int)dbMerchandiseRequest.PackTitleId)
-                            : null,
-                        MerchRequestStatusType.GetById(dbMerchandiseRequest.MerchRequestStatusId),
-                        new Date(dbMerchandiseRequest.LastChangeDate))
-                    .AddEmployeeInfoFromDB(
-                        dbMerchandiseRequest.EmployeeId,
-                        new Email(dbEmployee.Email),
-                        dbMerchandiseRequest.ClothingSizeId is not null
-                            ? Size.GetById((int)dbMerchandiseRequest.ClothingSizeId)
-                            : null)
-                    .SetId(dbMerchandiseRequest.Id));
+            var dbElements = await connection.QueryAsync<Models.MerchandiseRequest>(commandDefinition);
+
+            var merchRequests = dbElements.Select(dbMerchandiseRequest => new MerchandiseRequest(
+                    dbMerchandiseRequest.HrManagerId,
+                    dbMerchandiseRequest.PackTitleId is not null
+                        ? new MerchPack((int)dbMerchandiseRequest.PackTitleId)
+                        : null,
+                    MerchRequestStatusType.GetById(dbMerchandiseRequest.MerchRequestStatusId),
+                    new Date(dbMerchandiseRequest.LastChangeDate))
+                .AddEmployeeInfoFromDB(
+                    dbMerchandiseRequest.EmployeeId,
+                    dbMerchandiseRequest.ClothingSizeId is not null
+                        ? Size.GetById((int)dbMerchandiseRequest.ClothingSizeId)
+                        : null)
+                .SetId(dbMerchandiseRequest.Id));
 
             return merchRequests;
         }

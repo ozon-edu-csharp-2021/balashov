@@ -8,33 +8,33 @@ namespace OzonEdu.MerchandiseService.Migrator.Migrations
         public override void Up()
         {
             Execute.Sql(@"
-                INSERT INTO employees (first_name, last_name, middle_name, phone, email)
-                VALUES ('ИмяТест1', 'ФамилияТест1', 'ОтчествоТест1', '+123456789', 'test@email.emp') ON CONFLICT DO NOTHING
+                INSERT INTO employees (first_name, last_name, middle_name, email)
+                VALUES ('ИмяТест1', 'ФамилияТест1', 'ОтчествоТест1', 'test@email.emp') ON CONFLICT DO NOTHING
+            ");
+
+            Execute.Sql(@"
+                INSERT INTO employees (first_name, last_name, middle_name, email)
+                VALUES ('ИмяТест2', 'ФамилияТест2', 'ОтчествоТест2', 'test2@email.emp') ON CONFLICT DO NOTHING
             ");
 
             Execute.Sql(@"
                 INSERT INTO employees (first_name, last_name, middle_name, phone, email)
-                VALUES ('ИмяТест2', 'ФамилияТест2', 'ОтчествоТест2', '+222456789', 'test2@email.emp') ON CONFLICT DO NOTHING
-            ");
-
-            Execute.Sql(@"
-                INSERT INTO employees (first_name, last_name, middle_name, phone, email)
-                VALUES ('ИмяТест3', 'ФамилияТест3', '', '+123456999', 'test3@email.emp') ON CONFLICT DO NOTHING
+                VALUES ('ИмяТест3', 'ФамилияТест3', '', 'test3@email.emp') ON CONFLICT DO NOTHING
             ");
 
             Execute.Sql(@"
                 INSERT INTO hr_managers (first_name, last_name, middle_name, phone, email)
-                VALUES ('МИмяТест1', 'МФамилияТест1', 'МОтчествоТест1', '+123456789', 'mtest@email.emp') ON CONFLICT DO NOTHING
+                VALUES ('МИмяТест1', 'МФамилияТест1', 'МОтчествоТест1', 'mtest@email.emp') ON CONFLICT DO NOTHING
             ");
 
             Execute.Sql(@"
                 INSERT INTO hr_managers (first_name, last_name, middle_name, phone, email)
-                VALUES ('МИмяТест2', 'МФамилияТест2', 'МОтчествоТест2', '+123456789', 'mtest2@email.emp') ON CONFLICT DO NOTHING
+                VALUES ('МИмяТест2', 'МФамилияТест2', 'МОтчествоТест2', 'mtest2@email.emp') ON CONFLICT DO NOTHING
             ");
 
             Execute.Sql(@"
                 INSERT INTO hr_managers (first_name, last_name, middle_name, phone, email)
-                VALUES ('МИмяТест3', 'МФамилияТест3', '', '+123456789', 'mtest3@email.emp') ON CONFLICT DO NOTHING
+                VALUES ('МИмяТест3', 'МФамилияТест3', '', 'mtest3@email.emp') ON CONFLICT DO NOTHING
             ");
 
             Execute.Sql(@"

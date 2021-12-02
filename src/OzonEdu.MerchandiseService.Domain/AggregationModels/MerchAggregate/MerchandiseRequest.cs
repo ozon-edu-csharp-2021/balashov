@@ -12,11 +12,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 
         public long HRManagerId { get; private set; }
 
-        public PhoneNumber HRManagerContactPhone { get; private set; }
-
         public long EmployeeId { get; private set; }
-
-        public Email EmployeeEmail { get; private set; }
 
         public MerchPack RequestedMerchPack { get; private set; }
 
@@ -31,44 +27,40 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             Status = new MerchRequestStatus(MerchRequestStatusType.Draft, data);
         }
 
-        public MerchandiseRequest(int hrManagerId, PhoneNumber hrManagerContactPhone, MerchPack requestedMerchPack, MerchRequestStatusType statusType, Date data)
+        public MerchandiseRequest(int hrManagerId, MerchPack requestedMerchPack, MerchRequestStatusType statusType, Date data)
         {
             HRManagerId = hrManagerId;
-            HRManagerContactPhone = hrManagerContactPhone;
 
             RequestedMerchPack = requestedMerchPack;
 
             Status = new MerchRequestStatus(statusType, data);
         }
 
-        public MerchandiseRequest AddEmployeeInfoFromDB(int? employeeId, Email employeeEmail, Size size)
+        public MerchandiseRequest AddEmployeeInfoFromDB(int? employeeId, Size size)
         {
             if (employeeId is null)
                 return this;
 
             EmployeeId = (int)employeeId;
-            EmployeeEmail = employeeEmail;
             Size = size;
             return this;
         }
 
-        public MerchandiseRequest AddEmployeeInfo(long employeeId, Email employeeEmail, Size size)
+        public MerchandiseRequest AddEmployeeInfo(long employeeId, Size size)
         {
             if (employeeId <= 0)
                 throw new Exception("Некорректный id сотрудника! Невозможно добавить данные в заявку.");
             
             EmployeeId = employeeId;
-            EmployeeEmail = employeeEmail;
             Size = size;
             return this;
         }
         
-        public MerchandiseRequest AddManagerInfo(long managerId, PhoneNumber managerContactPhone)
+        public MerchandiseRequest SetManagerId(long managerId)
         {
             if (managerId <= 0)
                 throw new Exception("Некорректный id HR-менеджера! Невозможно добавить данные в заявку.");
             HRManagerId = managerId;
-            HRManagerContactPhone = managerContactPhone;
             return this;
         }
 
