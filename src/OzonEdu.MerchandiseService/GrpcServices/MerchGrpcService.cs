@@ -85,5 +85,27 @@ namespace OzonEdu.MerchandiseService.GrpcServices
 
             return requestedMerchResponse;
         }
+
+        public override async Task<RequestMerchResponse> MerchRequestDone(MerchRequestDoneRequest request, ServerCallContext context)
+        {
+            var token = context.CancellationToken;
+
+            var mediatrRequest = new MerchRequestDoneCommand { MerchRequestId = request.MerchRequestId };
+
+            var merchRequest = await _mediator.Send(mediatrRequest, token);
+
+            var requestedMerchResponse = new RequestMerchResponse()
+            {
+                Id = merchRequest.Id,
+                Status = merchRequest.Status.ToString(),
+                HrManagerId = merchRequest.HRManagerId,
+                EmployeeId = merchRequest.EmployeeId,
+                Size = merchRequest.Size.Name,
+                RequestedMerchPackId = merchRequest.RequestedMerchPack.PackTitle.Id
+
+            };
+
+            return requestedMerchResponse;
+        }
     }
 }

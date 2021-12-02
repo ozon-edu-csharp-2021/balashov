@@ -45,14 +45,13 @@ namespace OzonEdu.MerchandiseService.Controllers
         }
 
         [HttpPost]
-        //[Route("employee/{employeeId:long}")]
         public async Task<ActionResult> RequestMerch(MerchandiseRequestRequestDto request, CancellationToken token)
         {
             var merchTitle = new MerchPack(request.RequestedMerchPackType);
             var size = Size.GetSizeFromString(request.Size);
             var date = new Date(DateTime.Now);
 
-            var mediatrRequest = new RequestMerchCommand
+            var mediatrCommand = new RequestMerchCommand
             {
                 HRManagerId = request.HRManagerId,
                 EmployeeId = request.EmployeeId,
@@ -61,7 +60,22 @@ namespace OzonEdu.MerchandiseService.Controllers
                 Date = date
             };
 
-            MerchandiseRequest merchRequest = await _mediator.Send(mediatrRequest, token);
+            MerchandiseRequest merchRequest = await _mediator.Send(mediatrCommand, token);
+
+            var responseDto = new MerchandiseRequestResponseDto(merchRequest);
+            return Ok(responseDto);
+        }
+
+        [HttpPost]
+        [Route("DoneMerchRequest/{merchandiseRequestId:long}")]
+        public async Task<ActionResult> MerchandiseRequestDone(long merchandiseRequestId, CancellationToken token)
+        {
+            var mediatrCommand = new MerchRequestDoneCommand
+            {
+                MerchRequestId = merchandiseRequestId
+            };
+
+            MerchandiseRequest merchRequest = await _mediator.Send(mediatrCommand, token);
 
             var responseDto = new MerchandiseRequestResponseDto(merchRequest);
             return Ok(responseDto);
