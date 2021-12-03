@@ -12,8 +12,15 @@ services:
     environment:
       DatabaseConnectionOptions__ConnectionString: "Host=host.docker.internal;Port=5428;Database=Merchandise;Username=postgres;Password=MerchPassword"
       ExternalServers__EmployeeServerUrl: "http://employees-service:8443/"
+      BootstrapServers: "broker:29092"
+      EmailTopic: "email_notification_event"
+      StockTopic: "stock_replenished_event"
+      EmployeeNotificationTopic": "employee_notification_event"
+      groupId : "merchandise-service"
     depends_on:
       - merchandise-postgres-db
+    networks:
+      - ozon-network  
 
   stock-api:
     image: ghcr.io/ozon-edu-csharp-2021/stock-api:main

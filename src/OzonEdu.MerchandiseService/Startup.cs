@@ -28,6 +28,8 @@ namespace OzonEdu.MerchandiseService
             services.AddRepositories();
 
             services.AddExternals(Configuration);
+
+            services.AddKafkaServices(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

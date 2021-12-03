@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
+using OzonEdu.MerchandiseService.Infrastructure.Configuration;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals

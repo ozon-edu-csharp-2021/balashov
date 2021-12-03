@@ -9,6 +9,7 @@ using OzonEdu.MerchandiseService.Domain.Contracts;
 using OzonEdu.MerchandiseService.Infrastructure.Configuration;
 using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals;
 using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals.FakeExternals;
+using OzonEdu.MerchandiseService.Infrastructure.MessageBroker;
 using OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation;
 using OzonEdu.MerchandiseService.Infrastructure.Repositories.Infrastructure;
 using OzonEdu.MerchandiseService.Infrastructure.Repositories.Infrastructure.Interfaces;
@@ -35,16 +36,25 @@ namespace OzonEdu.MerchandiseService.Infrastructure
 
         public static IServiceCollection AddExternals(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IEmailServer, FakeEmailServer>();
+            //services.AddScoped<IEmailServer, FakeEmailServer>();
             services.AddScoped<IStockApiServer, FakeStockApiServer>();
             //services.AddScoped<IEmployeeServer, FakeEmployeeServer>();
             
             services.AddScoped<IEmployeeServer, EmployeeServer>();
-            //services.AddScoped<IEmailServer, EmailServer>();
+            services.AddScoped<IEmailServer, EmailServer>();
             //services.AddScoped<IStockApiServer, StockApiServer>();
 
             var externalsConnectionsOptions = configuration.GetSection("ExternalServers");
             services.Configure<ExternalConnectionOptions>(externalsConnectionsOptions);
+
+            return services;
+        }
+
+        public static IServiceCollection AddKafkaServices(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.Configure<KafkaConfiguration>(configuration);
+            services.AddSingleton<IProducerBuilderWrapper, ProducerBuilderWrapper>();
+            services.AddSingleton<IConsumerBuilderWrapper, ConsumerBuilderWrapper>();
 
             return services;
         }

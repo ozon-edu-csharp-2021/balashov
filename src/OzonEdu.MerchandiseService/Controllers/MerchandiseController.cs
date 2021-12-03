@@ -56,7 +56,7 @@ namespace OzonEdu.MerchandiseService.Controllers
                 return NotFound();
 
             if (issuingMerch.Count == 0)
-                return Ok($"Сотруднику {employeeId} мерч не выдавался.");
+                return Ok($"Сотрудник {employeeId} мерч не ожидает.");
 
             var issuedMerchResponse = issuingMerch.Select(im => new MerchandiseRequestResponseDto(im)).ToList();
 
