@@ -1,11 +1,11 @@
-﻿using CSharpCourse.Core.Lib.Events;
-using MediatR;
+﻿using MediatR;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
+using OzonEdu.MerchandiseService.Infrastructure.ExternalEvents;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Commands
 {
     public class EmployeeNotificationCommand : IRequest<MerchandiseRequest>
     {
-        public NotificationEvent EmployeeNotificationEvent { get; set; }
+        public FullNotificationEvent EmployeeNotificationEvent { get; set; }
     }
 }

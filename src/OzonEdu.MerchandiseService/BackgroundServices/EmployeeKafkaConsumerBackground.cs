@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using Confluent.Kafka;
 using CSharpCourse.Core.Lib.Events;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OzonEdu.MerchandiseService.Infrastructure.Commands;
+using OzonEdu.MerchandiseService.Infrastructure.ExternalEvents;
 using OzonEdu.MerchandiseService.Infrastructure.MessageBroker;
 
 namespace OzonEdu.MerchandiseService.BackgroundServices
@@ -16,18 +18,18 @@ namespace OzonEdu.MerchandiseService.BackgroundServices
     {
         private readonly string _topicName;
         private readonly IConsumerBuilderWrapper _consumerBuilderWrapper;
-        
-        private readonly IMediator _mediator;
+
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly ILogger<EmployeeKafkaConsumerBackground> _logger;
 
         public EmployeeKafkaConsumerBackground(
             ILogger<EmployeeKafkaConsumerBackground> logger,
             IConsumerBuilderWrapper consumerBuilderWrapper, 
-            IMediator mediator)
+            IServiceScopeFactory serviceScopeFactory)
         {
             _logger = logger;
             _consumerBuilderWrapper = consumerBuilderWrapper;
-            _mediator = mediator;
+            _serviceScopeFactory = serviceScopeFactory;
 
             _topicName = _consumerBuilderWrapper.EmployeeNotificationEvent;
         }
@@ -37,7 +39,7 @@ namespace OzonEdu.MerchandiseService.BackgroundServices
             var kafkaConsumerTask = Task.Run(
                 async () =>
                 {
-                    var consumer = _consumerBuilderWrapper.Consumer;
+                    var consumer = _consumerBuilderWrapper.ConsumerEmployee;
 
                     consumer.Subscribe(_topicName);
 
@@ -45,12 +47,12 @@ namespace OzonEdu.MerchandiseService.BackgroundServices
                 },
                 stoppingToken);
 
-            _consumerBuilderWrapper.Consumer.Unsubscribe();
+            _consumerBuilderWrapper.ConsumerEmployee.Unsubscribe();
 
             return kafkaConsumerTask;
         }
 
-        private async Task DoConsumeWhileAsync(CancellationToken stoppingToken, IConsumer<long, string> consumer)
+        private async Task DoConsumeWhileAsync(CancellationToken stoppingToken, IConsumer<string, string> consumer)
         {
             try
             {
@@ -62,23 +64,28 @@ namespace OzonEdu.MerchandiseService.BackgroundServices
             catch (OperationCanceledException)
             {
                 _logger.LogInformation("Kafka-consume closing. Topic: {topicName}", _topicName);
-                _consumerBuilderWrapper.Consumer.Unsubscribe();
+                _consumerBuilderWrapper.ConsumerEmployee.Unsubscribe();
             }
         }
 
-        private async Task DoConsumeAsync(CancellationToken stoppingToken, IConsumer<long, string> consumer)
+        private async Task DoConsumeAsync(CancellationToken stoppingToken, IConsumer<string, string> consumer)
         {
             try
             {
+                using var scope = _serviceScopeFactory.CreateScope();
+                var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
                 var cr = consumer.Consume(stoppingToken);
-                var employeeNotificationMessage = JsonConvert.DeserializeObject<NotificationEvent>(cr.Message.Value);
-                _logger.LogInformation("Kafka income StockReplenishedEvent message.");
+                var employeeNotificationMessage =
+                    JsonConvert.DeserializeObject<FullNotificationEvent>(cr.Message.Value);
+                _logger.LogInformation("Kafka income EmployeeNotificationEvent message.");
 
                 if (employeeNotificationMessage != null)
                 {
-                    var mediatrRequest = new EmployeeNotificationCommand { EmployeeNotificationEvent = employeeNotificationMessage };
+                    var mediatrRequest = new EmployeeNotificationCommand
+                    { EmployeeNotificationEvent = employeeNotificationMessage };
 
-                    await _mediator.Send(mediatrRequest, stoppingToken);
+                    var mr = await mediator.Send(mediatrRequest, stoppingToken);
                 }
             }
             catch (Exception e)

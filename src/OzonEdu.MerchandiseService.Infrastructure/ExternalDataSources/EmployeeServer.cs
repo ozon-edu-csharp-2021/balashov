@@ -11,7 +11,7 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
 using OzonEdu.MerchandiseService.Infrastructure.Configuration;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals
+namespace OzonEdu.MerchandiseService.Infrastructure.ExternalDataSources
 {
     public class EmployeeServer : IEmployeeServer
     {

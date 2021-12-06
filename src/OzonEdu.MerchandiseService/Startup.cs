@@ -30,11 +30,17 @@ namespace OzonEdu.MerchandiseService
             services.AddExternals(Configuration);
 
             services.AddKafkaServices(Configuration);
+
+            services.AddCors(options =>
+                options.AddDefaultPolicy(builder =>
+                    { builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); }
+                ));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseRouting();
+            app.UseCors();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<MerchGrpcService>();

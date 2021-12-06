@@ -7,7 +7,7 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 using OzonEdu.MerchandiseService.Infrastructure.Queries;
 
-namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
+namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.Queries
 {
     public class GetIssuedMerchInfoQueryHandler : IRequestHandler<GetIssuedMerchInfoQuery, List<MerchandiseRequest>>
     {

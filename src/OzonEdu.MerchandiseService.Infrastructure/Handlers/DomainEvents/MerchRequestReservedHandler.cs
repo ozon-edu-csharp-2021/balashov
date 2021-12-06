@@ -2,11 +2,11 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate;
-using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 using OzonEdu.MerchandiseService.Domain.Events;
-using OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals;
+using OzonEdu.MerchandiseService.Infrastructure.ExternalDataSources;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.DomainEvents
 {
@@ -14,19 +14,16 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.DomainEvents
     {
         private readonly IEmailServer _emailServer;
         private readonly IManagerRepository _managerRepository;
-        private readonly IMerchRepository _merchRepository;
-        private readonly IEmployeeServer _employeeServer;
+        private readonly IEmployeeRepository _employeeRepository;
 
         public MerchRequestReservedHandler(
             IEmailServer emailServer, 
             IManagerRepository managerRepository, 
-            IMerchRepository merchRepository, 
-            IEmployeeServer employeeServer)
+            IEmployeeRepository employeeRepository)
         {
             _emailServer = emailServer;
             _managerRepository = managerRepository;
-            _merchRepository = merchRepository;
-            _employeeServer = employeeServer;
+            _employeeRepository = employeeRepository;
         }
 
         public async Task Handle(MerchReservedOnStockDomainEvent notification, CancellationToken cancellationToken)
@@ -36,7 +33,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.DomainEvents
             if (!merchRequest.Status.Status.Equals(MerchRequestStatusType.Reserved))
                 return;
 
-            var employee = await _employeeServer.GetByIdAsync(merchRequest.EmployeeId, cancellationToken);
+            var employee = await _employeeRepository.FindByIdAsync(merchRequest.EmployeeId, cancellationToken);
             if (employee == null)
                 throw new Exception($"Запрашиваемый сотрудник не обнаружен id:{merchRequest.EmployeeId}");
 
@@ -45,7 +42,6 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.DomainEvents
                 throw new Exception($"Не удалось найти менеджера с id:{merchRequest.HRManagerId}");
 
             await _emailServer.SendEmailAboutMerchAsync(employee, manager, merchRequest);
-
         }
     }
 }

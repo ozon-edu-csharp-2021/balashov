@@ -8,7 +8,7 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 using OzonEdu.MerchandiseService.Infrastructure.MessageBroker;
 
-namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals
+namespace OzonEdu.MerchandiseService.Infrastructure.ExternalDataSources
 {
     public class EmailServer : IEmailServer
     {
@@ -21,6 +21,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals
 
         public Task SendEmailAboutMerchAsync(Employee employee, Manager manager, MerchandiseRequest merchRequest)
         {
+            //TODO проверить формат и работу ключа в сообщении
             _producerBuilderWrapper.Producer.Produce(_producerBuilderWrapper.EmailNotificationTopic,
                 new Message<long, string>()
                 {

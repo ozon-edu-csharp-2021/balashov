@@ -95,8 +95,13 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
 
             var parameters = new { emplid = id};
 
-            var employee = (await DoRequest_GetEmployees(sql, cancellationToken, parameters)).First();
+            var employees = await DoRequest_GetEmployees(sql, cancellationToken, parameters);
+            if (employees.Count == 0)
+                return null;
+
+            var employee = employees.First();
             _changeTracker.Track(employee);
+
             return employee;
         }
 
@@ -114,6 +119,25 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
             return employeeList;
         }
 
+        public async Task<Employee> FindByEmailAsync(Email email, CancellationToken cancellationToken = default)
+        {
+            const string sql = @"SELECT * FROM employees WHERE employees.email = @email;";
+
+            var parameters = new { email = email.EmailString };
+
+            var employeeList = (await DoRequest_GetEmployees(sql, cancellationToken, parameters)).ToList();
+            if (employeeList.Count == 0)
+                return null;
+            
+            if (employeeList.Count > 1)
+                throw new Exception("Обнаружено несколько сотрудников с одинаковым Email");
+
+            var employee = employeeList.First();
+            _changeTracker.Track(employee);
+
+            return employee;
+        }
+
         public async Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             const string sql = @"SELECT * FROM employees;";
@@ -127,7 +151,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
             return employeeList;
         }
 
-        private async Task<IEnumerable<Employee>> DoRequest_GetEmployees(
+        private async Task<List<Employee>> DoRequest_GetEmployees(
             string sql,
             CancellationToken cancellationToken,
             object parameters = null)
@@ -146,9 +170,9 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
                 dbEmployee => new Employee(
                     PersonName.Create(dbEmployee.FirstName, dbEmployee.LastName, dbEmployee.MiddleName),
                     new Email(dbEmployee.Email))
-                    .SetId(dbEmployee.Id));
+                    .SetId(dbEmployee.Id)).ToList();
 
-            return employees.ToList();
+            return employees;
         }
 
     }

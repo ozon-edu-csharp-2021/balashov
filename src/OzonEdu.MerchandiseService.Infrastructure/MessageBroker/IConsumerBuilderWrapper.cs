@@ -4,11 +4,13 @@ namespace OzonEdu.MerchandiseService.Infrastructure.MessageBroker
 {
     public interface IConsumerBuilderWrapper
     {
-        IConsumer<long, string> Consumer { get; set; }
+        IConsumer<string, string> ConsumerEmployee { get; set; }
+
+        IConsumer<string, string> ConsumerStock { get; set; }
 
         string StockReplenishedEvent { get; set; }
 
-        public string EmployeeNotificationEvent { get; set; }
+        string EmployeeNotificationEvent { get; set; }
 
     }
 }

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Confluent.Kafka;
 using CSharpCourse.Core.Lib.Events;
 using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -16,18 +17,18 @@ namespace OzonEdu.MerchandiseService.BackgroundServices
     {
         private readonly string _topicName;
         private readonly IConsumerBuilderWrapper _consumerBuilderWrapper;
-        
-        private readonly IMediator _mediator;
+
+        private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly ILogger<StockApiKafkaConsumerBackground> _logger;
 
         public StockApiKafkaConsumerBackground(
             ILogger<StockApiKafkaConsumerBackground> logger,
             IConsumerBuilderWrapper consumerBuilderWrapper, 
-            IMediator mediator)
+            IServiceScopeFactory serviceScopeFactory)
         {
             _logger = logger;
             _consumerBuilderWrapper = consumerBuilderWrapper;
-            _mediator = mediator;
+            _serviceScopeFactory = serviceScopeFactory;
 
             _topicName = _consumerBuilderWrapper.StockReplenishedEvent;
         }
@@ -37,7 +38,7 @@ namespace OzonEdu.MerchandiseService.BackgroundServices
             var kafkaConsumerTask = Task.Run(
                 async () =>
                 {
-                    var consumer = _consumerBuilderWrapper.Consumer;
+                    var consumer = _consumerBuilderWrapper.ConsumerStock;
 
                     consumer.Subscribe(_topicName);
 
@@ -45,12 +46,12 @@ namespace OzonEdu.MerchandiseService.BackgroundServices
                 },
                 stoppingToken);
 
-            _consumerBuilderWrapper.Consumer.Unsubscribe();
+            _consumerBuilderWrapper.ConsumerStock.Unsubscribe();
 
             return kafkaConsumerTask;
         }
 
-        private async Task DoConsumeWhileAsync(CancellationToken stoppingToken, IConsumer<long, string> consumer)
+        private async Task DoConsumeWhileAsync(CancellationToken stoppingToken, IConsumer<string, string> consumer)
         {
             try
             {
@@ -62,14 +63,17 @@ namespace OzonEdu.MerchandiseService.BackgroundServices
             catch (OperationCanceledException)
             {
                 _logger.LogInformation("Kafka-consume closing. Topic: {topicName}", _topicName);
-                _consumerBuilderWrapper.Consumer.Unsubscribe();
+                _consumerBuilderWrapper.ConsumerStock.Unsubscribe();
             }
         }
 
-        private async Task DoConsumeAsync(CancellationToken stoppingToken, IConsumer<long, string> consumer)
+        private async Task DoConsumeAsync(CancellationToken stoppingToken, IConsumer<string, string> consumer)
         {
             try
             {
+                using var scope = _serviceScopeFactory.CreateScope();
+                var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
                 var cr = consumer.Consume(stoppingToken);
                 var stockReplenishedMessage = JsonConvert.DeserializeObject<StockReplenishedEvent>(cr.Message.Value);
                 _logger.LogInformation("Kafka income StockReplenishedEvent message.");
@@ -78,7 +82,7 @@ namespace OzonEdu.MerchandiseService.BackgroundServices
                 {
                     var mediatrRequest = new StockReplenishedCommand { StockReplenishedItems = stockReplenishedMessage.Type };
 
-                    await _mediator.Send(mediatrRequest, stoppingToken);
+                    await mediator.Send(mediatrRequest, stoppingToken);
                 }
             }
             catch (Exception e)

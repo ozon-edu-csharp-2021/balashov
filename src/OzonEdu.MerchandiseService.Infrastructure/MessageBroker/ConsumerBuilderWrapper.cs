@@ -7,8 +7,11 @@ namespace OzonEdu.MerchandiseService.Infrastructure.MessageBroker
 {
     public class ConsumerBuilderWrapper : IConsumerBuilderWrapper
     {
-        /// <inheritdoc cref="Consumer"/>
-        public IConsumer<long, string> Consumer { get; set; }
+        /// <inheritdoc cref="ConsumerEmployee"/>
+        public IConsumer<string, string> ConsumerEmployee { get; set; }
+
+        /// <inheritdoc cref="ConsumerStock"/>
+        public IConsumer<string, string> ConsumerStock { get; set; }
 
         /// <inheritdoc cref="StockReplenishedEvent"/>
         public string StockReplenishedEvent { get; set; }
@@ -30,10 +33,11 @@ namespace OzonEdu.MerchandiseService.Infrastructure.MessageBroker
                 EnableAutoCommit = false
             };
 
-            Consumer = new ConsumerBuilder<long, string>(consumerConfig).Build();
-            
-            StockReplenishedEvent = configValue.StockTopic;
+            ConsumerEmployee = new ConsumerBuilder<string, string>(consumerConfig).Build();
             EmployeeNotificationEvent = configValue.EmployeeNotificationTopic;
+
+            ConsumerStock = new ConsumerBuilder<string, string>(consumerConfig).Build();
+            StockReplenishedEvent = configValue.StockTopic;
         }
     }
 }

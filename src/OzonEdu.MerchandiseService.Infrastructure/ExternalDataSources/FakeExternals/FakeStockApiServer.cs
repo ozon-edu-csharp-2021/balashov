@@ -1,5 +1,6 @@
 ﻿using System;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
+using OzonEdu.MerchandiseService.Infrastructure.ExternalDataSources;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals.FakeExternals
 {

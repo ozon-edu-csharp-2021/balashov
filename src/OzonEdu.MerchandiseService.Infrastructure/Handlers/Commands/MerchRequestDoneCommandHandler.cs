@@ -8,7 +8,7 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
 using OzonEdu.MerchandiseService.Domain.Contracts;
 using OzonEdu.MerchandiseService.Infrastructure.Commands;
 
-namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
+namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.Commands
 {
     public class MerchRequestDoneCommandHandler : IRequestHandler<MerchRequestDoneCommand, MerchandiseRequest>
     {

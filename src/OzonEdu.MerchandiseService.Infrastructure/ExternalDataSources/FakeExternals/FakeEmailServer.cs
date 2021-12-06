@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
+using OzonEdu.MerchandiseService.Infrastructure.ExternalDataSources;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.InterfacesToExternals.FakeExternals
 {

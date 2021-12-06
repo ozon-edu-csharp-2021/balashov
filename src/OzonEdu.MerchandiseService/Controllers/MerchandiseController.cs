@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using CSharpCourse.Core.Lib.Events;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations;
@@ -40,7 +41,7 @@ namespace OzonEdu.MerchandiseService.Controllers
                 return Ok($"Сотруднику {employeeId} мерч не выдавался.");
 
             var issuedMerchResponse = issuedMerch.Select(im => new MerchandiseRequestResponseDto(im)).ToList();
-            
+
             return Ok(issuedMerchResponse);
         }
 
@@ -66,6 +67,9 @@ namespace OzonEdu.MerchandiseService.Controllers
         [HttpPost]
         public async Task<ActionResult> RequestMerch(MerchandiseRequestRequestDto request, CancellationToken token)
         {
+            var employeeCommand = new EmployeeDetectedCommand { EmployeeId = request.EmployeeId };
+            await _mediator.Send(employeeCommand, token);
+
             var merchTitle = new MerchPack(request.RequestedMerchPackType);
             var size = Size.GetSizeFromString(request.Size);
             var date = new Date(DateTime.Now);

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate;
 using OzonEdu.MerchandiseService.Infrastructure.Commands;
 
-namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
+namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.Commands
 {
     public class StockReplenishedCommandHandler : IRequestHandler<StockReplenishedCommand, MerchandiseRequest>
     {
@@ -17,7 +16,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers
             _logger = logger;
         }
 
-        public Task<MerchandiseRequest> Handle(StockReplenishedCommand request, CancellationToken cancellationToken)
+        public async Task<MerchandiseRequest> Handle(StockReplenishedCommand request, CancellationToken cancellationToken)
         {
             _logger.LogInformation("Получено сообщение из StockApi про новую поставку");
             
