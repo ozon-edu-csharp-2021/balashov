@@ -31,7 +31,6 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.Commands
 
         public async Task<Employee> Handle(EmployeeDetectedCommand request, CancellationToken cancellationToken)
         {
-            //await _unitOfWork.StartTransaction(cancellationToken);
             //Так как уже реализовал класс, который ходит в HTTP-API Employee-service, то пусть тут и ходит,
             //чтобы в swaggere/postman было бы поприятнее и как демонстрация технологии
             //Но, так-то данные про Employee должны подаваться на вход полностью и явно (например из админки)
@@ -44,8 +43,6 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.Commands
                 throw new Exception("Некорректные входные данные про работника");
 
             var dbEmployee = await InsertOrUpdateToRepository(employee, cancellationToken);
-
-            //await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return dbEmployee;
         }

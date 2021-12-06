@@ -31,13 +31,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.Commands
         public async Task<MerchandiseRequest> Handle(EmployeeNotificationCommand request, CancellationToken cancellationToken)
         {
             await _unitOfWork.StartTransaction(cancellationToken);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            await _unitOfWork.StartTransaction(cancellationToken);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            await _unitOfWork.StartTransaction(cancellationToken);
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
             var name = PersonName.CreateFromOneString(request.EmployeeNotificationEvent.EmployeeName);
             var employee = new Employee(name, new Email(request.EmployeeNotificationEvent.EmployeeEmail));
 
