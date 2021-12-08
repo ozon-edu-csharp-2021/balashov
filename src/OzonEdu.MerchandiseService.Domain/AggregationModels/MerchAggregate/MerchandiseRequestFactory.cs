@@ -1,4 +1,5 @@
-﻿using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
+﻿using System;
+using OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.Enumerations;
 using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
 
@@ -10,8 +11,11 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
         {
             var merchRequest = new MerchandiseRequest(managerId, merchPack, date);
 
-            merchRequest.AddEmployeeInfo(employee.Id, size);
-                
+            merchRequest.AddEmployeeInfo(employee.Email, size);
+
+            if (!merchRequest.SetCreated(date))
+                throw new Exception("Заявка не сформирована! Метод вернул отказ");
+
             return merchRequest;
         }
     }

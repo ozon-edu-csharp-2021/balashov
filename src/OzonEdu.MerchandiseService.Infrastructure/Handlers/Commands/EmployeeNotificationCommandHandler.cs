@@ -45,7 +45,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.Commands
             var mediatrCommand = new RequestMerchCommand
             {
                 HRManagerId = 0,
-                EmployeeId = employee.Id,
+                EmployeeEmail = employee.Email,
                 RequestedMerchPack = merchTitle,
                 Size = size,
                 Date = date

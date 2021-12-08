@@ -23,11 +23,11 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
         private MerchandiseRequest AddEmployee()
         {
             var request = MakeFakeRequest();
-            var employeeId = 10;
+            var employeeEmail = "test@email.ru";
             var size = Size.XL;
             var createdDate = new Date(2021, 11, 06);
 
-            request.AddEmployeeInfo(employeeId, size).SetCreated(createdDate);
+            request.AddEmployeeInfo(new Email(employeeEmail), size).SetCreated(createdDate);
             return request;
         }
 
@@ -45,11 +45,11 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
         public void Create_AddEmployeeInfo_StatusCreated()
         {
             var request = MakeFakeRequest();
-            var employeeId = 10;
+            var employeeEmail = "test@email.ru";
             var size = Size.XL;
             var createdDate = new Date(2021, 11, 06);
 
-            var result = request.AddEmployeeInfo(employeeId, size).SetCreated(createdDate);
+            var result = request.AddEmployeeInfo(new Email(employeeEmail), size).SetCreated(createdDate);
 
             result.Should().BeTrue();
             request.Status.Status.Should().Be(MerchRequestStatusType.Created);

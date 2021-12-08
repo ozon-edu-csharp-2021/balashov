@@ -8,7 +8,7 @@ services:
     image: merchandise-service
     container_name: merchandise-service
     ports:
-      - 8080:80
+      - 8090:80
     environment:
       DatabaseConnectionOptions__ConnectionString: "Host=host.docker.internal;Port=5428;Database=Merchandise;Username=postgres;Password=MerchPassword"
       ExternalServers__EmployeeServerUrl: "http://employees-service:8443/"

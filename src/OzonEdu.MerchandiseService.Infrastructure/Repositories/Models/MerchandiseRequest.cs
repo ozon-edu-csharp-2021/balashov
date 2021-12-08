@@ -9,7 +9,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Models
         
         public int MerchRequestStatusId { get; set; }
         public int HrManagerId { get; set; }
-        public int? EmployeeId { get; set; }
+        public string EmployeeEmail { get; set; }
         public int? PackTitleId { get; set; }
         public int? ClothingSizeId { get; set; }
         public DateTime LastChangeDate { get; set; }

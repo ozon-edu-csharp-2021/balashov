@@ -26,14 +26,14 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
         public async Task<MerchandiseRequest> CreateAsync(MerchandiseRequest itemToCreate, CancellationToken cancellationToken = default)
         {
             string sql = @"
-                INSERT INTO merchandise_requests (merch_request_status_id, hr_manager_id, employee_id, pack_title_id, clothing_size_id, last_change_date)
-                VALUES (@status, @hrid, @eid, @pack, @size, @lastdate) RETURNING id;";
+                INSERT INTO merchandise_requests (merch_request_status_id, hr_manager_id, employee_email, pack_title_id, clothing_size_id, last_change_date)
+                VALUES (@status, @hrid, @email, @pack, @size, @lastdate) RETURNING id;";
 
             var parameters = new
             {
                 status = itemToCreate.Status.Status.Id,
                 hrid = itemToCreate.HRManagerId,
-                eid = itemToCreate.EmployeeId,
+                email = itemToCreate.EmployeeEmail.EmailString,
                 pack = itemToCreate.RequestedMerchPack.PackTitle.Id,
                 size = itemToCreate.Size.Id,
                 lastdate = itemToCreate.Status.Date.ToDateTime()
@@ -63,7 +63,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
         {
             const string sql = @"
             UPDATE merchandise_requests
-            SET merch_request_status_id = @status, hr_manager_id = @hrid, employee_id = @eid,
+            SET merch_request_status_id = @status, hr_manager_id = @hrid, employee_email = @email,
             pack_title_id = @pack, clothing_size_id = @size, last_change_date = @lastdate
             WHERE merchandise_requests.id = @mrid;";
 
@@ -72,7 +72,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
                 mrid = itemToUpdate.Id,
                 status = itemToUpdate.Status.Status.Id,
                 hrid = itemToUpdate.HRManagerId,
-                eid = itemToUpdate.EmployeeId,
+                email = itemToUpdate.EmployeeEmail.EmailString,
                 pack = itemToUpdate.RequestedMerchPack.PackTitle.Id,
                 size = itemToUpdate.Size.Id,
                 lastdate = itemToUpdate.Status.Date.ToDateTime()
@@ -94,9 +94,9 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
 
         public async Task<MerchandiseRequest> FindByIdAsync(long id, CancellationToken cancellationToken = default)
         {
-            const string sql = @"SELECT merchandise_requests.id, merchandise_requests.hr_manager_id, merchandise_requests.employee_id,
+            const string sql = @"SELECT merchandise_requests.id, merchandise_requests.hr_manager_id, merchandise_requests.employee_email,
             merchandise_requests.clothing_size_id, merchandise_requests.pack_title_id, merchandise_requests.merch_request_status_id, merchandise_requests.last_change_date,
-            merchandise_requests.employee_id
+            merchandise_requests.employee_email
             FROM merchandise_requests
             WHERE merchandise_requests.id = @mrId;";
 
@@ -108,15 +108,14 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
             return merchRequest;
         }
 
-        public async Task<List<MerchandiseRequest>> FindByEmployeeIdAsync(long employeeId, CancellationToken cancellationToken = default)
+        public async Task<List<MerchandiseRequest>> FindByEmployeeEmailAsync(string employeeEmail, CancellationToken cancellationToken = default)
         {
-            const string sql = @"SELECT merchandise_requests.id, merchandise_requests.hr_manager_id, merchandise_requests.employee_id,
-            merchandise_requests.clothing_size_id, merchandise_requests.pack_title_id, merchandise_requests.merch_request_status_id, merchandise_requests.last_change_date,
-            merchandise_requests.employee_id
+            const string sql = @"SELECT merchandise_requests.id, merchandise_requests.hr_manager_id,merchandise_requests.employee_email,
+            merchandise_requests.clothing_size_id, merchandise_requests.pack_title_id, merchandise_requests.merch_request_status_id, merchandise_requests.last_change_date
             FROM merchandise_requests
-            WHERE merchandise_requests.employee_id = @emplId;";
+            WHERE merchandise_requests.employee_email = @email;";
 
-            var parameters = new { emplId = employeeId };
+            var parameters = new { email = employeeEmail };
 
             var merchRequests = (await DoRequest_GetMerchandiseRequest(sql, cancellationToken, parameters)).ToList();
 
@@ -146,7 +145,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
                     MerchRequestStatusType.GetById(dbMerchandiseRequest.MerchRequestStatusId),
                     new Date(dbMerchandiseRequest.LastChangeDate))
                 .AddEmployeeInfoFromDB(
-                    dbMerchandiseRequest.EmployeeId,
+                    new Email(dbMerchandiseRequest.EmployeeEmail),
                     dbMerchandiseRequest.ClothingSizeId is not null
                         ? Size.GetById((int)dbMerchandiseRequest.ClothingSizeId)
                         : null)

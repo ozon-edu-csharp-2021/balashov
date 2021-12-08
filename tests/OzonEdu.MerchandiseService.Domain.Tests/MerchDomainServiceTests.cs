@@ -117,7 +117,6 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var result = MerchDomainService.CanEmployeeReceiveNewMerch(
                 issuedMerch,
                 new MerchPack(40),
-                employee,
                 new Date(2021, 11, 11),
                 out string whyString);
 
@@ -135,7 +134,6 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var result = MerchDomainService.CanEmployeeReceiveNewMerch(
                 issuedMerch,
                 new MerchPack(10),
-                employee,
                 new Date(2022, 12, 12),
                 out string whyString);
 
@@ -154,7 +152,6 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var result = MerchDomainService.CanEmployeeReceiveNewMerch(
                 issuedMerch,
                 new MerchPack(20),
-                employee,
                 new Date(2021, 11, 12),
                 out string whyString);
 
@@ -172,7 +169,6 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var result = MerchDomainService.CanEmployeeReceiveNewMerch(
                 issuedMerch,
                 new MerchPack(10),
-                employee,
                 new Date(2021, 11, 12),
                 out string whyString);
 

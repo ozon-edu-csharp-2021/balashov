@@ -33,9 +33,9 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Handlers.DomainEvents
             if (!merchRequest.Status.Status.Equals(MerchRequestStatusType.Reserved))
                 return;
 
-            var employee = await _employeeRepository.FindByIdAsync(merchRequest.EmployeeId, cancellationToken);
+            var employee = await _employeeRepository.FindByEmailAsync(merchRequest.EmployeeEmail, cancellationToken);
             if (employee == null)
-                throw new Exception($"Запрашиваемый сотрудник не обнаружен id:{merchRequest.EmployeeId}");
+                throw new Exception($"Запрашиваемый сотрудник не обнаружен email:{merchRequest.EmployeeEmail}");
 
             var manager = await ManagerProcessing.GetTheManagerAsync(_managerRepository, merchRequest.HRManagerId, cancellationToken);
             if (manager == null)

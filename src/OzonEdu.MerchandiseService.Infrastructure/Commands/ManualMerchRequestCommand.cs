@@ -5,11 +5,11 @@ using OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects;
 
 namespace OzonEdu.MerchandiseService.Infrastructure.Commands
 {
-    public class RequestMerchCommand : IRequest<MerchandiseRequest>
+    public class ManualMerchRequestCommand : IRequest<MerchandiseRequest>
     {
         public long HRManagerId { get; set; }
 
-        public Email EmployeeEmail { get; set; }
+        public long EmployeeId { get; set; }
 
         public MerchPack RequestedMerchPack { get; set; }
 

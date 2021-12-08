@@ -12,7 +12,7 @@ namespace OzonEdu.MerchandiseService.Migrator.Migrations
                     id BIGSERIAL PRIMARY KEY,
                     merch_request_status_id INT NOT NULL,
                     hr_manager_id INT NOT NULL,
-                    employee_id INT,
+                    employee_email TEXT NOT NULL,
                     pack_title_id INT,
                     clothing_size_id INT,
                     last_change_date timestamp without time zone);"

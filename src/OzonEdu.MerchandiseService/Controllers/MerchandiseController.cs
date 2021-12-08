@@ -67,14 +67,11 @@ namespace OzonEdu.MerchandiseService.Controllers
         [HttpPost]
         public async Task<ActionResult> RequestMerch(MerchandiseRequestRequestDto request, CancellationToken token)
         {
-            var employeeCommand = new EmployeeDetectedCommand { EmployeeId = request.EmployeeId };
-            await _mediator.Send(employeeCommand, token);
-
             var merchTitle = new MerchPack(request.RequestedMerchPackType);
             var size = Size.GetSizeFromString(request.Size);
             var date = new Date(DateTime.Now);
 
-            var mediatrCommand = new RequestMerchCommand
+            var mediatrCommand = new ManualMerchRequestCommand
             {
                 HRManagerId = request.HRManagerId,
                 EmployeeId = request.EmployeeId,
@@ -83,7 +80,7 @@ namespace OzonEdu.MerchandiseService.Controllers
                 Date = date
             };
 
-            MerchandiseRequest merchRequest = await _mediator.Send(mediatrCommand, token);
+            var merchRequest = await _mediator.Send(mediatrCommand, token);
 
             var responseDto = new MerchandiseRequestResponseDto(merchRequest);
             return Ok(responseDto);

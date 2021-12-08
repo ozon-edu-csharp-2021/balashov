@@ -10,7 +10,7 @@ namespace OzonEdu.MerchandiseService.Models
 
         public long HRManagerId { get; }
 
-        public long EmployeeId { get; }
+        public string EmployeeEmail { get; }
 
         public string Size { get; }
 
@@ -25,7 +25,7 @@ namespace OzonEdu.MerchandiseService.Models
 
             HRManagerId = issuingMerch.HRManagerId;
 
-            EmployeeId = issuingMerch.EmployeeId;
+            EmployeeEmail = issuingMerch.EmployeeEmail.EmailString;
 
             RequestedMerchPack = issuingMerch.RequestedMerchPack.ToString();
 

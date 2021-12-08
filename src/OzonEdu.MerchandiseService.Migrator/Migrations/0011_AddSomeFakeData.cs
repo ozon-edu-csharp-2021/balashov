@@ -7,20 +7,20 @@ namespace OzonEdu.MerchandiseService.Migrator.Migrations
     {
         public override void Up()
         {
-            Execute.Sql(@"
-                INSERT INTO employees (first_name, last_name, middle_name, email)
-                VALUES ('ИмяТест1', 'ФамилияТест1', 'ОтчествоТест1', 'test@email.emp') ON CONFLICT DO NOTHING
-            ");
+            //Execute.Sql(@"
+            //    INSERT INTO employees (first_name, last_name, middle_name, email)
+            //    VALUES ('ИмяТест1', 'ФамилияТест1', 'ОтчествоТест1', 'test@email.emp') ON CONFLICT DO NOTHING
+            //");
 
-            Execute.Sql(@"
-                INSERT INTO employees (first_name, last_name, middle_name, email)
-                VALUES ('ИмяТест2', 'ФамилияТест2', 'ОтчествоТест2', 'test2@email.emp') ON CONFLICT DO NOTHING
-            ");
+            //Execute.Sql(@"
+            //    INSERT INTO employees (first_name, last_name, middle_name, email)
+            //    VALUES ('ИмяТест2', 'ФамилияТест2', 'ОтчествоТест2', 'test2@email.emp') ON CONFLICT DO NOTHING
+            //");
 
-            Execute.Sql(@"
-                INSERT INTO employees (first_name, last_name, middle_name, email)
-                VALUES ('ИмяТест3', 'ФамилияТест3', '', 'test3@email.emp') ON CONFLICT DO NOTHING
-            ");
+            //Execute.Sql(@"
+            //    INSERT INTO employees (first_name, last_name, middle_name, email)
+            //    VALUES ('ИмяТест3', 'ФамилияТест3', '', 'test3@email.emp') ON CONFLICT DO NOTHING
+            //");
 
             Execute.Sql(@"
                 INSERT INTO hr_managers (first_name, last_name, middle_name, phone, email)
@@ -52,20 +52,20 @@ namespace OzonEdu.MerchandiseService.Migrator.Migrations
                 VALUES (3, 4) ON CONFLICT DO NOTHING
             ");
 
-            Execute.Sql(@"
-INSERT INTO merchandise_requests (merch_request_status_id, hr_manager_id, employee_id, pack_title_id, clothing_size_id, last_change_date)
-                VALUES (2, 1, 2, 10, 1, '2021-10-20') ON CONFLICT DO NOTHING
-            ");
+//            Execute.Sql(@"
+//INSERT INTO merchandise_requests (merch_request_status_id, hr_manager_id, employee_email, pack_title_id, clothing_size_id, last_change_date)
+//                VALUES (2, 1, 'test@email.emp', 10, 1, '2021-10-20') ON CONFLICT DO NOTHING
+//            ");
 
-            Execute.Sql(@"
-INSERT INTO merchandise_requests (merch_request_status_id, hr_manager_id, employee_id, pack_title_id, clothing_size_id, last_change_date)
-                VALUES (4, 2, 3, 20, 3, '2018-11-20')  ON CONFLICT DO NOTHING
-            ");
+//            Execute.Sql(@"
+//INSERT INTO merchandise_requests (merch_request_status_id, hr_manager_id, employee_email, pack_title_id, clothing_size_id, last_change_date)
+//                VALUES (4, 2, 'test2@email.emp', 20, 3, '2018-11-20')  ON CONFLICT DO NOTHING
+//            ");
 
-            Execute.Sql(@"
-INSERT INTO merchandise_requests (merch_request_status_id, hr_manager_id, employee_id, pack_title_id, clothing_size_id, last_change_date)
-                VALUES (5, 3, 1, 40, 5, '2020-11-20')  ON CONFLICT DO NOTHING
-            ");
+//            Execute.Sql(@"
+//INSERT INTO merchandise_requests (merch_request_status_id, hr_manager_id, employee_email, pack_title_id, clothing_size_id, last_change_date)
+//                VALUES (5, 3, 'test@email.emp', 40, 5, '2020-11-20')  ON CONFLICT DO NOTHING
+//            ");
         }
     }
 }

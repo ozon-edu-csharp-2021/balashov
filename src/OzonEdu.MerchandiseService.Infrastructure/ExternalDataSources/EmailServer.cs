@@ -23,9 +23,9 @@ namespace OzonEdu.MerchandiseService.Infrastructure.ExternalDataSources
         {
             //TODO проверить формат и работу ключа в сообщении
             _producerBuilderWrapper.Producer.Produce(_producerBuilderWrapper.EmailNotificationTopic,
-                new Message<long, string>()
+                new Message<string, string>()
                 {
-                    Key = employee.Id,
+                    Key = employee.Id.ToString(),
                     Value = JsonSerializer.Serialize(new NotificationEvent()
                     {
                         EmployeeEmail = employee.Email.EmailString,

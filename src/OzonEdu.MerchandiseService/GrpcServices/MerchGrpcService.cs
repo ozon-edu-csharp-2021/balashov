@@ -64,7 +64,7 @@ namespace OzonEdu.MerchandiseService.GrpcServices
                         Id = im.Id,
                         Status = im.Status.ToString(),
                         HrManagerId = im.HRManagerId,
-                        EmployeeId = im.EmployeeId,
+                        EmployeeEmail = im.EmployeeEmail.EmailString,
                         Size = im.Size.Name,
                         RequestedMerchPackId = im.RequestedMerchPack.PackTitle.Id
                     })
@@ -85,7 +85,7 @@ namespace OzonEdu.MerchandiseService.GrpcServices
             var mediatrRequest = new RequestMerchCommand
             {
                 HRManagerId = -1, //any free manager
-                EmployeeId = request.EmployeeId,
+                EmployeeEmail = new Email(request.EmployeeEmail),
                 RequestedMerchPack = merchTitle,
                 Size = size,
                 Date = date
@@ -98,7 +98,7 @@ namespace OzonEdu.MerchandiseService.GrpcServices
                 Id = merchRequest.Id,
                 Status = merchRequest.Status.ToString(),
                 HrManagerId = merchRequest.HRManagerId,
-                EmployeeId = merchRequest.EmployeeId,
+                EmployeeEmail = merchRequest.EmployeeEmail.EmailString,
                 Size = merchRequest.Size.Name,
                 RequestedMerchPackId = merchRequest.RequestedMerchPack.PackTitle.Id
 
@@ -120,7 +120,7 @@ namespace OzonEdu.MerchandiseService.GrpcServices
                 Id = merchRequest.Id,
                 Status = merchRequest.Status.ToString(),
                 HrManagerId = merchRequest.HRManagerId,
-                EmployeeId = merchRequest.EmployeeId,
+                EmployeeEmail = merchRequest.EmployeeEmail.EmailString,
                 Size = merchRequest.Size.Name,
                 RequestedMerchPackId = merchRequest.RequestedMerchPack.PackTitle.Id
 

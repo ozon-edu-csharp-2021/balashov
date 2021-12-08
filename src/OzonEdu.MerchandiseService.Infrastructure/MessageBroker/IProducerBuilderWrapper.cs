@@ -7,7 +7,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.MessageBroker
         /// <summary>
         /// Producer instance
         /// </summary>
-        IProducer<long, string> Producer { get; set; }
+        IProducer<string, string> Producer { get; set; }
 
         /// <summary>
         /// Топик для отправки сообщения что пришла новая поставка

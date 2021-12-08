@@ -12,7 +12,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
 
         public long HRManagerId { get; private set; }
 
-        public long EmployeeId { get; private set; }
+        public Email EmployeeEmail { get; private set; }
 
         public MerchPack RequestedMerchPack { get; private set; }
 
@@ -36,22 +36,19 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             Status = new MerchRequestStatus(statusType, data);
         }
 
-        public MerchandiseRequest AddEmployeeInfoFromDB(int? employeeId, Size size)
+        public MerchandiseRequest AddEmployeeInfoFromDB(Email employeeEmail, Size size)
         {
-            if (employeeId is null)
+            if (employeeEmail is null)
                 return this;
 
-            EmployeeId = (int)employeeId;
+            EmployeeEmail = employeeEmail;
             Size = size;
             return this;
         }
 
-        public MerchandiseRequest AddEmployeeInfo(long employeeId, Size size)
+        public MerchandiseRequest AddEmployeeInfo(Email employeeEmail, Size size)
         {
-            if (employeeId <= 0)
-                throw new Exception("Некорректный id сотрудника! Невозможно добавить данные в заявку.");
-            
-            EmployeeId = employeeId;
+            EmployeeEmail = employeeEmail ?? throw new Exception("Некорректный id сотрудника! Невозможно добавить данные в заявку.");
             Size = size;
             return this;
         }
@@ -70,11 +67,11 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             if (!Status.Status.Equals(MerchRequestStatusType.Draft))
                 return false;
 
-            if (EmployeeId <= 0)
+            if (EmployeeEmail is null)
                 return false;
 
             Status = new MerchRequestStatus(MerchRequestStatusType.Created, date);
-
+            
             AddDomainEvent(new MerchRequestCreatedDomainEvent(this));
             return true;
         }
@@ -126,7 +123,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
             if (HRManagerId <= 0)
                 return false;
 
-            if (EmployeeId <= 0)
+            if (EmployeeEmail is null)
                 return false;
 
             return true;
