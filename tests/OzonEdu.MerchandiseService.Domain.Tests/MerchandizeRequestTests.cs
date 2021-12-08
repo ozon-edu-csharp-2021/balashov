@@ -16,19 +16,18 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var hrManagerId = 1;
             var hrManagerContactPhone = new PhoneNumber("+123456789");
             var requestedMerchPack = new MerchPack(new MerchLine("testML", new Year(2021)), MerchPackTitle.WelcomePack);
-            var result = new MerchandiseRequest(hrManagerId, hrManagerContactPhone, requestedMerchPack, date);
+            var result = new MerchandiseRequest(hrManagerId, requestedMerchPack, date);
             return result;
         }
 
         private MerchandiseRequest AddEmployee()
         {
             var request = MakeFakeRequest();
-            var employeeId = 10;
-            var employeeContactPhone = new PhoneNumber("+987654321");
+            var employeeEmail = "test@email.ru";
             var size = Size.XL;
             var createdDate = new Date(2021, 11, 06);
 
-            request.AddEmployeeInfo(employeeId, employeeContactPhone, size, createdDate);
+            request.AddEmployeeInfo(new Email(employeeEmail), size).SetCreated(createdDate);
             return request;
         }
 
@@ -46,12 +45,11 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
         public void Create_AddEmployeeInfo_StatusCreated()
         {
             var request = MakeFakeRequest();
-            var employeeId = 10;
-            var employeeContactPhone = new PhoneNumber("+987654321");
+            var employeeEmail = "test@email.ru";
             var size = Size.XL;
             var createdDate = new Date(2021, 11, 06);
 
-            var result = request.AddEmployeeInfo(employeeId, employeeContactPhone, size, createdDate);
+            var result = request.AddEmployeeInfo(new Email(employeeEmail), size).SetCreated(createdDate);
 
             result.Should().BeTrue();
             request.Status.Status.Should().Be(MerchRequestStatusType.Created);
@@ -92,10 +90,10 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var inProgressDate = new Date(2021, 12, 08);
             request.SetAssigned(assignedDate);
 
-            var result = request.SetInProgress(inProgressDate);
+            var result = request.SetReserved(inProgressDate);
 
             result.Should().BeTrue();
-            request.Status.Status.Should().Be(MerchRequestStatusType.InProgress);
+            request.Status.Status.Should().Be(MerchRequestStatusType.Reserved);
             request.Status.Date.Should().BeEquivalentTo(inProgressDate);
         }
 
@@ -105,7 +103,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var request = AddEmployee();
             var inProgressDate = new Date(2021, 12, 07);
 
-            var result = request.SetInProgress(inProgressDate);
+            var result = request.SetReserved(inProgressDate);
 
             result.Should().BeFalse();
         }
@@ -118,7 +116,7 @@ namespace OzonEdu.MerchandiseService.Domain.Tests
             var inProgressDate = new Date(2021, 12, 08);
             var doneDate = new Date(2021, 12, 10);
             request.SetAssigned(assignedDate);
-            request.SetInProgress(inProgressDate);
+            request.SetReserved(inProgressDate);
 
             var result = request.SetDone(doneDate);
 

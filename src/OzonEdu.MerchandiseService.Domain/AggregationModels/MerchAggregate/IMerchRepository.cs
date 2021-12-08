@@ -9,6 +9,6 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.MerchAggregate
     {
         Task<MerchandiseRequest> FindByIdAsync(long id, CancellationToken cancellationToken = default);
 
-        Task<List<MerchandiseRequest>> FindByEmployeeIdAsync(long employeeId, CancellationToken cancellationToken = default);
+        Task<List<MerchandiseRequest>> FindByEmployeeEmailAsync(string employeeEmail, CancellationToken cancellationToken = default);
     }
 }

@@ -30,7 +30,9 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ManagerAggregate
 
         public bool CanHandleNewTask => AssignedTasks < MaxTasksCount;
 
-        public void AssignTask() => AssignedTasks++;
+        public void AssignTask() => ++AssignedTasks;
+
+        public void TaskDone() => --AssignedTasks;
 
         public Manager SetId(long id)
         {

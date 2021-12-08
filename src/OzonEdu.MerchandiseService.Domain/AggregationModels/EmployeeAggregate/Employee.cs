@@ -6,16 +6,22 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.EmployeeAggregate
 {
     public class Employee : Entity
     {
-        public Employee(PersonName name, Email email, PhoneNumber phoneNumber)
+        public Employee(PersonName name, Email email)
         {
             Name = name;
             Email = email;
-            PhoneNumber = phoneNumber;
         }
+
+        //public Employee(PersonName name, Email email, PhoneNumber phoneNumber)
+        //{
+        //    Name = name;
+        //    Email = email;
+        //    PhoneNumber = phoneNumber;
+        //}
 
         public PersonName Name { get; }
 
-        public PhoneNumber PhoneNumber { get; }
+        //public PhoneNumber PhoneNumber { get; }
 
         public Email Email { get; private set; }
 

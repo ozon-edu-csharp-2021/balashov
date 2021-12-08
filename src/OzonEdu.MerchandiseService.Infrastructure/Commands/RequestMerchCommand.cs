@@ -9,7 +9,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Commands
     {
         public long HRManagerId { get; set; }
 
-        public long EmployeeId { get; set; }
+        public Email EmployeeEmail { get; set; }
 
         public MerchPack RequestedMerchPack { get; set; }
 

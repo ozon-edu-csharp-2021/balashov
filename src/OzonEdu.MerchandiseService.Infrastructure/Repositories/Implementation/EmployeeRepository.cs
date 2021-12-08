@@ -27,15 +27,14 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
         public async Task<Employee> CreateAsync(Employee itemToCreate, CancellationToken cancellationToken = default)
         {
             const string sql = @"
-                INSERT INTO employees (first_name, last_name, middle_name, phone, email)
-                VALUES (@fname, @lname, @mname, @phone, @email) RETURNING id;";
+                INSERT INTO employees (first_name, last_name, middle_name, email)
+                VALUES (@fname, @lname, @mname, @email) RETURNING id;";
 
             var parameters = new
             {
                 fname = itemToCreate.Name.FirstName,
                 lname = itemToCreate.Name.LastName,
                 mname = itemToCreate.Name.MiddleName,
-                phone = itemToCreate.PhoneNumber.Phone,
                 email = itemToCreate.Email.EmailString
             };
 
@@ -64,7 +63,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
             const string sql = @"
             UPDATE employees
             SET first_name = @fname, last_name = @lname, middle_name = @mname,
-            phone = @phone, email = @email 
+            email = @email 
             WHERE id = @eid;";
 
             var parameters = new
@@ -73,7 +72,6 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
                 fname = itemToUpdate.Name.FirstName,
                 lname = itemToUpdate.Name.LastName,
                 mname = itemToUpdate.Name.MiddleName,
-                phone = itemToUpdate.PhoneNumber.Phone,
                 email = itemToUpdate.Email.EmailString,
             };
             var commandDefinition = new CommandDefinition(
@@ -97,8 +95,13 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
 
             var parameters = new { emplid = id};
 
-            var employee = (await DoRequest_GetEmployees(sql, cancellationToken, parameters)).First();
+            var employees = await DoRequest_GetEmployees(sql, cancellationToken, parameters);
+            if (employees.Count == 0)
+                return null;
+
+            var employee = employees.First();
             _changeTracker.Track(employee);
+
             return employee;
         }
 
@@ -116,6 +119,25 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
             return employeeList;
         }
 
+        public async Task<Employee> FindByEmailAsync(Email email, CancellationToken cancellationToken = default)
+        {
+            const string sql = @"SELECT * FROM employees WHERE employees.email = @email;";
+
+            var parameters = new { email = email.EmailString };
+
+            var employeeList = (await DoRequest_GetEmployees(sql, cancellationToken, parameters)).ToList();
+            if (employeeList.Count == 0)
+                return null;
+            
+            if (employeeList.Count > 1)
+                throw new Exception("Обнаружено несколько сотрудников с одинаковым Email");
+
+            var employee = employeeList.First();
+            _changeTracker.Track(employee);
+
+            return employee;
+        }
+
         public async Task<List<Employee>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             const string sql = @"SELECT * FROM employees;";
@@ -129,7 +151,7 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
             return employeeList;
         }
 
-        private async Task<IEnumerable<Employee>> DoRequest_GetEmployees(
+        private async Task<List<Employee>> DoRequest_GetEmployees(
             string sql,
             CancellationToken cancellationToken,
             object parameters = null)
@@ -142,16 +164,15 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
 
             var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
 
-            var dbEmployees = await connection.QueryAsync<Models.Employee>(commandDefinition);
+            var dbElements = await connection.QueryAsync<Models.Employee>(commandDefinition);
 
-            var employees = dbEmployees.Select(
+            var employees = dbElements.Select(
                 dbEmployee => new Employee(
                     PersonName.Create(dbEmployee.FirstName, dbEmployee.LastName, dbEmployee.MiddleName),
-                    new Email(dbEmployee.Email),
-                    new PhoneNumber(dbEmployee.Phone))
-                    .SetId(dbEmployee.Id));
+                    new Email(dbEmployee.Email))
+                    .SetId(dbEmployee.Id)).ToList();
 
-            return employees.ToList();
+            return employees;
         }
 
     }

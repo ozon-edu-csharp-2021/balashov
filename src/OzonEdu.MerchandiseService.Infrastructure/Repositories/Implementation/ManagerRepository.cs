@@ -82,16 +82,18 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
             await connection.ExecuteAsync(commandDefinition);
         }
 
+        const string SqlUpdateHrAssignedTasks = @"
+            UPDATE hr_assign_tasks
+            SET assigned_tasks = @asstasks
+            WHERE hr_manager_id = @mrlid;";
+
         public async Task<Manager> UpdateAsync(Manager itemToUpdate, CancellationToken cancellationToken = default)
         {
             const string sql = @"
             UPDATE hr_managers
             SET hr_managers.first_name = @fname, hr_managers.last_name = @lname, hr_managers.middle_name = @mname,
             hr_managers.phone = @phone, hr_managers.email = @email 
-            WHERE hr_managers.id = @mrlid;
-            UPDATE hr_assign_tasks
-            SET hr_assign_tasks.assigned_tasks = @asstasks
-            WHERE hr_assign_tasks.hr_manager_id = @mrlid;";
+            WHERE hr_managers.id = @mrlid;" + SqlUpdateHrAssignedTasks;
             
             var parameters = new
             {
@@ -101,6 +103,30 @@ namespace OzonEdu.MerchandiseService.Infrastructure.Repositories.Implementation
                 mname = itemToUpdate.Name.MiddleName,
                 phone = itemToUpdate.PhoneNumber.Phone,
                 email = itemToUpdate.Email.EmailString,
+                asstasks = itemToUpdate.AssignedTasks
+            };
+            var commandDefinition = new CommandDefinition(
+                commandText: sql,
+                parameters: parameters,
+                commandTimeout: Timeout,
+                cancellationToken: cancellationToken);
+
+            var connection = await _dbConnectionFactory.CreateConnection(cancellationToken);
+
+            await connection.ExecuteAsync(commandDefinition);
+
+            _changeTracker.Track(itemToUpdate);
+
+            return itemToUpdate;
+        }
+
+        public async Task<Manager> UpdateAssignedTasksAsync(Manager itemToUpdate, CancellationToken cancellationToken = default)
+        {
+            const string sql = SqlUpdateHrAssignedTasks;
+
+            var parameters = new
+            {
+                mrlid = itemToUpdate.Id,
                 asstasks = itemToUpdate.AssignedTasks
             };
             var commandDefinition = new CommandDefinition(

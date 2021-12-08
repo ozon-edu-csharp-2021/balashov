@@ -37,7 +37,7 @@ namespace OzonEdu.MerchandiseService.Migrator.Migrations
                     (1, 'Draft'),
                     (2, 'Created'),
                     (3, 'Assigned'),
-                    (4, 'InProgress'),
+                    (4, 'Reserved'),
                     (5, 'Done')
                 ON CONFLICT DO NOTHING
             ");

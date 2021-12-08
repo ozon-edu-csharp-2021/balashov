@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{0FAA23
 		.gitignore = .gitignore
 		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
+		entrypoint.sh = entrypoint.sh
 		MerchandiseService - Bounded Context Canvas.drawio = MerchandiseService - Bounded Context Canvas.drawio
 		README.md = README.md
-		entrypoint.sh = entrypoint.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D6A85A53-B541-412C-B4C5-96FB4C87BFBA}"
@@ -30,7 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OzonEdu.MerchandiseService.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OzonEdu.MerchandiseService.Domain.Tests", "tests\OzonEdu.MerchandiseService.Domain.Tests\OzonEdu.MerchandiseService.Domain.Tests.csproj", "{066ED6C2-9B9B-46E0-9A46-5C16107C584D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OzonEdu.MerchandiseService.Migrator", "src\OzonEdu.MerchandiseService.Migrator\OzonEdu.MerchandiseService.Migrator.csproj", "{A193F596-CFC7-4136-9F17-DA7333A78195}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OzonEdu.MerchandiseService.Migrator", "src\OzonEdu.MerchandiseService.Migrator\OzonEdu.MerchandiseService.Migrator.csproj", "{A193F596-CFC7-4136-9F17-DA7333A78195}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

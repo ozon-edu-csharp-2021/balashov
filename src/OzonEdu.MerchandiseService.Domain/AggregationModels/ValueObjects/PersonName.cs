@@ -16,6 +16,22 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
             MiddleName = middleName;
         }
 
+        public static PersonName CreateFromOneString(string fullName)
+        {
+            var names = fullName.Split(" ");
+
+            if (names.Length == 0)
+                return null;
+
+            var firstName = names[0];
+
+            var lastName = names.Length >= 2? names[1] : "";
+            
+            var middleName = names.Length == 3? names[2] : "";
+
+            return Create(firstName, lastName, middleName);
+        }
+
         public static PersonName Create(string firstName, string lastName)
         {
             return new PersonName(firstName, lastName, "");
@@ -34,7 +50,7 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
 
         public override string ToString()
         {
-            return $"{LastName} {MiddleName} {FirstName}";
+            return $"{LastName} {FirstName} {MiddleName}";
         }
     }
 }

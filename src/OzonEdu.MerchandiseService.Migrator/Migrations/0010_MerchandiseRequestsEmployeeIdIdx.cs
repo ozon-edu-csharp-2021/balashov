@@ -8,8 +8,8 @@ namespace OzonEdu.MerchandiseService.Migrator.Migrations
         public override void Up()
         {
             Execute.Sql(@"
-                CREATE INDEX CONCURRENTLY merchandise_requests_employee_id_idx 
-                ON merchandise_requests (employee_id);"
+                CREATE INDEX CONCURRENTLY merchandise_requests_employee_email_idx 
+                ON merchandise_requests (employee_email);"
             );
         }
     }

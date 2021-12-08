@@ -5,14 +5,18 @@ package MerchServiceGrpc;
 service MerchGrpc {
   rpc RequestMerch (RequestMerchRequest) returns (RequestMerchResponse);
   
-  rpc GetIssuedMerchInfo (GetIssuedMerchInfoRequest) returns (GetIssuedMerchInfoResponse);
+  rpc MerchRequestDone (MerchRequestDoneRequest) returns (RequestMerchResponse);
+
+  rpc GetIssuedMerchInfo (GetMerchInfoRequest) returns (GetMerchInfoResponse);
+
+  rpc GetIssuingMerchInfo (GetMerchInfoRequest) returns (GetMerchInfoResponse);
 }
 
 message RequestMerchRequest 
 {
-	int64 employee_id = 1;
-	string size = 3;
-	int32 merch_pack_title = 4;
+	string employee_email = 1;
+	string size = 2;
+	int32 merch_pack_title = 3;
 }
 
 message RequestMerchResponse 
@@ -21,18 +25,22 @@ message RequestMerchResponse
 	string status  = 2;
 	int64 hr_manager_id  = 3;
 	string hr_manager_contact_phone  = 4;
-	int64 employee_id  = 5;
-	string employee_contact_phone  = 6;
+	string employee_email  = 6;
 	string size  = 7;
 	int32 requested_merch_pack_id  = 8;
 }
 
-message GetIssuedMerchInfoRequest 
+message MerchRequestDoneRequest 
+{
+	int64 merch_request_id = 1;
+}
+
+message GetMerchInfoRequest 
 {
 	int64 employee_id = 1;
 }
 
-message GetIssuedMerchInfoResponse 
+message GetMerchInfoResponse 
 { 
-	repeated  RequestMerchResponse issued_merch = 1;
+	repeated  RequestMerchResponse merch_request = 1;
 }

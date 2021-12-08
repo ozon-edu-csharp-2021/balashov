@@ -28,6 +28,11 @@ namespace OzonEdu.MerchandiseService.Domain.AggregationModels.ValueObjects
             return regex.IsMatch(emailString);
         }
 
+        public override string ToString()
+        {
+            return EmailString;
+        }
+
         protected override IEnumerable<object> GetEqualityComponents()
         {
             yield return EmailString;
